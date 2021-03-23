@@ -1,8 +1,6 @@
 from Butter import Butter
 from Robot import Robot
 
-
-
 class State:
     def __init__(self, robotLocation, locationOfButters):
         self.__robot = Robot(robotLocation)
