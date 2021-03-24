@@ -13,13 +13,13 @@ def main():
     table = []
     temp = None
 
-    for i in range(height+1):
+    for i in range(height+2):
         row = []
-        x = list(map(str, input().split()))
-        print(x)
-        for j in range(length+1) :
+        if i!=0 and i!=height+1 :
+            x = list(map(str, input().split()))
 
-            if i==0 or j==0 or i==height or j==length:
+        for j in range(length+2) :
+            if i==0 or j==0 or i==height+1 or j==length+1:
                 temp = Block((i, j), 0, False, False, True, False)
 
             else:
@@ -51,10 +51,19 @@ def main():
 
 
 
-    for i in range(height+1):
-        for j in range(length+1):
-            print(table[i][j].getLocation(),"butter:",table[i][j].getHaveButter(),"person:",table[i][j].getHavePerson(),"robot:",table[i][j].getHaveRobot(),"obstacle:",table[i][j].getHaveObstacle(), end="    ")
-
+    for i in range(height+2):
+        for j in range(length+2):
+            # print(table[i][j].getLocation(),"butter:",table[i][j].getHaveButter(),"person:",table[i][j].getHavePerson(),"robot:",table[i][j].getHaveRobot(),"obstacle:",table[i][j].getHaveObstacle(), end="    ")
+            if table[i][j].getHaveObstacle():
+                print("  x ",end="")
+            elif table[i][j].getHaveButter():
+                print("  B ",end="")
+            elif table[i][j].getHavePerson():
+                print("  P ",end="")
+            elif table[i][j].getHaveRobot():
+                print("  R ",end="")
+            else:
+                print("  - ",end="")
         print()
 
 
