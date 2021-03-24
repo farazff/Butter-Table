@@ -1,7 +1,7 @@
-class Person :
-    def __init__(self,location):
-        self.__haveButter=False
-        self.__location=location
+class Person:
+    def __init__(self, location):
+        self.__haveButter = False
+        self.__location = location
 
     def set_location(self, location):
         self.__location = location

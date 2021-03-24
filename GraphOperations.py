@@ -1,9 +1,7 @@
 from Butter import Butter
-from Person import Person
 from Node import Node
-from State import State
 from Robot import Robot
-from Block import Block
+from State import State
 
 
 class GraphOperations:
@@ -14,7 +12,7 @@ class GraphOperations:
         self.__persons = persons
 
     def goal(self, wantedButter, whichSide, currentState):  # which side ->   1:left   2:up   3:right    4:down
-        robotsLocation = Robot(State(currentState).get_robot()).get_location()
+        robotsLocation = currentState.get_robot().get_location()
         wantedButtersLocation = Butter(wantedButter).getLocation()[0]
         if whichSide == 1:
             if robotsLocation[0] == wantedButtersLocation[0] and \
@@ -35,18 +33,24 @@ class GraphOperations:
         return False
 
     def successor(self, currentNode):  # goal test must be on expansion time
-        robotsLocation = Robot(State(Node(currentNode).getState()).get_robot()).get_location()
+
+        robotsLocation = currentNode.getState().get_robot().get_location()
 
         #   |_1_|_2_|_3_|
         #   |_8_|___|_4_|
         #   |_7_|_6_|_5_|
         successorList = []
         for i in range(1, 9):
-            if not Block(self.__blocks[self.neighbourProducer(i, robotsLocation)]).getHaveObstacle() or \
-                    Block(self.__blocks[self.neighbourProducer(i, robotsLocation)]).getHaveButter():
+            if not self.__blocks[self.neighbourProducer(i, robotsLocation)[0]][
+                self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
+                    self.__blocks[self.neighbourProducer(i, robotsLocation)[0]][
+                        self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
+                print(self.neighbourProducer(i, robotsLocation)[0], end="  ")
+                print(self.neighbourProducer(i, robotsLocation)[1])
+                robotTemp = self.__robot
+                robotTemp.set_location(self.neighbourProducer(i, robotsLocation))
                 successorList.append(
-                    Node(State(Robot(self.__robot).set_location(self.neighbourProducer(i)), self.__butters),
-                         Node(currentNode)))
+                    Node(State(robotTemp, self.__butters), currentNode))
         return successorList
 
     def neighbourProducer(self, whichSide, robotsLocation):
@@ -72,4 +76,36 @@ class GraphOperations:
         elif whichSide == 8:
             xStep = -1
 
-            return (robotsLocation[0] + yStep, robotsLocation[1] + xStep)
+        return robotsLocation[0] + yStep, robotsLocation[1] + xStep
+
+    def IDS(self, state, wantedButter, whichSide):
+        limit = int(0)
+
+        while True:
+            fringe = [Node(state, None)]
+            if self.DLS(limit, fringe, wantedButter, whichSide):
+                return True
+            limit = limit + 1
+
+    # def DLS(self, limit, fringe, wantedButter, whichSide):
+    #     n = Node(list(fringe).pop())
+    #     if self.goal(wantedButter, whichSide, n.getState()):
+    #         return True
+    #     while True:
+    #         if len(fringe) == 0:
+    #             return False
+    #         n = Node(list(fringe).pop())
+    #         s = State(n.getState())
+    #         level = int(0)
+    #         t = n
+    #         while t is not None:
+    #             t = t.getParent()
+    #             level = level + 1
+    #         if t >= limit:
+    #             continue
+    #         successor = self.successor(n)
+    #         for i in range(len(successor)):
+    #             newN = Node(successor[i].getState(), n)
+    #             if self.goal(wantedButter, whichSide, newN.getState()):
+    #                 return True
+    #             fringe.append(newN)

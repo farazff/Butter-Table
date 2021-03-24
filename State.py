@@ -1,4 +1,5 @@
 from Butter import Butter
+from Robot import Robot
 
 
 class State:
@@ -9,7 +10,7 @@ class State:
     def changeButterSituation(self, whichButter, withRobot):
         Butter(self.__butters[whichButter]).setWithRobot(withRobot)
 
-    def get_robot(self):
+    def get_robot(self) -> Robot:
         return self.__robot
 
     def get_butters(self):

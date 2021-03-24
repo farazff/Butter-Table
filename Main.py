@@ -1,7 +1,10 @@
 from Block import Block
 from Butter import Butter
+from GraphOperations import GraphOperations
+from Node import Node
 from Robot import Robot
 from Person import Person
+from State import State
 
 
 def main():
@@ -14,6 +17,7 @@ def main():
     print(height, length)
     table = []
     temp = None
+    x = []
 
     for i in range(height + 2):
         row = []
@@ -63,6 +67,12 @@ def main():
             else:
                 print("  - ", end="")
         print()
+
+    graph = GraphOperations(table, butters, robot, persons)
+    successor = graph.successor(Node(State(robot, butters), 1))
+
+    for i in range(len(successor)):
+        print((successor[i].getState().get_robot().get_location()))
 
 
 if __name__ == "__main__":
