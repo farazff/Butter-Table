@@ -1,13 +1,13 @@
 from Butter import Butter
 
+
 class State:
     def __init__(self, robot, butters):
         self.__robot = robot
         self.__butters = butters
 
-
     def changeButterSituation(self, whichButter, withRobot):
-        Butter(self.__butters[whichButter]).set_withRobot(withRobot)
+        Butter(self.__butters[whichButter]).setWithRobot(withRobot)
 
     def get_robot(self):
         return self.__robot

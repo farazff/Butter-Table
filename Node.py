@@ -1,4 +1,6 @@
 from State import State
+
+
 class Node:
     def __init__(self, state, parent):
         self.__state = state

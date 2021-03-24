@@ -13,8 +13,6 @@ class GraphOperations:
         self.__robot = robot
         self.__persons = persons
 
-
-
     def goal(self, wantedButter, whichSide, currentState):  # which side ->   1:left   2:up   3:right    4:down
         robotsLocation = Robot(State(currentState).get_robot()).get_location()
         wantedButtersLocation = Butter(wantedButter).getLocation()[0]
@@ -36,8 +34,6 @@ class GraphOperations:
                 return True
         return False
 
-
-
     def successor(self, currentNode):  # goal test must be on expansion time
         robotsLocation = Robot(State(Node(currentNode).getState()).get_robot()).get_location()
 
@@ -47,11 +43,11 @@ class GraphOperations:
         successorList = []
         for i in range(1, 9):
             if not Block(self.__blocks[self.neighbourProducer(i, robotsLocation)]).getHaveObstacle() or \
-                Block(self.__blocks[self.neighbourProducer(i, robotsLocation)]).getHaveButter():
-                successorList.append(Node(State(Robot(self.__robot).set_location(self.neighbourProducer(i)),self.__butters),Node(currentNode)))
+                    Block(self.__blocks[self.neighbourProducer(i, robotsLocation)]).getHaveButter():
+                successorList.append(
+                    Node(State(Robot(self.__robot).set_location(self.neighbourProducer(i)), self.__butters),
+                         Node(currentNode)))
         return successorList
-
-
 
     def neighbourProducer(self, whichSide, robotsLocation):
         xStep = yStep = 0
