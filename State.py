@@ -1,16 +1,15 @@
 from Butter import Butter
-from Robot import Robot
+
 
 
 class State:
-    def __init__(self, robotLocation, locationOfButters):
-        self.__robot = Robot(robotLocation)
-        self.__butters = []
-        for locationOfButter in locationOfButters:
-            self.__butters.insert(Butter(locationOfButter))
+    def __init__(self, robot, butters):
+        self.__robot = robot
+        self.__butters = butters
 
-    def changeButterSituation(self, whichButter, isWithRobot):
-        Butter(self.__butters[whichButter]).set_isWithRobot(isWithRobot)
+
+    def changeButterSituation(self, whichButter, withRobot):
+        Butter(self.__butters[whichButter]).set_withRobot(withRobot)
 
     def get_robot(self):
         return self.__robot

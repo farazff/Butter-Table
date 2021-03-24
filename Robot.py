@@ -1,7 +1,7 @@
 class Robot:
-    def __init__(self, location, butter, haveButter=False):
+    def __init__(self, location, haveButter=False):
         self.__location = location
-        self.__butter = butter
+        self.__butter = None
         self.__haveButter = haveButter
 
     def set_location(self, location):

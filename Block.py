@@ -1,18 +1,14 @@
 class Block:
-    def __init__(self, x, y, cost, haveButter, haveRobot, haveObstacle, havePerson):
-        self.__x = x
-        self.__y = y
+    def __init__(self, location, cost, haveButter, haveRobot, haveObstacle, havePerson ) :
+        self.__location=location
         self.__cost = cost
         self.__haveButter = haveButter
         self.__haveRobot = haveRobot
         self.__haveObstacle = haveObstacle
         self.__havePerson = havePerson
 
-    def getX(self):
-        return self.__y
-
-    def getY(self):
-        return self.__y
+    def getLocation(self):
+        return self.__location
 
     def getCost(self):
         return self.__cost
