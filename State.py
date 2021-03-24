@@ -1,7 +1,5 @@
 from Butter import Butter
 
-
-
 class State:
     def __init__(self, robot, butters):
         self.__robot = robot
