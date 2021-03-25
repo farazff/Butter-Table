@@ -1,6 +1,8 @@
 from copy import copy
 from Node import Node
 from State import State
+from Person import Person
+from Butter import Butter
 
 
 class GraphOperations:
@@ -10,7 +12,7 @@ class GraphOperations:
         self.__robot = robot
         self.__persons = persons
 
-    def goal(self, wantedButter, whichSide, currentState):  # which side ->   1:left   2:up   3:right    4:down
+    def goal(self, wantedButter, whichSide, currentState):  # which side ->   1 : left   2 : up   3 : right    4 : down
         whichSide = int(whichSide)
         robotsLocation = currentState.get_robot().get_location()
         wantedButtersLocation = wantedButter.getLocation()
@@ -33,8 +35,78 @@ class GraphOperations:
                 return True
         return False
 
-    def successor(self, currentNode):  # goal test must be on expansion time
+    def goal_withButter(self, whichPerson, wantedButter):
+        personsLocation = whichPerson.get_location()
+        wantedButtersLocation = wantedButter.getLocation()
+        if personsLocation[0] == wantedButtersLocation[0] and personsLocation[1] == wantedButtersLocation[1]:
+            return True
+        return False
 
+    def successor_withButter(self, currentNode, wantedButter):
+        robotsLocation = currentNode.getState().get_robot().get_location()
+        wantedButtersLocation = wantedButter.getLocation()
+        whichNeighbours = []
+        pushList = []
+        successorList = []
+
+        if self.neighbourProducer(1, wantedButtersLocation) == robotsLocation:
+            whichNeighbours.append(2)
+            whichNeighbours.append(8)
+        elif self.neighbourProducer(2, wantedButtersLocation) == robotsLocation:
+            whichNeighbours.append(1)
+            whichNeighbours.append(3)
+            pushList.append(6)
+        elif self.neighbourProducer(3, wantedButtersLocation) == robotsLocation:
+            whichNeighbours.append(2)
+            whichNeighbours.append(4)
+        elif self.neighbourProducer(4, wantedButtersLocation) == robotsLocation:
+            whichNeighbours.append(3)
+            whichNeighbours.append(5)
+            pushList.append(8)
+        elif self.neighbourProducer(5, wantedButtersLocation) == robotsLocation:
+            whichNeighbours.append(4)
+            whichNeighbours.append(6)
+        elif self.neighbourProducer(6, wantedButtersLocation) == robotsLocation:
+            whichNeighbours.append(5)
+            whichNeighbours.append(7)
+            pushList.append(2)
+        elif self.neighbourProducer(7, wantedButtersLocation) == robotsLocation:
+            whichNeighbours.append(6)
+            whichNeighbours.append(8)
+        elif self.neighbourProducer(8, wantedButtersLocation) == robotsLocation:
+            whichNeighbours.append(1)
+            whichNeighbours.append(7)
+            pushList.append(4)
+
+        for i in whichNeighbours:
+            if not self.__blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
+                self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
+                    self.__blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
+                        self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
+                robotTemp = copy(self.__robot)
+                robotTemp.set_location(self.neighbourProducer(i, wantedButtersLocation))
+                successorList.append(Node(State(robotTemp, self.__butters), currentNode))
+
+        for i in pushList:
+            if not self.__blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
+                self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
+                    self.__blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
+                        self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
+
+                robotTemp = copy(self.__robot)
+                robotTemp.set_location(wantedButtersLocation)
+
+                buttersTemp = copy(self.__butters)
+
+                for j in buttersTemp:
+                    if j.getLocation() == wantedButtersLocation:
+                        j.setLocation(self.neighbourProducer(i, wantedButtersLocation))
+
+                successorList.append(Node(State(robotTemp, buttersTemp), currentNode))
+
+        return successorList  # this list contains the nodes required for rotation and the nodes for pushing wantedButter
+
+    def successor(self, currentNode):  # goal test must be on expansion time
         robotsLocation = currentNode.getState().get_robot().get_location()
 
         #   |_1_|_2_|_3_|
@@ -42,7 +114,7 @@ class GraphOperations:
         #   |_7_|_6_|_5_|
         successorList = []
         for i in range(1, 9):
-            if i == 2 or i == 4 or i == 6 or i == 8:
+            if i % 2 == 0:
                 if not self.__blocks[self.neighbourProducer(i, robotsLocation)[0]][
                     self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
                         self.__blocks[self.neighbourProducer(i, robotsLocation)[0]][
