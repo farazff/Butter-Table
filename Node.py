@@ -6,7 +6,7 @@ class Node:
         self.__parent = parent
         self.__state = state
 
-    def setstate(self, state):
+    def setstate(self, state) -> State:
         self.__state = state
 
     def setParent(self, parent):

@@ -14,7 +14,6 @@ def main():
     height, length = input().split()
     height = int(height)
     length = int(length)
-    print(height, length)
     table = []
     temp = None
     x = []
@@ -69,10 +68,12 @@ def main():
         print()
 
     graph = GraphOperations(table, butters, robot, persons)
-    successor = graph.successor(Node(State(robot, butters), 1))
+    # successor = graph.successor(Node(State(robot, butters), None))
+    #
+    # for i in range(len(successor)):
+    #     print((successor[i].getState().get_robot().get_location()))
 
-    for i in range(len(successor)):
-        print((successor[i].getState().get_robot().get_location()))
+    graph.IDS(State(robot, butters), butters[0], 2)
 
 
 if __name__ == "__main__":
