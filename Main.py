@@ -1,7 +1,6 @@
 from Block import Block
 from Butter import Butter
 from GraphOperations import GraphOperations
-from Node import Node
 from Robot import Robot
 from Person import Person
 from State import State

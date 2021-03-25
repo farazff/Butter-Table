@@ -43,17 +43,18 @@ class GraphOperations:
         successorList = []
         for i in range(1, 9):
             if i == 2 or i == 4 or i == 6 or i == 8:
-                if not self.__blocks[self.neighbourProducer(i, robotsLocation)[0]][
+                if self.__blocks[self.neighbourProducer(i, robotsLocation)[0]][
                     self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
                         self.__blocks[self.neighbourProducer(i, robotsLocation)[0]][
                             self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
-                    # print(self.neighbourProducer(i, robotsLocation)[0], end="  ")
-                    # print(self.neighbourProducer(i, robotsLocation)[1])
-                    robotTemp = copy(self.__robot)
-                    robotTemp.set_location(self.neighbourProducer(i, robotsLocation))
-                    # print(robotTemp.get_location())
-                    successorList.append(
-                        Node(State(robotTemp, self.__butters), currentNode))
+                    continue
+                # print(self.neighbourProducer(i, robotsLocation)[0], end="  ")
+                # print(self.neighbourProducer(i, robotsLocation)[1])
+                robotTemp = copy(self.__robot)
+                robotTemp.set_location(self.neighbourProducer(i, robotsLocation))
+                # print(robotTemp.get_location())
+                successorList.append(
+                    Node(State(robotTemp, self.__butters), currentNode))
         return successorList
 
     def neighbourProducer(self, whichSide, robotsLocation):
@@ -82,10 +83,12 @@ class GraphOperations:
         return robotsLocation[0] + yStep, robotsLocation[1] + xStep
 
     def IDS(self, state, wantedButter, whichSide):
-        for limit in range(6):
+        for limit in range(19):
             fringe = [Node(state, None)]
             if self.DLS(limit, fringe, wantedButter, whichSide):
                 return True
+        print("Impossible")
+        return False
 
     def DLS(self, limit, fringe, wantedButter, whichSide):
 
