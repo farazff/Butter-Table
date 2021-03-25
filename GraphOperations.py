@@ -1,8 +1,6 @@
 from copy import copy
 from Node import Node
 from State import State
-from Person import Person
-from Butter import Butter
 
 
 class GraphOperations:
@@ -12,7 +10,7 @@ class GraphOperations:
         self.__robot = robot
         self.__persons = persons
 
-    def goal(self, wantedButter, whichSide, currentState):  # which side ->   1 : left   2 : up   3 : right    4 : down
+    def goal(self, wantedButter, whichSide, currentState):  # which side ->   1:left   2:up   3:right    4:down
         whichSide = int(whichSide)
         robotsLocation = currentState.get_robot().get_location()
         wantedButtersLocation = wantedButter.getLocation()
@@ -107,6 +105,7 @@ class GraphOperations:
         return successorList  # this list contains the nodes required for rotation and the nodes for pushing wantedButter
 
     def successor(self, currentNode):  # goal test must be on expansion time
+
         robotsLocation = currentNode.getState().get_robot().get_location()
 
         #   |_1_|_2_|_3_|
@@ -119,13 +118,14 @@ class GraphOperations:
                     self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
                         self.__blocks[self.neighbourProducer(i, robotsLocation)[0]][
                             self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
-                    # print(self.neighbourProducer(i, robotsLocation)[0], end="  ")
-                    # print(self.neighbourProducer(i, robotsLocation)[1])
-                    robotTemp = copy(self.__robot)
-                    robotTemp.set_location(self.neighbourProducer(i, robotsLocation))
-                    # print(robotTemp.get_location())
-                    successorList.append(
-                        Node(State(robotTemp, self.__butters), currentNode))
+                    continue
+                # print(self.neighbourProducer(i, robotsLocation)[0], end="  ")
+                # print(self.neighbourProducer(i, robotsLocation)[1])
+                robotTemp = copy(self.__robot)
+                robotTemp.set_location(self.neighbourProducer(i, robotsLocation))
+                # print(robotTemp.get_location())
+                successorList.append(
+                    Node(State(robotTemp, self.__butters), currentNode))
         return successorList
 
     def neighbourProducer(self, whichSide, robotsLocation):
@@ -154,10 +154,12 @@ class GraphOperations:
         return robotsLocation[0] + yStep, robotsLocation[1] + xStep
 
     def IDS(self, state, wantedButter, whichSide):
-        for limit in range(6):
+        for limit in range(19):
             fringe = [Node(state, None)]
             if self.DLS(limit, fringe, wantedButter, whichSide):
                 return True
+        print("Impossible")
+        return False
 
     def DLS(self, limit, fringe, wantedButter, whichSide):
 
