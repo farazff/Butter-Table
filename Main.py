@@ -75,7 +75,16 @@ def main():
     #     print(successor[i].getState().get_robot().get_location(),
     #           successor[i].getState().get_butters()[0].getLocation())
 
-    graph.IDS_withButter(State(robot, butters), 0, persons[0])
+    # graph.IDSWithButter(State(robot, butters), 0, persons[0])
+
+    node1 = graph.IDS(State(robot, butters), butters[0], 1)
+    table[1][1].setHaveRobot(False)
+    table[3][3].setHaveRobot(True)
+    graph.blocks = table
+    robot.setLocation((3, 2))
+    graph.robot = robot
+    print()
+    graph.IDSWithButter(node1.getState(), 0, persons[0])
 
 
 if __name__ == "__main__":
