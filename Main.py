@@ -1,7 +1,6 @@
 from Block import Block
 from Butter import Butter
 from GraphOperations import GraphOperations
-from Node import Node
 from Robot import Robot
 from Person import Person
 from State import State
@@ -52,9 +51,6 @@ def main():
 
     for i in range(height + 2):
         for j in range(length + 2):
-            # print(table[i][j].getLocation(),"butter:",table[i][j].getHaveButter(),"person:",table[i][
-            # j].getHavePerson(),"robot:",table[i][j].getHaveRobot(),"obstacle:",table[i][j].getHaveObstacle(),
-            # end="    ")
             if table[i][j].getHaveObstacle():
                 print("  x ", end="")
             elif table[i][j].getHaveButter():
@@ -73,7 +69,6 @@ def main():
     # for i in range(len(successor)):
     #     print((successor[i].getState().get_robot().get_location()))
     # graph.IDS(State(robot, butters), butters[0], 2)
-
     # successor = graph.successor_withButter(Node(State(robot, butters), None), 0)
     #
     # for i in range(len(successor)):

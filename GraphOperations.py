@@ -118,12 +118,12 @@ class GraphOperations:
             successor = self.successor(n)
             for i in range(len(successor)):
                 newN = Node(successor[i].getState(), n)
-                if visited.get(newN.getState().get_robot().get_location()) == 1:
+                if visited.get(newN.getState().getRobot().getLocation()) == 1:
                     continue
                 if self.goal(wantedButter, whichSide, newN.getState()):
                     t = newN
                     while t is not None:
-                        print(t.getState().get_robot().get_location())
+                        print(t.getState().getRobot().getLocation())
                         t = t.getParent()
                     return True
                 fringe.append(newN)
@@ -237,10 +237,10 @@ class GraphOperations:
                 #       newN.getState().get_butters()[butterNUM].getLocation())
                 if visited.get(newN.getState()) == 1:
                     continue
-                if self.goal_withButter(person, newN.getState().get_butters()[butterNUM]):
+                if self.goal_withButter(person, newN.getState().getButters()[butterNUM]):
                     t = newN
                     while t is not None:
-                        print(t.getState().get_robot().get_location())
+                        print(t.getState().getRobot().getLocation())
                         t = t.getParent()
                     return True
                 fringe.append(newN)

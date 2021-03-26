@@ -4,20 +4,20 @@ class Robot:
         self.__butter = None
         self.__haveButter = haveButter
 
-    def set_location(self, location):
+    def setLocation(self, location):
         self.__location = location
 
-    def set_butter(self, butter):
+    def setButter(self, butter):
         self.__butter = butter
 
-    def set_haveButter(self, haveButter):
+    def setHaveButter(self, haveButter):
         self.__haveButter = haveButter
 
-    def get_location(self):
+    def getLocation(self):
         return self.__location
 
-    def get_butter(self):
+    def getHutter(self):
         return self.__butter
 
-    def get_haveButter(self):
+    def getHaveButter(self):
         return self.__haveButter

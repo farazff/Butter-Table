@@ -2,8 +2,8 @@ class PatchNode:
     def __init__(self, whichButter, whichPerson, pathString, cost):
         self.__whichButter = whichButter
         self.__whichPerson = whichPerson
-        self.__pathString  = pathString
-        self.__cost        = cost
+        self.__pathString = pathString
+        self.__cost = cost
 
     def getWhichButter(self):
         return self.__whichButter

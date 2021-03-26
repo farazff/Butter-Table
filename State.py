@@ -10,14 +10,14 @@ class State:
     def changeButterSituation(self, whichButter, withRobot):
         Butter(self.__butters[whichButter]).setWithRobot(withRobot)
 
-    def get_robot(self) -> Robot:
+    def getRobot(self) -> Robot:
         return self.__robot
 
-    def get_butters(self):
+    def getButters(self):
         return self.__butters
 
-    def set_robot(self, robot):
+    def setRobot(self, robot):
         self.__robot = robot
 
-    def set_butters(self, butters):
+    def setButters(self, butters):
         self.__butters = butters
