@@ -1,6 +1,7 @@
 from copy import copy
 from Node import Node
 from State import State
+from Butter import Butter
 
 
 class GraphOperations:
@@ -40,9 +41,10 @@ class GraphOperations:
             return True
         return False
 
-    def successor_withButter(self, currentNode, wantedButter):
+    def successor_withButter(self, currentNode, wantedButterNumber):
         robotsLocation = currentNode.getState().get_robot().get_location()
-        wantedButtersLocation = wantedButter.getLocation()
+        wantedButtersLocation=currentNode.getState().get_butters()[wantedButterNumber].getLocation()
+        # wantedButtersLocation = wantedButter.getLocation()
         whichNeighbours = []
         pushList = []
         successorList = []
@@ -76,7 +78,7 @@ class GraphOperations:
             whichNeighbours.append(7)
             pushList.append(4)
 
-        for i in whichNeighbours:
+        for i in whichNeighbours :
             if not self.__blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
                 self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
                     self.__blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
@@ -85,7 +87,8 @@ class GraphOperations:
                 robotTemp.set_location(self.neighbourProducer(i, wantedButtersLocation))
                 successorList.append(Node(State(robotTemp, self.__butters), currentNode))
 
-        for i in pushList:
+
+        for i in pushList :
             if not self.__blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
                 self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
                     self.__blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
@@ -94,11 +97,12 @@ class GraphOperations:
                 robotTemp = copy(self.__robot)
                 robotTemp.set_location(wantedButtersLocation)
 
-                buttersTemp = copy(self.__butters)
+                buttersTemp = copy( currentNode.getState().get_butters())
 
-                for j in buttersTemp:
-                    if j.getLocation() == wantedButtersLocation:
-                        j.setLocation(self.neighbourProducer(i, wantedButtersLocation))
+                # for j in buttersTemp:
+                #     if j.getLocation() == wantedButtersLocation:
+                buttersTemp[wantedButterNumber].setLocation(self.neighbourProducer(i, wantedButtersLocation))
+                        # j.setLocation(self.neighbourProducer(i, wantedButtersLocation))
 
                 successorList.append(Node(State(robotTemp, buttersTemp), currentNode))
 
