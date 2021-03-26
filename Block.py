@@ -1,6 +1,6 @@
 class Block:
     def __init__(self, location, cost, haveButter, haveRobot, haveObstacle, havePerson ) :
-        self.__location=location
+        self.__location = location
         self.__cost = cost
         self.__haveButter = haveButter
         self.__haveRobot = haveRobot

@@ -1,6 +1,7 @@
 from Block import Block
 from Butter import Butter
 from GraphOperations import GraphOperations
+from Node import Node
 from Robot import Robot
 from Person import Person
 from State import State
@@ -71,8 +72,15 @@ def main():
     #
     # for i in range(len(successor)):
     #     print((successor[i].getState().get_robot().get_location()))
+    # graph.IDS(State(robot, butters), butters[0], 2)
 
-    graph.IDS(State(robot, butters), butters[0], 2)
+    # successor = graph.successor_withButter(Node(State(robot, butters), None), 0)
+    #
+    # for i in range(len(successor)):
+    #     print(successor[i].getState().get_robot().get_location(),
+    #           successor[i].getState().get_butters()[0].getLocation())
+
+    graph.IDS_withButter(State(robot, butters), 0, persons[0])
 
 
 if __name__ == "__main__":
