@@ -43,17 +43,18 @@ class GraphOperations:
         successorList = []
         for i in range(1, 9):
             if i == 2 or i == 4 or i == 6 or i == 8:
-                if not self.blocks[self.neighbourProducer(i, robotsLocation)[0]][
+                if self.blocks[self.neighbourProducer(i, robotsLocation)[0]][
                     self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
                         self.blocks[self.neighbourProducer(i, robotsLocation)[0]][
                             self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
+                    continue
                     # print(self.neighbourProducer(i, robotsLocation)[0], end="  ")
                     # print(self.neighbourProducer(i, robotsLocation)[1])
-                    robotTemp = copy(self.robot)
-                    robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
-                    # print(robotTemp.getLocation())
-                    successorList.append(
-                        Node(State(robotTemp, self.__butters), currentNode))
+                robotTemp = copy(self.robot)
+                robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
+                # print(robotTemp.getLocation())
+                successorList.append(
+                    Node(State(robotTemp, self.__butters), currentNode))
         return successorList
 
     def neighbourProducer(self, whichSide, robotsLocation):
@@ -106,7 +107,7 @@ class GraphOperations:
             #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
             # print()
             n = fringe.pop()
-            visited[n.getState().getRobot().getLocation()] = 1
+            # visited[n.getState().getRobot().getLocation()] = 1
             # print('selected : {}'.format(n.getState().getRobot().getLocation()))
             level = int(-1)
             t = n
@@ -118,8 +119,8 @@ class GraphOperations:
             successor = self.successor(n)
             for i in range(len(successor)):
                 newN = Node(successor[i].getState(), n)
-                if visited.get(newN.getState().getRobot().getLocation()) == 1:
-                    continue
+                # if visited.get(newN.getState().getRobot().getLocation()) == 1:
+                #     continue
                 if self.goal(wantedButter, whichSide, newN.getState()):
                     t = newN
                     while t is not None:
@@ -199,7 +200,7 @@ class GraphOperations:
         # wantedButter
 
     def IDSWithButter(self, state, butterNUM, person):
-        for limit in range(200):
+        for limit in range(15):
             fringe = [Node(state, None)]
             if self.DLSWithButter(limit, fringe, butterNUM, person):
                 return True
@@ -207,7 +208,7 @@ class GraphOperations:
         return False
 
     def DLSWithButter(self, limit, fringe, butterNUM, person):
-        visited = {}
+        # visited = {}
         n = fringe[0]
         if self.goalWithButter(person, n.getState().getButters()[butterNUM]):
             return True
@@ -216,10 +217,10 @@ class GraphOperations:
                 return False
             # print("fringe: ", end="  ")
             # for i in range(len(fringe)):
-            #     print(fringe[i].getState().get_robot().getLocation(), end=", ")
+            #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
             # print()
             n = fringe.pop()
-            visited[n.getState()] = 1
+            # visited[n.getState()] = 1
             # print('selected : {}'.format(n.getState().getRobot().getLocation()))
             # print(n.getState().getRobot().getLocation(), n.getState().getButters()[butterNUM].getLocation())
             level = int(-1)
@@ -234,8 +235,8 @@ class GraphOperations:
                 newN = Node(successor[i].getState(), n)
                 # print(newN.getState().get_robot().getLocation(),
                 #       newN.getState().get_butters()[butterNUM].getLocation())
-                if visited.get(newN.getState()) == 1:
-                    continue
+                # if visited.get(newN.getState()) == 1:
+                #     continue
                 if self.goalWithButter(person, newN.getState().getButters()[butterNUM]):
                     t = newN
                     while t is not None:

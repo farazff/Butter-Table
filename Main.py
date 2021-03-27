@@ -3,6 +3,7 @@ from Butter import Butter
 from GraphOperations import GraphOperations
 from Robot import Robot
 from Person import Person
+from SolutionTree import SolutionTree
 from State import State
 
 
@@ -16,6 +17,7 @@ def main():
     table = []
     temp = None
     x = []
+    butterCount = int(0)
 
     for i in range(height + 2):
         row = []
@@ -37,7 +39,8 @@ def main():
 
                 if x[j - 1][len(x[j - 1]) - 1] == 'b':
                     temp = Block((i, j), int(x[j - 1][:len(x[j - 1]) - 1]), True, False, False, False)
-                    butters.append(Butter((i, j)))
+                    butters.append(Butter((i, j), butterCount))
+                    butterCount = butterCount + 1
 
                 if x[j - 1][len(x[j - 1]) - 1] == 'p':
                     temp = Block((i, j), int(x[j - 1][:len(x[j - 1]) - 1]), False, False, False, True)
@@ -63,7 +66,10 @@ def main():
                 print("  - ", end="")
         print()
 
-    graph = GraphOperations(table, butters, robot, persons)
+    solutionTree = SolutionTree(table, robot, butters, persons)
+    solutionTree.start()
+
+    # graph = GraphOperations(table, butters, robot, persons)
     # successor = graph.successor(Node(State(robot, butters), None))
     #
     # for i in range(len(successor)):
@@ -77,14 +83,14 @@ def main():
 
     # graph.IDSWithButter(State(robot, butters), 0, persons[0])
 
-    node1 = graph.IDS(State(robot, butters), butters[0], 1)
-    table[1][1].setHaveRobot(False)
-    table[3][3].setHaveRobot(True)
-    graph.blocks = table
-    robot.setLocation((3, 2))
-    graph.robot = robot
-    print()
-    graph.IDSWithButter(node1.getState(), 0, persons[0])
+    # node1 = graph.IDS(State(robot, butters), butters[0], 1)
+    # table[1][1].setHaveRobot(False)
+    # table[3][3].setHaveRobot(True)
+    # graph.blocks = table
+    # robot.setLocation((3, 2))
+    # graph.robot = robot
+    # print()
+    # graph.IDSWithButter(node1.getState(), 0, persons[0])
 
 
 if __name__ == "__main__":
