@@ -63,6 +63,7 @@ class SolutionTree:
                                      copy(unvisited_persons)))
 
         for i in finalList:
+            # TODO: find best path
             print("Path = {}".format(i.getPathString()))
 
     def updateDataAfterSimpleIDS(self, new_node):
