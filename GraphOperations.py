@@ -83,20 +83,20 @@ class GraphOperations:
         return robotsLocation[0] + yStep, robotsLocation[1] + xStep
 
     def IDS(self, state, wantedButter, whichSide):
-        for limit in range(100):
+        for limit in range(18):
             fringe = [Node(state, None)]
             ans = self.DLS(limit, fringe, wantedButter, whichSide)
             if ans is not None:
                 return ans
-        print("Impossible")
-        return False
+        # print("Impossible")
+        return None
 
     def DLS(self, limit, fringe, wantedButter, whichSide):
-
-        visited = {}
+        # visited = {}
         n = fringe[0]
         if self.goal(wantedButter, whichSide, n.getState()):
-            return n
+            returnAns = (copy(n), "")
+            return returnAns
 
         while True:
             if len(fringe) == 0:
@@ -123,10 +123,25 @@ class GraphOperations:
                 #     continue
                 if self.goal(wantedButter, whichSide, newN.getState()):
                     t = newN
+                    ans = ""
+                    now = t.getState().getRobot().getLocation()
+                    # print(now)
+                    t = t.getParent()
                     while t is not None:
-                        print(t.getState().getRobot().getLocation())
+                        # print(t.getState().getRobot().getLocation())
+                        past = t.getState().getRobot().getLocation()
+                        if now[1] - past[1] == 1:
+                            ans = "R" + ans
+                        if now[1] - past[1] == -1:
+                            ans = "L" + ans
+                        if now[0] - past[0] == 1:
+                            ans = "D" + ans
+                        if now[0] - past[0] == -1:
+                            ans = "U" + ans
+                        now = copy(past)
                         t = t.getParent()
-                    return copy(newN)
+                    returnAns = (copy(newN), ans)
+                    return returnAns
                 fringe.append(newN)
 
     def goalWithButter(self, whichPerson, wantedButter):
@@ -202,19 +217,21 @@ class GraphOperations:
     def IDSWithButter(self, state, butterNUM, person):
         for limit in range(15):
             fringe = [Node(state, None)]
-            if self.DLSWithButter(limit, fringe, butterNUM, person):
-                return True
-        print("Impossible")
-        return False
+            ans = self.DLSWithButter(limit, fringe, butterNUM, person)
+            if ans is not None:
+                return ans
+        # print("Impossible")
+        return None
 
     def DLSWithButter(self, limit, fringe, butterNUM, person):
         # visited = {}
         n = fringe[0]
         if self.goalWithButter(person, n.getState().getButters()[butterNUM]):
-            return True
+            returnAns = (copy(n), "ans")
+            return returnAns
         while True:
             if len(fringe) == 0:
-                return False
+                return None
             # print("fringe: ", end="  ")
             # for i in range(len(fringe)):
             #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
@@ -239,8 +256,23 @@ class GraphOperations:
                 #     continue
                 if self.goalWithButter(person, newN.getState().getButters()[butterNUM]):
                     t = newN
+                    ans = ""
+                    now = t.getState().getRobot().getLocation()
+                    # print(now)
+                    t = t.getParent()
                     while t is not None:
-                        print(t.getState().getRobot().getLocation())
+                        # print(t.getState().getRobot().getLocation())
+                        past = t.getState().getRobot().getLocation()
+                        if now[1] - past[1] == 1:
+                            ans = "R" + ans
+                        if now[1] - past[1] == -1:
+                            ans = "L" + ans
+                        if now[0] - past[0] == 1:
+                            ans = "D" + ans
+                        if now[0] - past[0] == -1:
+                            ans = "U" + ans
+                        now = copy(past)
                         t = t.getParent()
-                    return True
+                    returnAns = (copy(newN), ans)
+                    return returnAns
                 fringe.append(newN)

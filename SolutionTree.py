@@ -16,15 +16,54 @@ class SolutionTree:
             PathNode(State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters), copy(self.__persons))]
 
     def start(self):
-        for b in self.__startingNodes[len(self.__startingNodes) - 1].getUnvisitedButters():
-            for p in self.__startingNodes[len(self.__startingNodes) - 1].getUnvisitedPersons():
-                for side in self.calculateEmptyAroundOfButter(b):
-                    print("butter = {} side = {}, person = {}".format(b.getLocation(), side, p.getLocation()))
-                    new_node = self.__graph.IDS(self.__startingNodes[len(self.__startingNodes) - 1].getState(), b, side)
-                    self.updateDataAfterSimpleIDS(new_node)
-                    print()
-                    self.__graph.IDSWithButter(new_node.getState(), b.getNum(), p)
-                    print("\n")
+        finalList = []
+        while len(self.__startingNodes) > 0:
+            currentNode = self.__startingNodes.pop()
+            if len(currentNode.getUnvisitedButters()) == 0:
+                finalList.append(copy(currentNode))
+                continue
+            for b in currentNode.getUnvisitedButters():
+                for p in currentNode.getUnvisitedPersons():
+                    for side in self.calculateEmptyAroundOfButter(b):
+                        # print("butter = {} side = {}, person = {}".format(b.getLocation(), side, p.getLocation()))
+                        # print("unvisited butters: ", end=" ")
+                        # for i in currentNode.getUnvisitedButters():
+                        #     print(i.getLocation(), end=",  ")
+                        # print()
+                        # print("unvisited persons: ", end=" ")
+                        # for i in currentNode.getUnvisitedPersons():
+                        #     print(i.getLocation(), end=",  ")
+                        # print()
+                        # print("Path = {}".format(currentNode.getPathString()))
+                        tup1 = self.__graph.IDS(currentNode.getState(), b, side)
+                        if tup1 is None:
+                            continue
+                        new_node = tup1[0]
+                        self.updateDataAfterSimpleIDS(new_node)
+                        # print()
+                        tup2 = self.__graph.IDSWithButter(new_node.getState(), b.getNum(), p)
+                        if tup2 is None:
+                            continue
+                        new_node2 = tup2[0]
+                        # print(tup1[1] + tup2[1])
+                        # print("\n")
+
+                        unvisited_butters = []
+                        for i in currentNode.getUnvisitedButters():
+                            if i != b:
+                                unvisited_butters.append(copy(i))
+                        unvisited_persons = []
+                        for i in currentNode.getUnvisitedPersons():
+                            if i != p:
+                                unvisited_persons.append(copy(i))
+
+                        self.__startingNodes.append(
+                            PathNode(new_node2.getState(), b.getNum, p.getNum,
+                                     currentNode.getPathString() + tup1[1] + tup2[1], 0, copy(unvisited_butters),
+                                     copy(unvisited_persons)))
+
+        for i in finalList:
+            print("Path = {}".format(i.getPathString()))
 
     def updateDataAfterSimpleIDS(self, new_node):
         self.__table[self.__robot.getLocation()[0]][self.__robot.getLocation()[1]].setHaveRobot(False)

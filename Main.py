@@ -18,6 +18,7 @@ def main():
     temp = None
     x = []
     butterCount = int(0)
+    personCount = int(0)
 
     for i in range(height + 2):
         row = []
@@ -44,7 +45,8 @@ def main():
 
                 if x[j - 1][len(x[j - 1]) - 1] == 'p':
                     temp = Block((i, j), int(x[j - 1][:len(x[j - 1]) - 1]), False, False, False, True)
-                    persons.append(Person((i, j)))
+                    persons.append(Person((i, j), personCount))
+                    personCount = personCount + 1
 
                 if x[j - 1][len(x[j - 1]) - 1] == 'x':
                     temp = Block((i, j), 0, False, False, True, False)
