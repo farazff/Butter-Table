@@ -8,10 +8,12 @@ from State import State
 
 
 def main():
+    file=open("input_files/test1.txt","r")
     butters = []
     persons = []
     robot = None
-    height, length = input().split()
+    # height, length = input().split()
+    height, length = file.readline().split()
     height = int(height)
     length = int(length)
     table = []
@@ -23,7 +25,9 @@ def main():
     for i in range(height + 2):
         row = []
         if i != 0 and i != height + 1:
-            x = list(map(str, input().split()))
+            # x = list(map(str, input().split()))
+            x = file.readline().split()
+
 
         for j in range(length + 2):
             if i == 0 or j == 0 or i == height + 1 or j == length + 1:

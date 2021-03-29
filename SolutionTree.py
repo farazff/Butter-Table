@@ -62,9 +62,18 @@ class SolutionTree:
                                      currentNode.getPathString() + tup1[1] + tup2[1], 0, copy(unvisited_butters),
                                      copy(unvisited_persons)))
 
+        minPath = minLen = min(len(i.getPathString()) for i in finalList)
         for i in finalList:
-            # TODO: find best path
-            print("Path = {}".format(i.getPathString()))
+            if len(i.getPathString()) == minLen:
+                minPath = i.getPathString()
+                break
+
+        f=open("output_files/outputs.txt","w")
+        f.write(minPath + "\n" +str(minLen )+ "\n" +str (minLen))
+        f.close()
+
+        # for i in finalList:
+        #     print("Path = {}".format(i.getPathString()))
 
     def updateDataAfterSimpleIDS(self, new_node):
         self.__table[self.__robot.getLocation()[0]][self.__robot.getLocation()[1]].setHaveRobot(False)
