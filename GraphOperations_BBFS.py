@@ -44,11 +44,11 @@ class GraphOperations_BBFS:
                         continue
                         # print(self.neighbourProducer(i, robotsLocation)[0], end="  ")
                         # print(self.neighbourProducer(i, robotsLocation)[1])
-                    robotTemp = copy(self.robot)
+                    robotTemp = copy(currentNode.getState().getRobot())
                     robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
                     # print(robotTemp.getLocation())
                     successorList.append(
-                        Node(State(robotTemp, self.__butters), currentNode))
+                        Node(State(robotTemp, currentNode.getState().getButters()), currentNode))
 
 
 
