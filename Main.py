@@ -1,14 +1,12 @@
 from Block import Block
 from Butter import Butter
-from GraphOperations import GraphOperations
 from Robot import Robot
 from Person import Person
 from SolutionTree import SolutionTree
-from State import State
 
 
 def main():
-    file=open("input_files/test1.txt","r")
+    file = open("input_files/test5.txt", "r")
     butters = []
     persons = []
     robot = None
@@ -27,7 +25,6 @@ def main():
         if i != 0 and i != height + 1:
             # x = list(map(str, input().split()))
             x = file.readline().split()
-
 
         for j in range(length + 2):
             if i == 0 or j == 0 or i == height + 1 or j == length + 1:

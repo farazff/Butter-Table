@@ -62,15 +62,20 @@ class SolutionTree:
                                      currentNode.getPathString() + tup1[1] + tup2[1], 0, copy(unvisited_butters),
                                      copy(unvisited_persons)))
 
-        minPath = minLen = min(len(i.getPathString()) for i in finalList)
-        for i in finalList:
-            if len(i.getPathString()) == minLen:
-                minPath = i.getPathString()
-                break
+        if len(finalList) != 0:
+            minPath = minLen = min(len(i.getPathString()) for i in finalList)
+            for i in finalList:
+                if len(i.getPathString()) == minLen:
+                    minPath = i.getPathString()
+                    break
 
-        f=open("output_files/outputs.txt","w")
-        f.write(minPath + "\n" +str(minLen )+ "\n" +str (minLen))
-        f.close()
+            f = open("output_files/outputs.txt", "w")
+            f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
+            f.close()
+        else:
+            f = open("output_files/outputs.txt", "w")
+            f.write("Impossible")
+            f.close()
 
         # for i in finalList:
         #     print("Path = {}".format(i.getPathString()))
