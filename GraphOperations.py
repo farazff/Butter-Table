@@ -54,7 +54,7 @@ class GraphOperations:
                 robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
                 # print(robotTemp.getLocation())
                 successorList.append(
-                    Node(State(robotTemp, self.__butters), currentNode))
+                    Node(State(robotTemp, self.__butters), currentNode, 0))
         return successorList
 
     def neighbourProducer(self, whichSide, robotsLocation):
@@ -83,16 +83,15 @@ class GraphOperations:
         return robotsLocation[0] + yStep, robotsLocation[1] + xStep
 
     def IDS(self, state, wantedButter, whichSide):
-        for limit in range(18):
-            fringe = [Node(state, None)]
+        for limit in range(25):
+            # print(limit)
+            fringe = [Node(copy(state), None, 0)]
             ans = self.DLS(limit, fringe, wantedButter, whichSide)
             if ans is not None:
                 return ans
-        # print("Impossible")
         return None
 
     def DLS(self, limit, fringe, wantedButter, whichSide):
-        # visited = {}
         n = fringe[0]
         if self.goal(wantedButter, whichSide, n.getState()):
             returnAns = (copy(n), "")
@@ -100,49 +99,50 @@ class GraphOperations:
 
         while True:
             if len(fringe) == 0:
-                # print("finished\n\n\n")
                 return None
             # print("fringe: ", end="  ")
             # for i in range(len(fringe)):
             #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
             # print()
             n = fringe.pop()
-            # visited[n.getState().getRobot().getLocation()] = 1
             # print('selected : {}'.format(n.getState().getRobot().getLocation()))
-            level = int(-1)
-            t = n
-            while t is not None:
-                t = t.getParent()
-                level = level + 1
+            level = n.depth
             if level > int(limit):
                 continue
             successor = self.successor(n)
             for i in range(len(successor)):
-                newN = Node(successor[i].getState(), n)
-                # if visited.get(newN.getState().getRobot().getLocation()) == 1:
-                #     continue
-                if self.goal(wantedButter, whichSide, newN.getState()):
-                    t = newN
-                    ans = ""
-                    now = t.getState().getRobot().getLocation()
-                    # print(now)
-                    t = t.getParent()
-                    while t is not None:
-                        # print(t.getState().getRobot().getLocation())
-                        past = t.getState().getRobot().getLocation()
-                        if now[1] - past[1] == 1:
-                            ans = "R" + ans
-                        if now[1] - past[1] == -1:
-                            ans = "L" + ans
-                        if now[0] - past[0] == 1:
-                            ans = "D" + ans
-                        if now[0] - past[0] == -1:
-                            ans = "U" + ans
-                        now = copy(past)
+                newN = Node(successor[i].getState(), n, n.depth + 1)
+                t = copy(n)
+                isOK = True
+                while t is not None:
+                    # print(t.getState().getRobot().getLocation())
+                    # print(successor[i].getState().getRobot().getLocation())
+                    if t.getState().getRobot().getLocation() == successor[i].getState().getRobot().getLocation():
+                        isOK = False
+                        break
+                    t = copy(t.getParent())
+                # print()
+                if isOK:
+                    if self.goal(wantedButter, whichSide, newN.getState()):
+                        t = newN
+                        ans = ""
+                        now = t.getState().getRobot().getLocation()
                         t = t.getParent()
-                    returnAns = (copy(newN), ans)
-                    return returnAns
-                fringe.append(newN)
+                        while t is not None:
+                            past = t.getState().getRobot().getLocation()
+                            if now[1] - past[1] == 1:
+                                ans = "R" + ans
+                            if now[1] - past[1] == -1:
+                                ans = "L" + ans
+                            if now[0] - past[0] == 1:
+                                ans = "D" + ans
+                            if now[0] - past[0] == -1:
+                                ans = "U" + ans
+                            now = copy(past)
+                            t = t.getParent()
+                        returnAns = (copy(newN), ans)
+                        return returnAns
+                    fringe.append(newN)
 
     def goalWithButter(self, whichPerson, wantedButter):
         personsLocation = whichPerson.getLocation()
@@ -195,7 +195,7 @@ class GraphOperations:
                         self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
                 robotTemp = copy(self.robot)
                 robotTemp.setLocation(self.neighbourProducer(i, wantedButtersLocation))
-                successorList.append(Node(State(robotTemp, copy(currentNode.getState().getButters())), currentNode))
+                successorList.append(Node(State(robotTemp, copy(currentNode.getState().getButters())), currentNode, 0))
 
         for i in pushList:
             if not self.blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
@@ -209,22 +209,20 @@ class GraphOperations:
                 for j in currentNode.getState().getButters():
                     buttersTemp.append(copy(j))
                 buttersTemp[wantedButterNumber].setLocation(self.neighbourProducer(i, wantedButtersLocation))
-                successorList.append(Node(State(robotTemp, buttersTemp), currentNode))
+                successorList.append(Node(State(robotTemp, buttersTemp), currentNode, 0))
 
         return successorList  # this list contains the nodes required for rotation and the nodes for pushing
         # wantedButter
 
     def IDSWithButter(self, state, butterNUM, person):
-        for limit in range(15):
-            fringe = [Node(state, None)]
+        for limit in range(16):
+            fringe = [Node(state, None, 0)]
             ans = self.DLSWithButter(limit, fringe, butterNUM, person)
             if ans is not None:
                 return ans
-        # print("Impossible")
         return None
 
     def DLSWithButter(self, limit, fringe, butterNUM, person):
-        # visited = {}
         n = fringe[0]
         if self.goalWithButter(person, n.getState().getButters()[butterNUM]):
             returnAns = (copy(n), "ans")
@@ -232,47 +230,40 @@ class GraphOperations:
         while True:
             if len(fringe) == 0:
                 return None
-            # print("fringe: ", end="  ")
-            # for i in range(len(fringe)):
-            #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
-            # print()
             n = fringe.pop()
-            # visited[n.getState()] = 1
-            # print('selected : {}'.format(n.getState().getRobot().getLocation()))
-            # print(n.getState().getRobot().getLocation(), n.getState().getButters()[butterNUM].getLocation())
-            level = int(-1)
-            t = n
-            while t is not None:
-                t = t.getParent()
-                level = level + 1
+            level = n.depth
             if level > int(limit):
                 continue
             successor = self.successorWithButter(n, butterNUM)
             for i in range(len(successor)):
-                newN = Node(successor[i].getState(), n)
-                # print(newN.getState().get_robot().getLocation(),
-                #       newN.getState().get_butters()[butterNUM].getLocation())
-                # if visited.get(newN.getState()) == 1:
-                #     continue
-                if self.goalWithButter(person, newN.getState().getButters()[butterNUM]):
-                    t = newN
-                    ans = ""
-                    now = t.getState().getRobot().getLocation()
-                    # print(now)
-                    t = t.getParent()
-                    while t is not None:
-                        # print(t.getState().getRobot().getLocation())
-                        past = t.getState().getRobot().getLocation()
-                        if now[1] - past[1] == 1:
-                            ans = "R" + ans
-                        if now[1] - past[1] == -1:
-                            ans = "L" + ans
-                        if now[0] - past[0] == 1:
-                            ans = "D" + ans
-                        if now[0] - past[0] == -1:
-                            ans = "U" + ans
-                        now = copy(past)
+                tt = copy(n)
+                isOK = True
+                while tt is not None:
+                    if tt.getState().getRobot().getLocation() == successor[i].getState().getRobot().getLocation() and \
+                            tt.getState().getButters()[butterNUM].getLocation() == successor[i].getState().getButters()[
+                                butterNUM].getLocation():
+                        isOK = False
+                        break
+                    tt = copy(tt.getParent())
+                newN = Node(successor[i].getState(), n, n.depth + 1)
+                if isOK:
+                    if self.goalWithButter(person, newN.getState().getButters()[butterNUM]):
+                        t = newN
+                        ans = ""
+                        now = t.getState().getRobot().getLocation()
                         t = t.getParent()
-                    returnAns = (copy(newN), ans)
-                    return returnAns
-                fringe.append(newN)
+                        while t is not None:
+                            past = t.getState().getRobot().getLocation()
+                            if now[1] - past[1] == 1:
+                                ans = "R" + ans
+                            if now[1] - past[1] == -1:
+                                ans = "L" + ans
+                            if now[0] - past[0] == 1:
+                                ans = "D" + ans
+                            if now[0] - past[0] == -1:
+                                ans = "U" + ans
+                            now = copy(past)
+                            t = t.getParent()
+                        returnAns = (copy(newN), ans)
+                        return returnAns
+                    fringe.append(newN)

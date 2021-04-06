@@ -35,13 +35,17 @@ class SolutionTree:
                         #     print(i.getLocation(), end=",  ")
                         # print()
                         # print("Path = {}".format(currentNode.getPathString()))
+                        # print("starting alone")
                         tup1 = self.__graph.IDS(currentNode.getState(), b, side)
+                        # print("finish alone")
                         if tup1 is None:
                             continue
+                        # print("hiii")
                         new_node = tup1[0]
                         self.updateDataAfterSimpleIDS(new_node)
-                        # print()
+                        # print("start both")
                         tup2 = self.__graph.IDSWithButter(new_node.getState(), b.getNum(), p)
+                        # print("finish both")
                         if tup2 is None:
                             continue
                         new_node2 = tup2[0]
@@ -61,7 +65,8 @@ class SolutionTree:
                             PathNode(new_node2.getState(), b.getNum, p.getNum,
                                      currentNode.getPathString() + tup1[1] + tup2[1], 0, copy(unvisited_butters),
                                      copy(unvisited_persons)))
-
+        # for q in finalList:
+        #     print(q.getPathString())
         if len(finalList) != 0:
             minPath = minLen = min(len(i.getPathString()) for i in finalList)
             for i in finalList:
