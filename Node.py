@@ -2,9 +2,10 @@ from State import State
 
 
 class Node:
-    def __init__(self, state, parent):
+    def __init__(self, state, parent, depth):
         self.__parent = parent
         self.__state = state
+        self.depth = depth
 
     def setState(self, state):
         self.__state = state
