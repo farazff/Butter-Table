@@ -73,17 +73,18 @@ def main():
                 print("  - ", end="")
         print()
 
-    # solutionTree = SolutionTree(table, robot, butters, persons)
-    # solutionTree.start()
+    solutionTree = SolutionTree(table, robot, butters, persons)
+    solutionTree.start()
 
-    graph = GraphOperationsBBFS(table, persons)
+    # graph = GraphOperationsBBFS(table, persons)
     # successor = graph.successorAlone(Node(State(robot, butters), None, 0), False, 0)
     #
     # for i in range(len(successor)):
     #     print((successor[i].getState().getRobot().getLocation()), end="  ")
     #     for k in successor[i].getState().getButters():
     #         print(k.getLocation())
-    graph.BBFSAlone(State(robot, butters), butters[0], 2)
+    # graph.BBFSAlone(State(robot, butters), butters[0], 2)
+    # graph.BBFSBoth(State(robot, butters), butters[0], 2, persons[0])
 
     # graph = GraphOperations(table, butters, robot, persons)
     # successor = graph.successor(Node(State(robot, butters), None))

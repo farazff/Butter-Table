@@ -1,4 +1,4 @@
-from copy import copy
+from copy import copy, deepcopy
 from Node import Node
 from State import State
 
@@ -83,7 +83,7 @@ class GraphOperations:
         return robotsLocation[0] + yStep, robotsLocation[1] + xStep
 
     def IDS(self, state, wantedButter, whichSide):
-        for limit in range(25):
+        for limit in range(50):
             # print(limit)
             fringe = [Node(copy(state), None, 0)]
             ans = self.DLS(limit, fringe, wantedButter, whichSide)
@@ -100,12 +100,7 @@ class GraphOperations:
         while True:
             if len(fringe) == 0:
                 return None
-            # print("fringe: ", end="  ")
-            # for i in range(len(fringe)):
-            #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
-            # print()
             n = fringe.pop()
-            # print('selected : {}'.format(n.getState().getRobot().getLocation()))
             level = n.depth
             if level > int(limit):
                 continue
@@ -115,13 +110,10 @@ class GraphOperations:
                 t = copy(n)
                 isOK = True
                 while t is not None:
-                    # print(t.getState().getRobot().getLocation())
-                    # print(successor[i].getState().getRobot().getLocation())
                     if t.getState().getRobot().getLocation() == successor[i].getState().getRobot().getLocation():
                         isOK = False
                         break
                     t = copy(t.getParent())
-                # print()
                 if isOK:
                     if self.goal(wantedButter, whichSide, newN.getState()):
                         t = newN
@@ -215,7 +207,7 @@ class GraphOperations:
         # wantedButter
 
     def IDSWithButter(self, state, butterNUM, person):
-        for limit in range(16):
+        for limit in range(101):
             fringe = [Node(state, None, 0)]
             ans = self.DLSWithButter(limit, fringe, butterNUM, person)
             if ans is not None:
@@ -230,29 +222,42 @@ class GraphOperations:
         while True:
             if len(fringe) == 0:
                 return None
+            # print("fringe: ", end="  ")
+            # for i in range(len(fringe)):
+            #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
+            # print()
             n = fringe.pop()
+            # print('selected : {}'.format(n.getState().getRobot().getLocation()))
+            # print(n.getState().getRobot().getLocation(),
+            #       n.getState().getButters()[butterNUM].getLocation())
             level = n.depth
             if level > int(limit):
                 continue
-            successor = self.successorWithButter(n, butterNUM)
+            successor = self.successorWithButter(copy(n), butterNUM)
+            # print("size = {}".format(len(successor)))
+            successor.extend(self.successorTemp(n, butterNUM))
             for i in range(len(successor)):
                 tt = copy(n)
                 isOK = True
                 while tt is not None:
                     if tt.getState().getRobot().getLocation() == successor[i].getState().getRobot().getLocation() and \
                             tt.getState().getButters()[butterNUM].getLocation() == successor[i].getState().getButters()[
-                                butterNUM].getLocation():
+                            butterNUM].getLocation():
                         isOK = False
                         break
                     tt = copy(tt.getParent())
                 newN = Node(successor[i].getState(), n, n.depth + 1)
+                # print(newN.getState().getRobot().getLocation(),
+                #       newN.getState().getButters()[butterNUM].getLocation())
                 if isOK:
                     if self.goalWithButter(person, newN.getState().getButters()[butterNUM]):
                         t = newN
                         ans = ""
                         now = t.getState().getRobot().getLocation()
+                        # print(now)
                         t = t.getParent()
                         while t is not None:
+                            # print(t.getState().getRobot().getLocation())
                             past = t.getState().getRobot().getLocation()
                             if now[1] - past[1] == 1:
                                 ans = "R" + ans
@@ -267,3 +272,28 @@ class GraphOperations:
                         returnAns = (copy(newN), ans)
                         return returnAns
                     fringe.append(newN)
+
+    def successorTemp(self, currentNode, butterNum):  # goal test must be on expansion time
+
+        robotsLocation = currentNode.getState().getRobot().getLocation()
+        blocksTemp = deepcopy(self.blocks)
+        blocksTemp[self.__butters[butterNum].getLocation()[0]][
+            self.__butters[butterNum].getLocation()[1]].setHaveButter(False)
+        blocksTemp[currentNode.getState().getButters()[butterNum].getLocation()[0]][
+            currentNode.getState().getButters()[butterNum].getLocation()[1]].setHaveButter(True)
+        #   |_1_|_2_|_3_|
+        #   |_8_|___|_4_|
+        #   |_7_|_6_|_5_|
+        successorList = []
+        for i in range(1, 9):
+            if i == 2 or i == 4 or i == 6 or i == 8:
+                if blocksTemp[self.neighbourProducer(i, robotsLocation)[0]][
+                    self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
+                        blocksTemp[self.neighbourProducer(i, robotsLocation)[0]][
+                            self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
+                    continue
+                robotTemp = copy(self.robot)
+                robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
+                successorList.append(
+                    Node(State(robotTemp, deepcopy(currentNode.getState().getButters())), currentNode, 0))
+        return successorList

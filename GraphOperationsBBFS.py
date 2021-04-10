@@ -200,6 +200,7 @@ class GraphOperationsBBFS:
                             print(q)
                         return True
 
+
     def successorPush(self, currentNode, whichButterNumber):
         robotsLocation = currentNode.getState().getRobot().getLocation()
         wantedButtersLocation = currentNode.getState().getButters()[whichButterNumber].getLocation()
@@ -241,7 +242,7 @@ class GraphOperationsBBFS:
                 self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
                     self.blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
                         self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
-                robotTemp = copy(self.robot)
+                robotTemp = copy(currentNode.getState().getRobot())
                 robotTemp.setLocation(self.neighbourProducer(i, wantedButtersLocation))
                 successorList.append(NodeBBFS(State(robotTemp, copy(currentNode.getState().getButters())), currentNode))
 
@@ -250,7 +251,7 @@ class GraphOperationsBBFS:
                 self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
                     self.blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
                         self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
-                robotTemp = copy(self.robot)
+                robotTemp = copy(currentNode.getState().getRobot())
                 robotTemp.setLocation(wantedButtersLocation)
 
                 buttersTemp = []
@@ -302,7 +303,7 @@ class GraphOperationsBBFS:
                 self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
                     self.blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
                         self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
-                robotTemp = copy(self.robot)
+                robotTemp = copy(currentNode.getState().getRobot())
                 robotTemp.setLocation(self.neighbourProducer(i, wantedButtersLocation))
                 successorList.append(NodeBBFS(State(robotTemp, copy(currentNode.getState().getButters())), currentNode))
 
@@ -311,7 +312,7 @@ class GraphOperationsBBFS:
                 self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
                     self.blocks[self.neighbourProducer(i, robotsLocation)[0]][
                         self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
-                robotTemp = copy(self.robot)
+                robotTemp = copy(currentNode.getState().getRobot())
                 robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
 
                 buttersTemp = []
@@ -323,116 +324,118 @@ class GraphOperationsBBFS:
 
         return successorList
 
-    # def BBFSBoth(self, state, wantedButter, side):
-    #     fringe_robot = []
-    #     fringe_butter = []
-    #     state_temp = deepcopy(state)
-    #     height = wantedButter.getLocation()[0]
-    #     length = wantedButter.getLocation()[1]
-    #     if side == 1:
-    #         state_temp.getButters()[wantedButter.getNum()].setLocation((height, length - 1))
-    #     if side == 2:
-    #         state_temp.getButters()[wantedButter.getNum()].setLocation((height - 1, length))
-    #     if side == 3:
-    #         state_temp.getButters()[wantedButter.getNum()].setLocation((height, length + 1))
-    #     if side == 4:
-    #         state_temp.getButters()[wantedButter.getNum()].setLocation((height + 1, length))
-    #     visited_robot = {state.getRobot().getLocation(): 1}
-    #     visited_butter = {wantedButter.getLocation(): 1,
-    #                       state_temp.getButters()[wantedButter.getNum()].getLocation(): 1}
-    #     fringe_robot.append(NodeBBFS(state, None))
-    #     fringe_butter.append(NodeBBFS(state_temp, None))
-    #     for phase in range(1, 8):
-    #         if len(fringe_butter) == 0 or len(fringe_robot) == 0:
-    #             return None
-    #         if len(fringe_robot) != 0:
-    #             while True:
-    #                 n = fringe_robot[0]
-    #                 temp = copy(n)
-    #                 now_depth = int(0)
-    #                 while temp is not None:
-    #                     temp = temp.getParent()
-    #                     now_depth = now_depth + int(1)
-    #                 if now_depth > int(phase):
-    #                     # print("Robot - finished phase {}".format(phase))
-    #                     break
-    #                 fringe_robot.pop(0)
-    #                 successor = self.successorAlone(n, True, wantedButter.getNum())
-    #                 # print("Robot - Successor of {}: ".format(n.getState().getRobot().getLocation()))
-    #                 for i in successor:
-    #                     newN = NodeBBFS(i.getState(), copy(n))
-    #                     if visited_robot.get(newN.getState().getRobot().getLocation()) == 1:
-    #                         continue
-    #                     visited_robot[newN.getState().getRobot().getLocation()] = 1
-    #                     # print(i.getState().getRobot().getLocation())
-    #                     # if self.goal(wantedButter.getNum(), newN.getState()):
-    #                     #     t = copy(newN)
-    #                     #     print("Answer:")
-    #                     #     while t is not None:
-    #                     #         print(t.getState().getRobot().getLocation())
-    #                     #         t = t.getParent()
-    #                     #     return True
-    #                     fringe_robot.append(newN)
-    #         for r in fringe_robot:
-    #             for b in fringe_butter:
-    #                 if r.getState().getRobot().getLocation() == b.getState().getButters()[
-    #                         wantedButter.getNum()].getLocation():
-    #                     ans = []
-    #                     temp_NodeBBFS = copy(r)
-    #                     while temp_NodeBBFS is not None:
-    #                         ans.insert(0, temp_NodeBBFS.getState().getRobot().getLocation())
-    #                         temp_NodeBBFS = temp_NodeBBFS.getParent()
-    #                     temp_NodeBBFS = copy(b)
-    #                     while temp_NodeBBFS is not None:
-    #                         ans.append(temp_NodeBBFS.getState().getButters()[wantedButter.getNum()].getLocation())
-    #                         temp_NodeBBFS = temp_NodeBBFS.getParent()
-    #                     print("Answer:")
-    #                     for q in ans:
-    #                         print(q)
-    #                     return True
-    #
-    #         if len(fringe_butter) != 0:
-    #             while True:
-    #                 n = fringe_butter[0]
-    #                 temp = copy(n)
-    #                 now_depth = int(0)
-    #                 while temp is not None:
-    #                     temp = temp.getParent()
-    #                     now_depth = now_depth + int(1)
-    #                 if now_depth > int(phase):
-    #                     # print("Butter - finished phase {}".format(phase))
-    #                     break
-    #                 fringe_butter.pop(0)
-    #                 successor = self.successorAlone(n, False, wantedButter.getNum())
-    #                 # print("Butter - Successor of {}: ".format(n.getState().getButters()[0].getLocation()))
-    #                 for i in successor:
-    #                     newN = NodeBBFS(i.getState(), n)
-    #                     if visited_butter.get(newN.getState().getButters()[0].getLocation()) == 1:
-    #                         continue
-    #                     visited_butter[newN.getState().getButters()[0].getLocation()] = 1
-    #                     # print(i.getState().getButters()[0].getLocation())
-    #                     # if self.goal(wantedButter.getNum(), newN.getState()):
-    #                     #     t = copy(newN)
-    #                     #     print("answer:")
-    #                     #     while t is not None:
-    #                     #         print(t.getState().getButters()[0].getLocation())
-    #                     #         t = t.getParent()
-    #                     #     return True
-    #                     fringe_butter.append(newN)
-    #         for r in fringe_robot:
-    #             for b in fringe_butter:
-    #                 if r.getState().getRobot().getLocation() == b.getState().getButters()[
-    #                         wantedButter.getNum()].getLocation():
-    #                     ans = []
-    #                     temp_NodeBBFS = copy(r)
-    #                     while temp_NodeBBFS is not None:
-    #                         ans.insert(0, temp_NodeBBFS.getState().getRobot().getLocation())
-    #                         temp_NodeBBFS = temp_NodeBBFS.getParent()
-    #                     temp_NodeBBFS = copy(b)
-    #                     while temp_NodeBBFS is not None:
-    #                         ans.append(temp_NodeBBFS.getState().getButters()[wantedButter.getNum()].getLocation())
-    #                         temp_NodeBBFS = temp_NodeBBFS.getParent()
-    #                     print("Answer:")
-    #                     for q in ans:
-    #                         print(q)
-    #                     return True
+    def BBFSBoth(self, state, wantedButter, side, wantedPerson):
+        fringe_robot = []
+        # fringe_butter = []
+        # state_temp = deepcopy(state)
+        # height = wantedButter.getLocation()[0]
+        # length = wantedButter.getLocation()[1]
+        # if side == 1:
+        #     state_temp.getButters()[wantedButter.getNum()].setLocation((height, length - 1))
+        # if side == 2:
+        #     state_temp.getButters()[wantedButter.getNum()].setLocation((height - 1, length))
+        # if side == 3:
+        #     state_temp.getButters()[wantedButter.getNum()].setLocation((height, length + 1))
+        # if side == 4:
+        #     state_temp.getButters()[wantedButter.getNum()].setLocation((height + 1, length))
+        visited_robot = {state.getRobot().getLocation(): 1}
+        # visited_butter = {wantedButter.getLocation(): 1,
+        #                   state_temp.getButters()[wantedButter.getNum()].getLocation(): 1}
+        fringe_robot.append(NodeBBFS(state, None))
+        # fringe_butter.append(NodeBBFS(state_temp, None))
+        for phase in range(1, 15):
+            # if len(fringe_butter) == 0 or len(fringe_robot) == 0:
+            if len(fringe_robot) == 0:
+                return None
+            if len(fringe_robot) != 0:
+                while True:
+                    n = fringe_robot[0]
+                    temp = copy(n)
+                    now_depth = int(0)
+                    while temp is not None:
+                        temp = temp.getParent()
+                        now_depth = now_depth + int(1)
+                    if now_depth > int(phase):
+                        print("Robot - finished phase {}".format(phase))
+                        break
+                    fringe_robot.pop(0)
+                    successor = self.successorPush(n, wantedButter.getNum())
+                    # print("Robot - Successor of {}: ".format(n.getState().getRobot().getLocation()))
+                    for i in successor:
+                        newN = NodeBBFS(i.getState(), copy(n))
+                        if visited_robot.get(newN.getState().getRobot().getLocation()) == 1:
+                            continue
+                        visited_robot[newN.getState().getRobot().getLocation()] = 1
+                        print(i.getState().getRobot().getLocation())
+                        if newN.getState().getButters()[wantedButter.getNum()].getLocation() == wantedPerson.getLocation():
+                            t = copy(newN)
+                            print("Answer:")
+                            while t is not None:
+                                print(t.getState().getRobot().getLocation())
+                                t = t.getParent()
+                            return True
+                        fringe_robot.append(newN)
+
+            # for r in fringe_robot:
+            #     for b in fringe_butter:
+            #         if r.getState().getRobot().getLocation() == b.getState().getButters()[
+            #                 wantedButter.getNum()].getLocation():
+            #             ans = []
+            #             temp_NodeBBFS = copy(r)
+            #             while temp_NodeBBFS is not None:
+            #                 ans.insert(0, temp_NodeBBFS.getState().getRobot().getLocation())
+            #                 temp_NodeBBFS = temp_NodeBBFS.getParent()
+            #             temp_NodeBBFS = copy(b)
+            #             while temp_NodeBBFS is not None:
+            #                 ans.append(temp_NodeBBFS.getState().getButters()[wantedButter.getNum()].getLocation())
+            #                 temp_NodeBBFS = temp_NodeBBFS.getParent()
+            #             print("Answer:")
+            #             for q in ans:
+            #                 print(q)
+            #             return True
+
+            # if len(fringe_butter) != 0:
+            #     while True:
+            #         n = fringe_butter[0]
+            #         temp = copy(n)
+            #         now_depth = int(0)
+            #         while temp is not None:
+            #             temp = temp.getParent()
+            #             now_depth = now_depth + int(1)
+            #         if now_depth > int(phase):
+            #             # print("Butter - finished phase {}".format(phase))
+            #             break
+            #         fringe_butter.pop(0)
+            #         successor = self.successorAlone(n, False, wantedButter.getNum())
+            #         # print("Butter - Successor of {}: ".format(n.getState().getButters()[0].getLocation()))
+            #         for i in successor:
+            #             newN = NodeBBFS(i.getState(), n)
+            #             if visited_butter.get(newN.getState().getButters()[0].getLocation()) == 1:
+            #                 continue
+            #             visited_butter[newN.getState().getButters()[0].getLocation()] = 1
+            #             # print(i.getState().getButters()[0].getLocation())
+            #             # if self.goal(wantedButter.getNum(), newN.getState()):
+            #             #     t = copy(newN)
+            #             #     print("answer:")
+            #             #     while t is not None:
+            #             #         print(t.getState().getButters()[0].getLocation())
+            #             #         t = t.getParent()
+            #             #     return True
+            #             fringe_butter.append(newN)
+            # for r in fringe_robot:
+            #     for b in fringe_butter:
+            #         if r.getState().getRobot().getLocation() == b.getState().getButters()[
+            #                 wantedButter.getNum()].getLocation():
+            #             ans = []
+            #             temp_NodeBBFS = copy(r)
+            #             while temp_NodeBBFS is not None:
+            #                 ans.insert(0, temp_NodeBBFS.getState().getRobot().getLocation())
+            #                 temp_NodeBBFS = temp_NodeBBFS.getParent()
+            #             temp_NodeBBFS = copy(b)
+            #             while temp_NodeBBFS is not None:
+            #                 ans.append(temp_NodeBBFS.getState().getButters()[wantedButter.getNum()].getLocation())
+            #                 temp_NodeBBFS = temp_NodeBBFS.getParent()
+            #             print("Answer:")
+            #             for q in ans:
+            #                 print(q)
+            #             return True
