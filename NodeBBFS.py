@@ -1,8 +1,7 @@
-class Node:
-    def __init__(self, state, parent, depth):
+class NodeBBFS:
+    def __init__(self, state, parent):
         self.__parent = parent
         self.__state = state
-        self.depth = depth
 
     def setState(self, state):
         self.__state = state
