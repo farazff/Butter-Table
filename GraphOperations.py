@@ -277,8 +277,10 @@ class GraphOperations:
 
         robotsLocation = currentNode.getState().getRobot().getLocation()
         blocksTemp = deepcopy(self.blocks)
+
         blocksTemp[self.__butters[butterNum].getLocation()[0]][
             self.__butters[butterNum].getLocation()[1]].setHaveButter(False)
+
         blocksTemp[currentNode.getState().getButters()[butterNum].getLocation()[0]][
             currentNode.getState().getButters()[butterNum].getLocation()[1]].setHaveButter(True)
         #   |_1_|_2_|_3_|
