@@ -77,8 +77,8 @@ def main():
     # solutionTree.start()
 
     graph = GraphOperationsBBFS(table, persons, butters)
-    # graph.BBFSAlone(State(robot, butters), butters[0], 2)
-    graph.BBFSBoth(State(robot, butters), butters[0], 2, persons[0])
+    # print(graph.BBFSAlone(State(robot, butters), butters[0], 4))
+    # print(graph.BBFSBoth(State(robot, butters), butters[0], 2, persons[0]))
     # successor = graph.successorPull(NodeBBFS(State(robot, butters), None), 0)
     # for i in successor:
     #     print(i.getState().getRobot().getLocation(), " ", i.getState().getButters()[0].getLocation())
