@@ -1,8 +1,8 @@
 from Block import Block
 from Butter import Butter
-from GraphOperations import GraphOperations
 from GraphOperationsBBFS import GraphOperationsBBFS
 from Node import Node
+from NodeBBFS import NodeBBFS
 from Robot import Robot
 from Person import Person
 from SolutionTree import SolutionTree
@@ -73,41 +73,15 @@ def main():
                 print("  - ", end="")
         print()
 
-    solutionTree = SolutionTree(table, robot, butters, persons)
-    solutionTree.start()
+    # solutionTree = SolutionTree(table, robot, butters, persons)
+    # solutionTree.start()
 
-    # graph = GraphOperationsBBFS(table, persons)
-    # successor = graph.successorAlone(Node(State(robot, butters), None, 0), False, 0)
-    #
-    # for i in range(len(successor)):
-    #     print((successor[i].getState().getRobot().getLocation()), end="  ")
-    #     for k in successor[i].getState().getButters():
-    #         print(k.getLocation())
+    graph = GraphOperationsBBFS(table, persons, butters)
     # graph.BBFSAlone(State(robot, butters), butters[0], 2)
-    # graph.BBFSBoth(State(robot, butters), butters[0], 2, persons[0])
-
-    # graph = GraphOperations(table, butters, robot, persons)
-    # successor = graph.successor(Node(State(robot, butters), None))
-    #
-    # for i in range(len(successor)):
-    #     print((successor[i].getState().get_robot().get_location()))
-    # graph.IDS(State(robot, butters), butters[0], 2)
-    # successor = graph.successor_withButter(Node(State(robot, butters), None), 0)
-    #
-    # for i in range(len(successor)):
-    #     print(successor[i].getState().get_robot().get_location(),
-    #           successor[i].getState().get_butters()[0].getLocation())
-
-    # graph.IDSWithButter(State(robot, butters), 0, persons[0])
-
-    # node1 = graph.IDS(State(robot, butters), butters[0], 1)
-    # table[1][1].setHaveRobot(False)
-    # table[3][3].setHaveRobot(True)
-    # graph.blocks = table
-    # robot.setLocation((3, 2))
-    # graph.robot = robot
-    # print()
-    # graph.IDSWithButter(node1.getState(), 0, persons[0])
+    graph.BBFSBoth(State(robot, butters), butters[0], 2, persons[0])
+    # successor = graph.successorPull(NodeBBFS(State(robot, butters), None), 0)
+    # for i in successor:
+    #     print(i.getState().getRobot().getLocation(), " ", i.getState().getButters()[0].getLocation())
 
 
 if __name__ == "__main__":

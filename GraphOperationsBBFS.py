@@ -1,11 +1,10 @@
 from copy import copy, deepcopy
 from NodeBBFS import NodeBBFS
 from State import State
-from Node import Node
 
 
 class GraphOperationsBBFS:
-    def __init__(self, blocks, persons,butters):
+    def __init__(self, blocks, persons, butters):
 
         self.blocks = blocks
         self.__persons = persons
@@ -141,7 +140,7 @@ class GraphOperationsBBFS:
             for r in fringe_robot:
                 for b in fringe_butter:
                     if r.getState().getRobot().getLocation() == b.getState().getButters()[
-                            wantedButter.getNum()].getLocation():
+                        wantedButter.getNum()].getLocation():
                         ans = []
                         temp_NodeBBFS = copy(r)
                         while temp_NodeBBFS is not None:
@@ -201,7 +200,6 @@ class GraphOperationsBBFS:
                         for q in ans:
                             print(q)
                         return True
-
 
     def successorPush(self, currentNode, whichButterNumber):
         robotsLocation = currentNode.getState().getRobot().getLocation()
@@ -286,7 +284,7 @@ class GraphOperationsBBFS:
                 robotTemp = copy(currentNode.getState().getRobot())
                 robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
                 successorList.append(
-                    Node(State(robotTemp, deepcopy(currentNode.getState().getButters())), currentNode, 0))
+                    NodeBBFS(State(robotTemp, deepcopy(currentNode.getState().getButters())), currentNode))
         return successorList
 
     def successorPull(self, currentNode, whichButterNumber):
@@ -351,8 +349,6 @@ class GraphOperationsBBFS:
 
         return successorList
 
-
-
     def BBFSBoth(self, state, wantedButter, side, wantedPerson):
         fringe_robot = []
         # fringe_butter = []
@@ -367,7 +363,7 @@ class GraphOperationsBBFS:
         #     state_temp.getButters()[wantedButter.getNum()].setLocation((height, length + 1))
         # if side == 4:
         #     state_temp.getButters()[wantedButter.getNum()].setLocation((height + 1, length))
-        visited_robot = {state.getRobot().getLocation(): 1}
+        visited_robot = {(state.getRobot().getLocation(), state.getButters()[wantedButter.getNum()].getLocation()): 1}
         # visited_butter = {wantedButter.getLocation(): 1,
         #                   state_temp.getButters()[wantedButter.getNum()].getLocation(): 1}
         fringe_robot.append(NodeBBFS(state, None))
@@ -392,11 +388,15 @@ class GraphOperationsBBFS:
                     # print("Robot - Successor of {}: ".format(n.getState().getRobot().getLocation()))
                     for i in successor:
                         newN = NodeBBFS(i.getState(), copy(n))
-                        if visited_robot.get(newN.getState().getRobot().getLocation()) == 1:
+                        if visited_robot.get((newN.getState().getRobot().getLocation(),
+                                              newN.getState().getButters()[wantedButter.getNum()].getLocation())) == 1:
                             continue
-                        visited_robot[newN.getState().getRobot().getLocation()] = 1
-                        print(i.getState().getRobot().getLocation())
-                        if newN.getState().getButters()[wantedButter.getNum()].getLocation() == wantedPerson.getLocation():
+                        visited_robot[(newN.getState().getRobot().getLocation(),
+                                       newN.getState().getButters()[wantedButter.getNum()].getLocation())] = 1
+                        print(i.getState().getRobot().getLocation(), " ",
+                              i.getState().getButters()[wantedButter.getNum()].getLocation())
+                        if newN.getState().getButters()[
+                                wantedButter.getNum()].getLocation() == wantedPerson.getLocation():
                             t = copy(newN)
                             print("Answer:")
                             while t is not None:

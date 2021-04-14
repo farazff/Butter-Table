@@ -83,7 +83,7 @@ class GraphOperations:
         return robotsLocation[0] + yStep, robotsLocation[1] + xStep
 
     def IDS(self, state, wantedButter, whichSide):
-        for limit in range(50):
+        for limit in range(90):
             # print(limit)
             fringe = [Node(copy(state), None, 0)]
             ans = self.DLS(limit, fringe, wantedButter, whichSide)
