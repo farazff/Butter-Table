@@ -1,5 +1,6 @@
 from Block import Block
 from Butter import Butter
+from GraphOperations import GraphOperations
 from GraphOperationsBBFS import GraphOperationsBBFS
 from Node import Node
 from NodeBBFS import NodeBBFS
@@ -74,11 +75,20 @@ def main():
                 print("  - ", end="")
         print()
 
-    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    # solutionTreeIDS.start()
+    # graph = GraphOperations(table, butters, robot, persons)
+    # # graph.IDSWithButter(State(robot, butters), 0, persons[0])
+    # graph.IDS(State(robot, butters), butters[0], 4)
 
-    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
-    solutionTreeBBFS.start()
+    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    solutionTreeIDS.start()
+
+    # graph = GraphOperations(table, butters, robot, persons)
+    # graph.IDSWithButter(State(robot, butters), 0, persons[0])
+
+
+
+    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
+    # solutionTreeBBFS.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
     # print(graph.BBFSAlone(State(robot, butters), butters[0], 3))

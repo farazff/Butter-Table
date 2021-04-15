@@ -9,6 +9,7 @@ class GraphOperations:
         self.__butters = butters
         self.robot = robot
         self.__persons = persons
+        self.__canPush = False
 
     def goal(self, wantedButter, whichSide, currentState):  # which side ->   1:left   2:up   3:right    4:down
         whichSide = int(whichSide)
@@ -84,7 +85,6 @@ class GraphOperations:
 
     def IDS(self, state, wantedButter, whichSide):
         for limit in range(90):
-            # print(limit)
             fringe = [Node(copy(state), None, 0)]
             ans = self.DLS(limit, fringe, wantedButter, whichSide)
             if ans is not None:
@@ -152,6 +152,7 @@ class GraphOperations:
         successorList = []
 
         if self.neighbourProducer(1, wantedButtersLocation) == robotsLocation:
+            self.__canPush = True
             whichNeighbours.append(2)
             whichNeighbours.append(8)
         elif self.neighbourProducer(2, wantedButtersLocation) == robotsLocation:
@@ -159,6 +160,7 @@ class GraphOperations:
             whichNeighbours.append(3)
             pushList.append(6)
         elif self.neighbourProducer(3, wantedButtersLocation) == robotsLocation:
+            self.__canPush = True
             whichNeighbours.append(2)
             whichNeighbours.append(4)
         elif self.neighbourProducer(4, wantedButtersLocation) == robotsLocation:
@@ -166,6 +168,7 @@ class GraphOperations:
             whichNeighbours.append(5)
             pushList.append(8)
         elif self.neighbourProducer(5, wantedButtersLocation) == robotsLocation:
+            self.__canPush = True
             whichNeighbours.append(4)
             whichNeighbours.append(6)
         elif self.neighbourProducer(6, wantedButtersLocation) == robotsLocation:
@@ -173,6 +176,7 @@ class GraphOperations:
             whichNeighbours.append(7)
             pushList.append(2)
         elif self.neighbourProducer(7, wantedButtersLocation) == robotsLocation:
+            self.__canPush = True
             whichNeighbours.append(6)
             whichNeighbours.append(8)
         elif self.neighbourProducer(8, wantedButtersLocation) == robotsLocation:
@@ -196,7 +200,7 @@ class GraphOperations:
                         self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
                 robotTemp = copy(self.robot)
                 robotTemp.setLocation(wantedButtersLocation)
-
+                self.__canPush = True
                 buttersTemp = []
                 for j in currentNode.getState().getButters():
                     buttersTemp.append(copy(j))
@@ -207,7 +211,7 @@ class GraphOperations:
         # wantedButter
 
     def IDSWithButter(self, state, butterNUM, person):
-        for limit in range(101):
+        for limit in range(26):
             fringe = [Node(state, None, 0)]
             ans = self.DLSWithButter(limit, fringe, butterNUM, person)
             if ans is not None:
@@ -219,35 +223,39 @@ class GraphOperations:
         if self.goalWithButter(person, n.getState().getButters()[butterNUM]):
             returnAns = (copy(n), "ans")
             return returnAns
+        visited = {(n.getState().getRobot().getLocation(), n.getState().getButters()[butterNUM].getLocation()): 1}
         while True:
             if len(fringe) == 0:
                 return None
+            # print(end="\n\n")
             # print("fringe: ", end="  ")
             # for i in range(len(fringe)):
             #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
             # print()
             n = fringe.pop()
+
             # print('selected : {}'.format(n.getState().getRobot().getLocation()))
             # print(n.getState().getRobot().getLocation(),
             #       n.getState().getButters()[butterNUM].getLocation())
             level = n.depth
             if level > int(limit):
                 continue
+            self.__canPush = False
             successor = self.successorWithButter(copy(n), butterNUM)
-            # print("size = {}".format(len(successor)))
-            successor.extend(self.successorTemp(n, butterNUM))
+            if not self.__canPush:
+                successor.extend(self.successorTemp(n, butterNUM))
             for i in range(len(successor)):
-                tt = copy(n)
                 isOK = True
-                while tt is not None:
-                    if tt.getState().getRobot().getLocation() == successor[i].getState().getRobot().getLocation() and \
-                            tt.getState().getButters()[butterNUM].getLocation() == successor[i].getState().getButters()[
-                            butterNUM].getLocation():
-                        isOK = False
-                        break
-                    tt = copy(tt.getParent())
                 newN = Node(successor[i].getState(), n, n.depth + 1)
+
+                if visited.get((newN.getState().getRobot().getLocation(),
+                                newN.getState().getButters()[butterNUM].getLocation())) == 1:
+                    continue
+                visited[(newN.getState().getRobot().getLocation(),
+                         newN.getState().getButters()[butterNUM].getLocation())] = 1
                 # print(newN.getState().getRobot().getLocation(),
+                #       newN.getState().getButters()[butterNUM].getLocation())
+                # print(newN.getState().getRobot().getLocation(), " ",
                 #       newN.getState().getButters()[butterNUM].getLocation())
                 if isOK:
                     if self.goalWithButter(person, newN.getState().getButters()[butterNUM]):

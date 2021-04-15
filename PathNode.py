@@ -1,5 +1,6 @@
 class PathNode:
-    def __init__(self, state, ButterNUM, PersonNUM, pathString, cost, unvisitedButters, unvisitedPersons):
+    def __init__(self, table, state, ButterNUM, PersonNUM, pathString, cost, unvisitedButters, unvisitedPersons):
+        self.table = table
         self.__state = state
         self.__ButterNUM = ButterNUM
         self.__PersonNUM = PersonNUM

@@ -126,7 +126,6 @@ class GraphOperationsBBFS:
         fringe_butter.append(NodeBBFS(state_temp, None))
         for phase in range(1, 20):
             if len(fringe_butter) == 0 and len(fringe_robot) == 0:
-                print("Impossible")
                 return None
             if len(fringe_robot) != 0:
                 while True:
@@ -408,6 +407,8 @@ class GraphOperationsBBFS:
                 return None
             if len(fringe_robot) != 0:
                 while True:
+                    if len(fringe_robot) == 0:
+                        break
                     n = fringe_robot[0]
                     temp = copy(n)
                     now_depth = int(0)
@@ -431,7 +432,7 @@ class GraphOperationsBBFS:
                 for p in fringe_person:
                     if r.getState().getRobot().getLocation() == p.getState().getRobot().getLocation() and \
                             r.getState().getButters()[wantedButter.getNum()].getLocation() == p.getState().getButters()[
-                        wantedButter.getNum()].getLocation():
+                            wantedButter.getNum()].getLocation():
                         ans = []
                         temp_NodeBBFS = copy(r)
                         while temp_NodeBBFS is not None:
@@ -457,6 +458,8 @@ class GraphOperationsBBFS:
 
             if len(fringe_person) != 0:
                 while True:
+                    if len(fringe_person) == 0:
+                        break
                     n = fringe_person[0]
                     temp = copy(n)
                     now_depth = int(0)
@@ -480,7 +483,7 @@ class GraphOperationsBBFS:
                 for p in fringe_person:
                     if r.getState().getRobot().getLocation() == p.getState().getRobot().getLocation() and \
                             r.getState().getButters()[wantedButter.getNum()].getLocation() == p.getState().getButters()[
-                        wantedButter.getNum()].getLocation():
+                                wantedButter.getNum()].getLocation():
                         ans = []
                         temp_NodeBBFS = copy(r)
                         while temp_NodeBBFS is not None:
