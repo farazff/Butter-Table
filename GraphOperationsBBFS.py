@@ -9,6 +9,7 @@ class GraphOperationsBBFS:
         self.blocks = blocks
         self.__persons = persons
         self.__butters = butters
+        self.__canPush = self.__canPull = False
 
     # if  robotOrButter  ==  True : successor method act as robots successor if  robotOrButter  ==  False:
     # successor method act as butters successor and you should enter whichButterNumber
@@ -230,6 +231,7 @@ class GraphOperationsBBFS:
         successorList = []
 
         if self.neighbourProducer(1, wantedButtersLocation) == robotsLocation:
+            self.__canPush = True
             whichNeighbours.append(2)
             whichNeighbours.append(8)
         elif self.neighbourProducer(2, wantedButtersLocation) == robotsLocation:
@@ -237,6 +239,7 @@ class GraphOperationsBBFS:
             whichNeighbours.append(3)
             pushList.append(6)
         elif self.neighbourProducer(3, wantedButtersLocation) == robotsLocation:
+            self.__canPush = True
             whichNeighbours.append(2)
             whichNeighbours.append(4)
         elif self.neighbourProducer(4, wantedButtersLocation) == robotsLocation:
@@ -244,6 +247,7 @@ class GraphOperationsBBFS:
             whichNeighbours.append(5)
             pushList.append(8)
         elif self.neighbourProducer(5, wantedButtersLocation) == robotsLocation:
+            self.__canPush = True
             whichNeighbours.append(4)
             whichNeighbours.append(6)
         elif self.neighbourProducer(6, wantedButtersLocation) == robotsLocation:
@@ -251,6 +255,7 @@ class GraphOperationsBBFS:
             whichNeighbours.append(7)
             pushList.append(2)
         elif self.neighbourProducer(7, wantedButtersLocation) == robotsLocation:
+            self.__canPush = True
             whichNeighbours.append(6)
             whichNeighbours.append(8)
         elif self.neighbourProducer(8, wantedButtersLocation) == robotsLocation:
@@ -274,7 +279,7 @@ class GraphOperationsBBFS:
                         self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
                 robotTemp = copy(currentNode.getState().getRobot())
                 robotTemp.setLocation(wantedButtersLocation)
-
+                self.__canPush = True
                 buttersTemp = []
                 for j in currentNode.getState().getButters():
                     buttersTemp.append(copy(j))
@@ -316,6 +321,7 @@ class GraphOperationsBBFS:
         successorList = []
 
         if self.neighbourProducer(1, wantedButtersLocation) == robotsLocation:
+            self.__canPull = True
             whichNeighbours.append(2)
             whichNeighbours.append(8)
         elif self.neighbourProducer(2, wantedButtersLocation) == robotsLocation:
@@ -323,6 +329,7 @@ class GraphOperationsBBFS:
             whichNeighbours.append(3)
             pullList.append(2)
         elif self.neighbourProducer(3, wantedButtersLocation) == robotsLocation:
+            self.__canPull = True
             whichNeighbours.append(2)
             whichNeighbours.append(4)
         elif self.neighbourProducer(4, wantedButtersLocation) == robotsLocation:
@@ -330,6 +337,7 @@ class GraphOperationsBBFS:
             whichNeighbours.append(5)
             pullList.append(4)
         elif self.neighbourProducer(5, wantedButtersLocation) == robotsLocation:
+            self.__canPull = True
             whichNeighbours.append(4)
             whichNeighbours.append(6)
         elif self.neighbourProducer(6, wantedButtersLocation) == robotsLocation:
@@ -337,6 +345,7 @@ class GraphOperationsBBFS:
             whichNeighbours.append(7)
             pullList.append(6)
         elif self.neighbourProducer(7, wantedButtersLocation) == robotsLocation:
+            self.__canPull = True
             whichNeighbours.append(6)
             whichNeighbours.append(8)
         elif self.neighbourProducer(8, wantedButtersLocation) == robotsLocation:
@@ -360,7 +369,7 @@ class GraphOperationsBBFS:
                         self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
                 robotTemp = copy(currentNode.getState().getRobot())
                 robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
-
+                self.__canPull = True
                 buttersTemp = []
                 for j in currentNode.getState().getButters():
                     buttersTemp.append(copy(j))
