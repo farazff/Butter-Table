@@ -4,7 +4,7 @@ from PathNode import PathNode
 from State import State
 
 
-class SolutionTree:
+class SolutionTreeIDS:
 
     def __init__(self, table, robot, butters, persons):
         self.__table = table

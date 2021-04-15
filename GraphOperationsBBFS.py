@@ -101,6 +101,24 @@ class GraphOperationsBBFS:
             state_temp.getButters()[wantedButter.getNum()].setLocation((height, length + 1))
         if side == 4:
             state_temp.getButters()[wantedButter.getNum()].setLocation((height + 1, length))
+
+        if side == 1:
+            if state.getRobot().getLocation()[0] == state.getButters()[wantedButter.getNum()].getLocation()[0] and \
+                    state.getRobot().getLocation()[1] == state.getButters()[wantedButter.getNum()].getLocation()[1] - 1:
+                return ""
+        if side == 2:
+            if state.getRobot().getLocation()[0] == state.getButters()[wantedButter.getNum()].getLocation()[0] - 1 and \
+                    state.getRobot().getLocation()[1] == state.getButters()[wantedButter.getNum()].getLocation()[1]:
+                return ""
+        if side == 3:
+            if state.getRobot().getLocation()[0] == state.getButters()[wantedButter.getNum()].getLocation()[0] and \
+                    state.getRobot().getLocation()[1] == state.getButters()[wantedButter.getNum()].getLocation()[1] + 1:
+                return ""
+        if side == 4:
+            if state.getRobot().getLocation()[0] == state.getButters()[wantedButter.getNum()].getLocation()[0] + 1 and \
+                    state.getRobot().getLocation()[1] == state.getButters()[wantedButter.getNum()].getLocation()[1]:
+                return ""
+
         visited_robot = {state.getRobot().getLocation(): 1}
         visited_butter = {wantedButter.getLocation(): 1,
                           state_temp.getButters()[wantedButter.getNum()].getLocation(): 1}
@@ -133,7 +151,7 @@ class GraphOperationsBBFS:
             for r in fringe_robot:
                 for b in fringe_butter:
                     if r.getState().getRobot().getLocation() == b.getState().getButters()[
-                            wantedButter.getNum()].getLocation():
+                        wantedButter.getNum()].getLocation():
                         ans = []
                         temp_NodeBBFS = copy(r)
                         while temp_NodeBBFS is not None:
@@ -143,7 +161,6 @@ class GraphOperationsBBFS:
                         while temp_NodeBBFS is not None:
                             ans.append(temp_NodeBBFS.getState().getButters()[wantedButter.getNum()].getLocation())
                             temp_NodeBBFS = temp_NodeBBFS.getParent()
-                        print(ans)
                         path = ""
                         for t in range(len(ans) - 1):
                             now = ans[t]
@@ -182,7 +199,7 @@ class GraphOperationsBBFS:
             for r in fringe_robot:
                 for b in fringe_butter:
                     if r.getState().getRobot().getLocation() == b.getState().getButters()[
-                            wantedButter.getNum()].getLocation():
+                        wantedButter.getNum()].getLocation():
                         ans = []
                         temp_NodeBBFS = copy(r)
                         while temp_NodeBBFS is not None:
@@ -381,8 +398,6 @@ class GraphOperationsBBFS:
         blocksTemp[state_temp.getRobot().getLocation()[0]][
             state_temp.getRobot().getLocation()[1]].setHaveRobot(True)
 
-
-
         visited_robot = {(state.getRobot().getLocation(), state.getButters()[wantedButter.getNum()].getLocation()): 1}
         visited_person = {
             (state_temp.getRobot().getLocation(), state_temp.getButters()[wantedButter.getNum()].getLocation()): 1}
@@ -416,7 +431,7 @@ class GraphOperationsBBFS:
                 for p in fringe_person:
                     if r.getState().getRobot().getLocation() == p.getState().getRobot().getLocation() and \
                             r.getState().getButters()[wantedButter.getNum()].getLocation() == p.getState().getButters()[
-                            wantedButter.getNum()].getLocation():
+                        wantedButter.getNum()].getLocation():
                         ans = []
                         temp_NodeBBFS = copy(r)
                         while temp_NodeBBFS is not None:
@@ -465,7 +480,7 @@ class GraphOperationsBBFS:
                 for p in fringe_person:
                     if r.getState().getRobot().getLocation() == p.getState().getRobot().getLocation() and \
                             r.getState().getButters()[wantedButter.getNum()].getLocation() == p.getState().getButters()[
-                            wantedButter.getNum()].getLocation():
+                        wantedButter.getNum()].getLocation():
                         ans = []
                         temp_NodeBBFS = copy(r)
                         while temp_NodeBBFS is not None:

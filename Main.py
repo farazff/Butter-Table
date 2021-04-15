@@ -5,7 +5,8 @@ from Node import Node
 from NodeBBFS import NodeBBFS
 from Robot import Robot
 from Person import Person
-from SolutionTree import SolutionTree
+from SolutionTreeIDS import SolutionTreeIDS
+from SolutionTreeBBFS import SolutionTreeBBFS
 from State import State
 
 
@@ -73,11 +74,14 @@ def main():
                 print("  - ", end="")
         print()
 
-    # solutionTree = SolutionTree(table, robot, butters, persons)
-    # solutionTree.start()
+    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    # solutionTreeIDS.start()
 
-    graph = GraphOperationsBBFS(table, persons, butters)
-    print(graph.BBFSAlone(State(robot, butters), butters[0], 2))
+    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
+    solutionTreeBBFS.start()
+
+    # graph = GraphOperationsBBFS(table, persons, butters)
+    # print(graph.BBFSAlone(State(robot, butters), butters[0], 3))
     # robot.setLocation((butters[0].getLocation()[0], butters[0].getLocation()[1] + 1))
     # print(graph.BBFSBoth(State(robot, butters), butters[0], 4, persons[0]))
     # successor = graph.successorPull(NodeBBFS(State(robot, butters), None), 0)
