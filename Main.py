@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from Block import Block
 from Butter import Butter
 from GraphOperations import GraphOperations
@@ -12,7 +14,7 @@ from State import State
 
 
 def main():
-    file = open("input_files/test6.txt", "r")
+    file = open("input_files/test5.txt", "r")
     butters = []
     persons = []
     robot = None
@@ -82,6 +84,7 @@ def main():
     solutionTreeBBFS.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
+    # tableTemp = deepcopy(table)
     # print(graph.BBFSBoth(State(robot, butters), butters[0], 4, persons[0]))
     # robot.setLocation((butters[0].getLocation()[0], butters[0].getLocation()[1] + 1))
     # print(graph.BBFSBoth(State(robot, butters), butters[0], 4, persons[0]))

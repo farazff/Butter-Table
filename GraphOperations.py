@@ -200,7 +200,6 @@ class GraphOperations:
                         self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
                 robotTemp = copy(self.robot)
                 robotTemp.setLocation(wantedButtersLocation)
-                self.__canPush = True
                 buttersTemp = []
                 for j in currentNode.getState().getButters():
                     buttersTemp.append(copy(j))
@@ -211,7 +210,7 @@ class GraphOperations:
         # wantedButter
 
     def IDSWithButter(self, state, butterNUM, person):
-        for limit in range(8):
+        for limit in range(15):
             fringe = [Node(state, None, 0)]
             ans = self.DLSWithButter(limit, fringe, butterNUM, person)
             if ans is not None:

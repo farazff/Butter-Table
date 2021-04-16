@@ -26,6 +26,9 @@ class SolutionTreeBBFS:
                 for p in currentNode.getUnvisitedPersons():
                     for sideButter in self.calculateEmptyAroundOfButter(b):
                         for sidePerson in self.calculateEmptyAroundOfPerson(p):
+
+                            # sideButter = 3
+                            # sidePerson = 4
                             graph = GraphOperationsBBFS(currentNode.table, self.__persons,
                                                         currentNode.getState().getButters())
 
