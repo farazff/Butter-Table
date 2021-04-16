@@ -74,11 +74,11 @@ class SolutionTreeIDS:
                     minPath = i.getPathString()
                     break
 
-            f = open("output_files/outputs.txt", "w")
+            f = open("output_files/outputs_IDS.txt", "w")
             f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
             f.close()
         else:
-            f = open("output_files/outputs.txt", "w")
+            f = open("output_files/outputs_IDS.txt", "w")
             f.write("Impossible")
             f.close()
 

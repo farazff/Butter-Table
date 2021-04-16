@@ -87,8 +87,28 @@ class SolutionTreeBBFS:
                                 PathNode(blocksTemp, new_node2.getState(), b.getNum, p.getNum,
                                          currentNode.getPathString() + part1 + part2, 0, copy(unvisited_butters),
                                          copy(unvisited_persons)))
-        for i in finalList:
-            print("Path = {}".format(i.getPathString()))
+        # for i in finalList:
+        #     print("Path = {}".format(i.getPathString()))
+
+
+
+        if len(finalList) != 0:
+            minPath = minLen = min(len(i.getPathString()) for i in finalList)
+            for i in finalList:
+                if len(i.getPathString()) == minLen:
+                    minPath = i.getPathString()
+                    print(minPath)
+                    break
+
+            f = open("output_files/outputs_BBFS.txt", "w")
+            f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
+            f.close()
+        else:
+            f = open("output_files/outputs_BBFS.txt", "w")
+            f.write("Impossible")
+            f.close()
+
+
 
     def updateDataAfterSimpleBBFS(self, new_node1, table, graph):
         table[self.__robot.getLocation()[0]][self.__robot.getLocation()[1]].setHaveRobot(False)

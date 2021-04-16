@@ -12,7 +12,7 @@ from State import State
 
 
 def main():
-    file = open("input_files/test6.txt", "r")
+    file = open("input_files/test2.txt", "r")
     butters = []
     persons = []
     robot = None
