@@ -75,23 +75,14 @@ def main():
                 print("  - ", end="")
         print()
 
-    # graph = GraphOperations(table, butters, robot, persons)
-    # # graph.IDSWithButter(State(robot, butters), 0, persons[0])
-    # graph.IDS(State(robot, butters), butters[0], 4)
+    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    # solutionTreeIDS.start()
 
-    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    solutionTreeIDS.start()
-
-    # graph = GraphOperations(table, butters, robot, persons)
-    # graph.IDSWithButter(State(robot, butters), 0, persons[0])
-
-
-
-    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
-    # solutionTreeBBFS.start()
+    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
+    solutionTreeBBFS.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
-    # print(graph.BBFSAlone(State(robot, butters), butters[0], 3))
+    # print(graph.BBFSBoth(State(robot, butters), butters[0], 3, persons[0]))
     # robot.setLocation((butters[0].getLocation()[0], butters[0].getLocation()[1] + 1))
     # print(graph.BBFSBoth(State(robot, butters), butters[0], 4, persons[0]))
     # successor = graph.successorPull(NodeBBFS(State(robot, butters), None), 0)

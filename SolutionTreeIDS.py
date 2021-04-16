@@ -26,10 +26,13 @@ class SolutionTreeIDS:
                     for side in self.calculateEmptyAroundOfButter(b, currentNode.table):
 
                         print(b.getNum(), " ", p.getNum(), " ", side)
+                        # print(b.getLocation())
 
                         graph = GraphOperations(currentNode.table, self.__butters,
                                                 deepcopy(currentNode.getState().getRobot()), self.__persons)
+                        print("Start")
                         tup1 = graph.IDS(currentNode.getState(), b, side)
+                        print("end")
                         if tup1 is None:
                             continue
                         new_node = tup1[0]

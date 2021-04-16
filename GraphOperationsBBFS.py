@@ -380,6 +380,8 @@ class GraphOperationsBBFS:
         return successorList
 
     def BBFSBoth(self, state, wantedButter, side, wantedPerson):
+        firstRobotPlace = deepcopy(state.getRobot().getLocation())
+        firstButterPlace = deepcopy(state.getButters()[wantedButter.getNum()].getLocation())
         fringe_robot = []
         fringe_person = []
         state_temp = deepcopy(state)
@@ -411,6 +413,7 @@ class GraphOperationsBBFS:
             (state_temp.getRobot().getLocation(), state_temp.getButters()[wantedButter.getNum()].getLocation()): 1}
         fringe_robot.append(NodeBBFS(state, None))
         fringe_person.append(NodeBBFS(state_temp, None))
+
         for phase in range(1, 15):
             if len(fringe_person) == 0 or len(fringe_robot) == 0:
                 return None
@@ -441,15 +444,15 @@ class GraphOperationsBBFS:
                 for p in fringe_person:
                     if r.getState().getRobot().getLocation() == p.getState().getRobot().getLocation() and \
                             r.getState().getButters()[wantedButter.getNum()].getLocation() == p.getState().getButters()[
-                            wantedButter.getNum()].getLocation():
+                                wantedButter.getNum()].getLocation():
                         ans = []
                         temp_NodeBBFS = copy(r)
                         while temp_NodeBBFS is not None:
                             ans.insert(0, temp_NodeBBFS.getState().getRobot().getLocation())
                             temp_NodeBBFS = temp_NodeBBFS.getParent()
-                        temp_NodeBBFS = copy(p)
+                        temp_NodeBBFS = deepcopy(p)
                         while temp_NodeBBFS is not None:
-                            ans.append(temp_NodeBBFS.getState().getButters()[wantedButter.getNum()].getLocation())
+                            ans.append(temp_NodeBBFS.getState().getRobot().getLocation())
                             temp_NodeBBFS = temp_NodeBBFS.getParent()
                         path = ""
                         for t in range(len(ans) - 1):
@@ -469,8 +472,8 @@ class GraphOperationsBBFS:
                 while True:
                     if len(fringe_person) == 0:
                         break
-                    n = fringe_person[0]
-                    temp = copy(n)
+                    n = deepcopy(fringe_person[0])
+                    temp = deepcopy(n)
                     now_depth = int(0)
                     while temp is not None:
                         temp = temp.getParent()
@@ -486,6 +489,14 @@ class GraphOperationsBBFS:
                             continue
                         visited_person[(newN.getState().getRobot().getLocation(),
                                         newN.getState().getButters()[wantedButter.getNum()].getLocation())] = 1
+                        if newN.getState().getButters()[
+                            wantedButter.getNum()].getLocation() == firstButterPlace and newN.getState().getRobot(). \
+                                getLocation() == firstRobotPlace:
+                            t = copy(newN)
+                            print("Answer:")
+                            while t is not None:
+                                print(t.getState().getRobot().getLocation())
+                                t = t.getParent()
                         fringe_person.append(deepcopy(newN))
 
             for r in fringe_robot:
