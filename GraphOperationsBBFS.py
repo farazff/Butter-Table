@@ -430,7 +430,10 @@ class GraphOperationsBBFS:
                     if now_depth > int(phase):
                         break
                     fringe_robot.pop(0)
+                    self.__canPush = False
                     successor = self.successorPush(n, wantedButter.getNum())
+                    if not self.__canPush:
+                        successor.extend(self.successorTemp(deepcopy(n), wantedButter.getNum()))
                     for i in successor:
                         newN = NodeBBFS(i.getState(), copy(n))
                         if visited_robot.get((newN.getState().getRobot().getLocation(),
@@ -481,7 +484,11 @@ class GraphOperationsBBFS:
                     if now_depth > int(phase):
                         break
                     fringe_person.pop(0)
+                    self.__canPull = False
                     successor = self.successorPull(n, wantedButter.getNum(), blocksTemp)
+                    # if not self.__canPull:
+                    #     print("fuck2")
+                    successor.extend(self.successorTemp(deepcopy(n), wantedButter.getNum()))
                     for i in successor:
                         newN = NodeBBFS(deepcopy(i.getState()), deepcopy(n))
                         if visited_person.get((newN.getState().getRobot().getLocation(),
@@ -489,14 +496,6 @@ class GraphOperationsBBFS:
                             continue
                         visited_person[(newN.getState().getRobot().getLocation(),
                                         newN.getState().getButters()[wantedButter.getNum()].getLocation())] = 1
-                        if newN.getState().getButters()[
-                            wantedButter.getNum()].getLocation() == firstButterPlace and newN.getState().getRobot(). \
-                                getLocation() == firstRobotPlace:
-                            t = copy(newN)
-                            print("Answer:")
-                            while t is not None:
-                                print(t.getState().getRobot().getLocation())
-                                t = t.getParent()
                         fringe_person.append(deepcopy(newN))
 
             for r in fringe_robot:

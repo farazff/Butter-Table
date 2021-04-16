@@ -12,7 +12,7 @@ from State import State
 
 
 def main():
-    file = open("input_files/test2.txt", "r")
+    file = open("input_files/test6.txt", "r")
     butters = []
     persons = []
     robot = None
@@ -82,7 +82,7 @@ def main():
     solutionTreeBBFS.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
-    # print(graph.BBFSBoth(State(robot, butters), butters[0], 3, persons[0]))
+    # print(graph.BBFSBoth(State(robot, butters), butters[0], 4, persons[0]))
     # robot.setLocation((butters[0].getLocation()[0], butters[0].getLocation()[1] + 1))
     # print(graph.BBFSBoth(State(robot, butters), butters[0], 4, persons[0]))
     # successor = graph.successorPull(NodeBBFS(State(robot, butters), None), 0)

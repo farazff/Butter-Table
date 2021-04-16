@@ -211,7 +211,7 @@ class GraphOperations:
         # wantedButter
 
     def IDSWithButter(self, state, butterNUM, person):
-        for limit in range(7):
+        for limit in range(8):
             fringe = [Node(state, None, 0)]
             ans = self.DLSWithButter(limit, fringe, butterNUM, person)
             if ans is not None:

@@ -90,8 +90,6 @@ class SolutionTreeBBFS:
         # for i in finalList:
         #     print("Path = {}".format(i.getPathString()))
 
-
-
         if len(finalList) != 0:
             minPath = minLen = min(len(i.getPathString()) for i in finalList)
             for i in finalList:
@@ -107,8 +105,6 @@ class SolutionTreeBBFS:
             f = open("output_files/outputs_BBFS.txt", "w")
             f.write("Impossible")
             f.close()
-
-
 
     def updateDataAfterSimpleBBFS(self, new_node1, table, graph):
         table[self.__robot.getLocation()[0]][self.__robot.getLocation()[1]].setHaveRobot(False)
