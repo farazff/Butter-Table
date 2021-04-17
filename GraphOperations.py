@@ -211,6 +211,7 @@ class GraphOperations:
 
     def IDSWithButter(self, state, butterNUM, person):
         for limit in range(15):
+            # print("__________________________________________",limit)
             fringe = [Node(state, None, 0)]
             ans = self.DLSWithButter(limit, fringe, butterNUM, person)
             if ans is not None:
@@ -231,7 +232,7 @@ class GraphOperations:
             # for i in range(len(fringe)):
             #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
             # print()
-            n = fringe.pop()
+            n = fringe.pop(0)
 
             # print('selected : {}'.format(n.getState().getRobot().getLocation()))
             # print(n.getState().getRobot().getLocation(),
@@ -241,8 +242,8 @@ class GraphOperations:
                 continue
             self.__canPush = False
             successor = self.successorWithButter(copy(n), butterNUM)
-            if not self.__canPush:
-                successor.extend(self.successorTemp(n, butterNUM))
+            # if not self.__canPush:
+            #      successor.extend(self.successorTemp(n, butterNUM))
             for i in range(len(successor)):
                 isOK = True
                 newN = Node(successor[i].getState(), n, n.depth + 1)

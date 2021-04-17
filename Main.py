@@ -14,7 +14,7 @@ from State import State
 
 
 def main():
-    file = open("input_files/test5.txt", "r")
+    file = open("input_files/test11.txt", "r")
     butters = []
     persons = []
     robot = None
@@ -77,11 +77,11 @@ def main():
                 print("  - ", end="")
         print()
 
-    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    # solutionTreeIDS.start()
+    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    solutionTreeIDS.start()
 
-    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
-    solutionTreeBBFS.start()
+    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
+    # solutionTreeBBFS.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
     # tableTemp = deepcopy(table)
