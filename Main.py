@@ -11,6 +11,7 @@ from Robot import Robot
 from Person import Person
 from SolutionTreeIDS import SolutionTreeIDS
 from SolutionTreeBBFS import SolutionTreeBBFS
+from SolutionTreeAStar import  SolutionTreeAStar
 from State import State
 
 
@@ -79,11 +80,17 @@ def main():
                 print("  - ", end="")
         print()
 
-    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    solutionTreeIDS.start()
+    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    # solutionTreeIDS.start()
 
-    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
-    # solutionTreeBBFS.start()
+    # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons)
+    # solutionTreeAStar.start()
+
+
+
+
+    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
+    solutionTreeBBFS.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
     # tableTemp = deepcopy(table)

@@ -53,9 +53,7 @@ class SolutionTreeIDS:
         # self.threadLock=threading.Lock()
 
 
-
-
-    def startProcessor(self,currentNode,b,p):
+    def startMultiprocessing2(self,currentNode,b,p):
         jobs = []
         for side in calculateEmptyAroundOfButter(b, currentNode.table):
 
@@ -102,18 +100,14 @@ class SolutionTreeIDS:
             # temp.append(tmp)
             print("_____")
             # jobs.append(threading.Thread(target=self.startThread, args=(tmp,)))
-
-
+            jobs.append(multiprocessing.Process(target=self.startMultiprocessing1, args=(tmp,)))
 
             # self.startThread(tmp)   # 5.20  min
 
-            jobs.append(multiprocessing.Process(target=self.startThread, args=(tmp,)))
         for q in jobs:
             q.start()
         for q in jobs:
             q.join()
-
-
 
     def start(self):
 
@@ -122,11 +116,10 @@ class SolutionTreeIDS:
         jobs = []
         currentNode = self.__startingNodes.pop(0)
 
-
         for b in currentNode.getUnvisitedButters():
             for p in currentNode.getUnvisitedPersons():
-                # self.startProcessor(currentNode, b, p)
-                jobs.append(multiprocessing.Process(target=self.startProcessor, args=(currentNode,b,p,)))
+                jobs.append(multiprocessing.Process(target=self.startMultiprocessing2, args=(currentNode,b,p,)))
+
         for q in jobs:
             q.start()
         for q in jobs:
@@ -148,20 +141,19 @@ class SolutionTreeIDS:
                 if len(i.getPathString()) == minLen:
                     minPath = i.getPathString()
                     break
-            print("min path:",minPath)
-
-            f = open("output_files/outputs_IDS.txt", "w")
-            f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
-            f.close()
-        else:
-            f = open("output_files/outputs_IDS.txt", "w")
-            f.write("Impossible")
-            f.close()
-
+            print(minPath)
+        #     f = open("output_files/outputs_IDS.txt", "w")
+        #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
+        #     f.close()
+        # else:
+        #     f = open("output_files/outputs_IDS.txt", "w")
+        #     f.write("Impossible")
+        #     f.close()
+        #
         # for i in finalList:
         #     print("Path = {}".format(i.getPathString()))
 
-    def startThread(self, startingNodes1):
+    def startMultiprocessing1(self, startingNodes1):
         startingNodes = deepcopy(startingNodes1)
         finalList = []
         while len(startingNodes) > 0:
@@ -212,12 +204,12 @@ class SolutionTreeIDS:
         # for q in finalList:
         #     print(q.getPathString())
 
-        if len(finalList) != 0:
-            minPath = minLen = min(len(i.getPathString()) for i in finalList)
-            for i in finalList:
-                if len(i.getPathString()) == minLen:
-                    minPath = i.getPathString()
-                    break
+        # if len(finalList) != 0:
+        #     minPath = minLen = min(len(i.getPathString()) for i in finalList)
+        #     for i in finalList:
+        #         if len(i.getPathString()) == minLen:
+        #             minPath = i.getPathString()
+        #             break
         #     print(minPath)
         #     f = open("output_files/outputs_IDS.txt", "w")
         #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
@@ -226,7 +218,7 @@ class SolutionTreeIDS:
         #     f = open("output_files/outputs_IDS.txt", "w")
         #     f.write("Impossible")
         #     f.close()
-        #
+
         # print("Active threads    : ",threading.activeCount())
         # print("Active processors : ",)
         for i in finalList:

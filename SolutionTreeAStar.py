@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from GraphOperationsAStar import GraphOperationsAStar
 from PathNode import PathNode
 from State import State
-
+import multiprocessing
 
 class SolutionTreeAStar:
 
@@ -15,10 +15,97 @@ class SolutionTreeAStar:
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
                      copy(self.__persons))]
 
+    def startMultiprocessing2(self,currentNode,b,p):
+        jobs=[]
+        for side in self.calculateEmptyAroundOfButter(b, currentNode.table):
+
+            graph = GraphOperationsAStar(currentNode.table, self.__butters,
+                                         deepcopy(currentNode.getState().getRobot()), self.__persons)
+            tup1 = graph.AStar(currentNode.getState(), b, side)
+            if tup1 is None:
+                continue
+            new_node = tup1[0]
+            self.updateDataAfterSimpleIDS(new_node, currentNode.table, graph)
+
+            tup2 = graph.AStarWithButter(new_node.getState(), b.getNum(), p)
+            if tup2 is None:
+                continue
+            new_node2 = tup2[0]
+            unvisited_butters = []
+            for i in currentNode.getUnvisitedButters():
+                if i != b:
+                    unvisited_butters.append(copy(i))
+            unvisited_persons = []
+            for i in currentNode.getUnvisitedPersons():
+                if i != p:
+                    unvisited_persons.append(copy(i))
+
+            blocksTemp = deepcopy(currentNode.table)
+            blocksTemp[b.getLocation()[0]][b.getLocation()[1]].setHaveButter(False)
+            blocksTemp[p.getLocation()[0]][p.getLocation()[1]].setHaveButter(True)
+
+            blocksTemp[new_node2.getState().getRobot().getLocation()[0]][
+                new_node2.getState().getRobot().getLocation()[1]].setHaveRobot(True)
+
+            blocksTemp[new_node.getState().getRobot().getLocation()[0]][
+                new_node.getState().getRobot().getLocation()[1]].setHaveRobot(False)
+
+            # self.__startingNodes.append(
+            tmp = [
+                PathNode(blocksTemp, new_node2.getState(), b.getNum(), p.getNum(),
+                         currentNode.getPathString() + tup1[1] + tup2[1],
+                         currentNode.getCost() + new_node.cost + new_node2.cost, copy(unvisited_butters),
+                         copy(unvisited_persons))]
+            jobs.append(multiprocessing.Process(target=self.startMultiprocessing1, args=(tmp,)))
+
+            # self.startThread(tmp)   # 5.20  min
+
+        for q in jobs:
+            q.start()
+        for q in jobs:
+            q.join()
+        # self.startMultiprocessing1(tmp)
+
+
+
     def start(self):
         finalList = []
-        while len(self.__startingNodes) > 0:
-            currentNode = self.__startingNodes.pop()
+        jobs = []
+        currentNode = self.__startingNodes.pop()
+
+        for b in currentNode.getUnvisitedButters():
+            for p in currentNode.getUnvisitedPersons():
+
+                jobs.append(multiprocessing.Process(target=self.startMultiprocessing2, args=(currentNode, b, p,)))
+
+        for q in jobs:
+            q.start()
+        for q in jobs:
+            q.join()
+
+        # if len(finalList) != 0:
+        #     minPath = minLen = min(len(i.getPathString()) for i in finalList)
+        #     for i in finalList:
+        #         if len(i.getPathString()) == minLen:
+        #             minPath = i.getPathString()
+        #             break
+        #
+        #     f = open("output_files/outputs_IDS.txt", "w")
+        #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
+        #     f.close()
+        # else:
+        #     f = open("output_files/outputs_IDS.txt", "w")
+        #     f.write("Impossible")
+        #     f.close()
+
+        for i in finalList:
+            print("Path = {}".format(i.getPathString()), "cost = ", i.getCost())
+
+    def startMultiprocessing1(self, startingNodes):
+
+        finalList = []
+        while len(startingNodes) > 0:
+            currentNode = startingNodes.pop()
             if len(currentNode.getUnvisitedButters()) == 0:
                 finalList.append(copy(currentNode))
                 continue
@@ -57,9 +144,11 @@ class SolutionTreeAStar:
                         blocksTemp[new_node.getState().getRobot().getLocation()[0]][
                             new_node.getState().getRobot().getLocation()[1]].setHaveRobot(False)
 
-                        self.__startingNodes.append(
+                        startingNodes.append(
                             PathNode(blocksTemp, new_node2.getState(), b.getNum(), p.getNum(),
-                                     currentNode.getPathString() + tup1[1] + tup2[1], currentNode.getCost() + new_node.cost + new_node2.cost, copy(unvisited_butters),
+                                     currentNode.getPathString() + tup1[1] + tup2[1],
+                                     currentNode.getCost() + new_node.cost + new_node2.cost,
+                                     copy(unvisited_butters),
                                      copy(unvisited_persons)))
         # if len(finalList) != 0:
         #     minPath = minLen = min(len(i.getPathString()) for i in finalList)
