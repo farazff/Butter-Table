@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from Block import Block
 from Butter import Butter
+from GraphOperationsAStar import GraphOperationsAStar
 from GraphOperationsIDS import GraphOperations
 from GraphOperationsBBFS import GraphOperationsBBFS
 from Node import Node
@@ -14,7 +15,7 @@ from State import State
 
 
 def main():
-    file = open("input_files/test11.txt", "r")
+    file = open("input_files/test6.txt", "r")
     butters = []
     persons = []
     robot = None
@@ -77,8 +78,8 @@ def main():
                 print("  - ", end="")
         print()
 
-    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    solutionTreeIDS.start()
+    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    # solutionTreeIDS.start()
 
     # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
     # solutionTreeBBFS.start()
@@ -91,6 +92,9 @@ def main():
     # successor = graph.successorPull(NodeBBFS(State(robot, butters), None), 0)
     # for i in successor:
     #     print(i.getState().getRobot().getLocation(), " ", i.getState().getButters()[0].getLocation())
+
+    graph = GraphOperationsAStar(table, butters, robot, persons)
+    graph.AStar(State(robot, butters), butters[0], 3)
 
 
 if __name__ == "__main__":
