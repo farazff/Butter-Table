@@ -67,8 +67,9 @@ class GraphOperationsAStar:
                     continue
                 robotTemp = copy(self.robot)
                 robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
+                cost = self.blocks[robotTemp.getLocation()[0]][robotTemp.getLocation()[1]].getCost()
                 successorList.append(
-                    NodeAStar(State(robotTemp, self.__butters), currentNode, currentNode.cost + 1))
+                    NodeAStar(State(robotTemp, self.__butters), currentNode, currentNode.cost + cost))
         return successorList
 
     def neighbourProducer(self, whichSide, robotsLocation):
