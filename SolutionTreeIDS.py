@@ -5,6 +5,7 @@ from GraphOperationsIDS import GraphOperations
 from PathNode import PathNode
 from State import State
 import threading
+import multiprocessing
 
 
 def updateDataAfterSimpleIDS(new_node, table, graph, parent):
@@ -49,65 +50,95 @@ class SolutionTreeIDS:
         self.__startingNodes = [
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
                      copy(self.__persons))]
+        # self.threadLock=threading.Lock()
+
+
+
+
+    def startProcessor(self,currentNode,b,p):
+        jobs = []
+        for side in calculateEmptyAroundOfButter(b, currentNode.table):
+
+            graph = GraphOperations(currentNode.table, self.__butters,
+                                    deepcopy(currentNode.getState().getRobot()), self.__persons)
+            tup1 = graph.IDS(currentNode.getState(), b, side)
+            if tup1 is None:
+                continue
+            new_node = tup1[0]
+            updateDataAfterSimpleIDS(new_node, currentNode.table, graph, currentNode)
+
+            tup2 = graph.IDSWithButter(new_node.getState(), b.getNum(), p)
+            if tup2 is None:
+                continue
+            new_node2 = tup2[0]
+            unvisited_butters = []
+            for i in currentNode.getUnvisitedButters():
+                if i != b:
+                    unvisited_butters.append(copy(i))
+            unvisited_persons = []
+            for i in currentNode.getUnvisitedPersons():
+                if i != p:
+                    unvisited_persons.append(copy(i))
+
+            blocksTemp = deepcopy(currentNode.table)
+            blocksTemp[b.getLocation()[0]][b.getLocation()[1]].setHaveButter(False)
+            blocksTemp[p.getLocation()[0]][p.getLocation()[1]].setHaveButter(True)
+
+            blocksTemp[new_node2.getState().getRobot().getLocation()[0]][
+                new_node2.getState().getRobot().getLocation()[1]].setHaveRobot(True)
+
+            blocksTemp[new_node.getState().getRobot().getLocation()[0]][
+                new_node.getState().getRobot().getLocation()[1]].setHaveRobot(False)
+
+            tmp = [PathNode(blocksTemp, new_node2.getState(), b.getNum(), p.getNum(),
+                            currentNode.getPathString() + tup1[1] + tup2[1], 0, copy(unvisited_butters),
+                            copy(unvisited_persons))]
+
+            # _thread.start_new_thread(self.startThread, (deepcopy(tmp),))
+
+            # x = threading.Thread(target=self.startThread, args=(tmp,))
+            # x.start()
+
+            # temp.append(tmp)
+            print("_____")
+            # jobs.append(threading.Thread(target=self.startThread, args=(tmp,)))
+
+
+
+            # self.startThread(tmp)   # 5.20  min
+
+            jobs.append(multiprocessing.Process(target=self.startThread, args=(tmp,)))
+        for q in jobs:
+            q.start()
+        for q in jobs:
+            q.join()
+
+
 
     def start(self):
+
         finalList = []
-        temp = []
+
+        jobs = []
         currentNode = self.__startingNodes.pop(0)
+
+
         for b in currentNode.getUnvisitedButters():
             for p in currentNode.getUnvisitedPersons():
-                for side in calculateEmptyAroundOfButter(b, currentNode.table):
+                # self.startProcessor(currentNode, b, p)
+                jobs.append(multiprocessing.Process(target=self.startProcessor, args=(currentNode,b,p,)))
+        for q in jobs:
+            q.start()
+        for q in jobs:
+            q.join()
 
-                    graph = GraphOperations(currentNode.table, self.__butters,
-                                            deepcopy(currentNode.getState().getRobot()), self.__persons)
-                    tup1 = graph.IDS(currentNode.getState(), b, side)
-                    if tup1 is None:
-                        continue
-                    new_node = tup1[0]
-                    updateDataAfterSimpleIDS(new_node, currentNode.table, graph, currentNode)
 
-                    tup2 = graph.IDSWithButter(new_node.getState(), b.getNum(), p)
-                    if tup2 is None:
-                        continue
-                    new_node2 = tup2[0]
-                    unvisited_butters = []
-                    for i in currentNode.getUnvisitedButters():
-                        if i != b:
-                            unvisited_butters.append(copy(i))
-                    unvisited_persons = []
-                    for i in currentNode.getUnvisitedPersons():
-                        if i != p:
-                            unvisited_persons.append(copy(i))
-
-                    blocksTemp = deepcopy(currentNode.table)
-                    blocksTemp[b.getLocation()[0]][b.getLocation()[1]].setHaveButter(False)
-                    blocksTemp[p.getLocation()[0]][p.getLocation()[1]].setHaveButter(True)
-
-                    blocksTemp[new_node2.getState().getRobot().getLocation()[0]][
-                        new_node2.getState().getRobot().getLocation()[1]].setHaveRobot(True)
-
-                    blocksTemp[new_node.getState().getRobot().getLocation()[0]][
-                        new_node.getState().getRobot().getLocation()[1]].setHaveRobot(False)
-
-                    tmp = [PathNode(blocksTemp, new_node2.getState(), b.getNum(), p.getNum(),
-                                    currentNode.getPathString() + tup1[1] + tup2[1], 0, copy(unvisited_butters),
-                                    copy(unvisited_persons))]
-
-                    # _thread.start_new_thread(self.startThread, (deepcopy(tmp),))
-
-                    x = threading.Thread(target=self.startThread, args=(tmp,))
-                    x.start()
-                    # x.join()
-
-                    # temp.append(tmp)
-
-                    # self.startThread(tmp)   # 5.20  min
-
-        # for q in temp:
         #     # _thread.start_new_thread(self.startThread, (deepcopy(q),))
         #     x=threading.Thread(target=self.startThread,args= (deepcopy(q),))
         #     x.start()
-            # for p in range(9900000):
+        #     self.startThread(tmp)   # 5.20  min
+
+        # for p in range(9900000):
             #     pass
 
 
@@ -117,15 +148,16 @@ class SolutionTreeIDS:
                 if len(i.getPathString()) == minLen:
                     minPath = i.getPathString()
                     break
-            print(minPath)
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
-        #     f.close()
-        # else:
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write("Impossible")
-        #     f.close()
-        #
+            print("min path:",minPath)
+
+            f = open("output_files/outputs_IDS.txt", "w")
+            f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
+            f.close()
+        else:
+            f = open("output_files/outputs_IDS.txt", "w")
+            f.write("Impossible")
+            f.close()
+
         # for i in finalList:
         #     print("Path = {}".format(i.getPathString()))
 
@@ -161,6 +193,7 @@ class SolutionTreeIDS:
                             if i != p:
                                 unvisited_persons.append(copy(i))
 
+                        # self.threadLock.acquire()
                         blocksTemp = deepcopy(currentNode.table)
                         blocksTemp[b.getLocation()[0]][b.getLocation()[1]].setHaveButter(False)
                         blocksTemp[p.getLocation()[0]][p.getLocation()[1]].setHaveButter(True)
@@ -170,6 +203,7 @@ class SolutionTreeIDS:
 
                         blocksTemp[new_node.getState().getRobot().getLocation()[0]][
                             new_node.getState().getRobot().getLocation()[1]].setHaveRobot(False)
+                        # self.threadLock.release()
 
                         startingNodes.append(
                             PathNode(blocksTemp, new_node2.getState(), b.getNum(), p.getNum(),
@@ -178,12 +212,12 @@ class SolutionTreeIDS:
         # for q in finalList:
         #     print(q.getPathString())
 
-        # if len(finalList) != 0:
-        #     minPath = minLen = min(len(i.getPathString()) for i in finalList)
-        #     for i in finalList:
-        #         if len(i.getPathString()) == minLen:
-        #             minPath = i.getPathString()
-        #             break
+        if len(finalList) != 0:
+            minPath = minLen = min(len(i.getPathString()) for i in finalList)
+            for i in finalList:
+                if len(i.getPathString()) == minLen:
+                    minPath = i.getPathString()
+                    break
         #     print(minPath)
         #     f = open("output_files/outputs_IDS.txt", "w")
         #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
@@ -193,8 +227,12 @@ class SolutionTreeIDS:
         #     f.write("Impossible")
         #     f.close()
         #
-        # for i in finalList:
-        #     print("Path = {}".format(i.getPathString()))
+        # print("Active threads    : ",threading.activeCount())
+        # print("Active processors : ",)
+        for i in finalList:
+            print("Path = {}".format(i.getPathString()))
+        print()
+
 
 
 
