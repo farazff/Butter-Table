@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from Block import Block
 from Butter import Butter
+from GraphOperationsAStar import GraphOperationsAStar
 from GraphOperationsIDS import GraphOperations
 from GraphOperationsBBFS import GraphOperationsBBFS
 from Node import Node
@@ -15,6 +16,7 @@ from State import State
 
 def main():
     file = open("input_files/test3.txt", "r")
+
     butters = []
     persons = []
     robot = None

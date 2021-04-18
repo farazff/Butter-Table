@@ -87,7 +87,7 @@ class SolutionTreeBBFS:
                                 new_node1.getState().getRobot().getLocation()[1]].setHaveRobot(False)
 
                             self.__startingNodes.append(
-                                PathNode(blocksTemp, new_node2.getState(), b.getNum, p.getNum,
+                                PathNode(blocksTemp, new_node2.getState(), b.getNum(), p.getNum(),
                                          currentNode.getPathString() + part1 + part2, 0, copy(unvisited_butters),
                                          copy(unvisited_persons)))
         # for i in finalList:
