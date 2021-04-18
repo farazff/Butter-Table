@@ -1,16 +1,9 @@
-from copy import deepcopy
-
 from Block import Block
 from Butter import Butter
 from GraphOperationsAStar import GraphOperationsAStar
-from GraphOperationsIDS import GraphOperations
-from GraphOperationsBBFS import GraphOperationsBBFS
-from Node import Node
-from NodeBBFS import NodeBBFS
 from Robot import Robot
 from Person import Person
-from SolutionTreeIDS import SolutionTreeIDS
-from SolutionTreeBBFS import SolutionTreeBBFS
+from SolutionTreeAStar import SolutionTreeAStar
 from State import State
 
 
@@ -81,9 +74,12 @@ def main():
 
     # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
     # solutionTreeIDS.start()
-    #
+
     # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
     # solutionTreeBBFS.start()
+
+    solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons)
+    solutionTreeAStar.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
     # tableTemp = deepcopy(table)
@@ -94,9 +90,9 @@ def main():
     # for i in successor:
     #     print(i.getState().getRobot().getLocation(), " ", i.getState().getButters()[0].getLocation())
 
-    graph = GraphOperationsAStar(table, butters, robot, persons)
+    # graph = GraphOperationsAStar(table, butters, robot, persons)
     # graph.AStar(State(robot, butters), butters[0], 3)
-    graph.AStarWithButter(State(robot, butters), 0, persons[0])
+    # graph.AStarWithButter(State(robot, butters), 0, persons[0])
 
 
 if __name__ == "__main__":

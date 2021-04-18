@@ -144,7 +144,6 @@ class GraphOperationsAStar:
                         ans = "U" + ans
                     now = copy(past)
                     t = t.getParent()
-                print(ans)
                 returnAns = (copy(n), ans)
                 return returnAns
             explored[n.getState().getRobot().getLocation()] = 1
@@ -273,15 +272,16 @@ class GraphOperationsAStar:
                         ans = "U" + ans
                     now = copy(past)
                     t = t.getParent()
-                print(ans)
                 returnAns = (copy(n), ans)
                 return returnAns
 
             visited[(n.getState().getRobot().getLocation(),
                      n.getState().getButters()[butterNUM].getLocation())] = 1
 
+            self.__canPush = True
             successor = self.successorWithButter(copy(n), butterNUM)
-            successor.extend(self.successorTemp(copy(n), butterNUM))
+            if not self.__canPush:
+                successor.extend(self.successorTemp(copy(n), butterNUM))
             for i in range(len(successor)):
                 isOK = True
                 newN = deepcopy(successor[i])
