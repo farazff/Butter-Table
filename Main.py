@@ -15,7 +15,7 @@ from State import State
 
 
 def main():
-    file = open("input_files/test3.txt", "r")
+    file = open("input_files/test6.txt", "r")
 
     butters = []
     persons = []
@@ -79,9 +79,9 @@ def main():
                 print("  - ", end="")
         print()
 
-    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    solutionTreeIDS.start()
-
+    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    # solutionTreeIDS.start()
+    #
     # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
     # solutionTreeBBFS.start()
 
@@ -93,6 +93,10 @@ def main():
     # successor = graph.successorPull(NodeBBFS(State(robot, butters), None), 0)
     # for i in successor:
     #     print(i.getState().getRobot().getLocation(), " ", i.getState().getButters()[0].getLocation())
+
+    graph = GraphOperationsAStar(table, butters, robot, persons)
+    # graph.AStar(State(robot, butters), butters[0], 3)
+    graph.AStarWithButter(State(robot, butters), 0, persons[0])
 
 
 if __name__ == "__main__":
