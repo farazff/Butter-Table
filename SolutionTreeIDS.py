@@ -1,5 +1,5 @@
 from copy import copy, deepcopy
-from GraphOperations import GraphOperations
+from GraphOperationsIDS import GraphOperations
 from PathNode import PathNode
 from State import State
 

@@ -2,7 +2,7 @@ from copy import deepcopy
 
 from Block import Block
 from Butter import Butter
-from GraphOperations import GraphOperations
+from GraphOperationsIDS import GraphOperations
 from GraphOperationsBBFS import GraphOperationsBBFS
 from Node import Node
 from NodeBBFS import NodeBBFS
