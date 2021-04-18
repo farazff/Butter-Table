@@ -14,7 +14,7 @@ from State import State
 
 
 def main():
-    file = open("input_files/test11.txt", "r")
+    file = open("input_files/test3.txt", "r")
     butters = []
     persons = []
     robot = None

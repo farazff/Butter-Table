@@ -4,6 +4,7 @@ from copy import copy, deepcopy
 from GraphOperationsIDS import GraphOperations
 from PathNode import PathNode
 from State import State
+import threading
 
 
 def updateDataAfterSimpleIDS(new_node, table, graph, parent):
@@ -93,13 +94,22 @@ class SolutionTreeIDS:
                                     copy(unvisited_persons))]
 
                     # _thread.start_new_thread(self.startThread, (deepcopy(tmp),))
-                    temp.append(tmp)
+
+                    x = threading.Thread(target=self.startThread, args=(tmp,))
+                    x.start()
+                    # x.join()
+
+                    # temp.append(tmp)
+
                     # self.startThread(tmp)   # 5.20  min
 
-        for q in temp:
-            _thread.start_new_thread(self.startThread, (deepcopy(q),))
-            for p in range(9900000):
-                pass
+        # for q in temp:
+        #     # _thread.start_new_thread(self.startThread, (deepcopy(q),))
+        #     x=threading.Thread(target=self.startThread,args= (deepcopy(q),))
+        #     x.start()
+            # for p in range(9900000):
+            #     pass
+
 
         if len(finalList) != 0:
             minPath = minLen = min(len(i.getPathString()) for i in finalList)
@@ -168,13 +178,13 @@ class SolutionTreeIDS:
         # for q in finalList:
         #     print(q.getPathString())
 
-        if len(finalList) != 0:
-            minPath = minLen = min(len(i.getPathString()) for i in finalList)
-            for i in finalList:
-                if len(i.getPathString()) == minLen:
-                    minPath = i.getPathString()
-                    break
-            print(minPath)
+        # if len(finalList) != 0:
+        #     minPath = minLen = min(len(i.getPathString()) for i in finalList)
+        #     for i in finalList:
+        #         if len(i.getPathString()) == minLen:
+        #             minPath = i.getPathString()
+        #             break
+        #     print(minPath)
         #     f = open("output_files/outputs_IDS.txt", "w")
         #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
         #     f.close()
@@ -185,3 +195,7 @@ class SolutionTreeIDS:
         #
         # for i in finalList:
         #     print("Path = {}".format(i.getPathString()))
+
+
+
+
