@@ -5,6 +5,7 @@ from GraphOperationsIDS import GraphOperations
 from PathNode import PathNode
 from State import State
 import threading
+import os
 import multiprocessing
 
 
@@ -50,10 +51,10 @@ class SolutionTreeIDS:
         self.__startingNodes = [
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
                      copy(self.__persons))]
+        self.tempFile = None
         # self.threadLock=threading.Lock()
 
-
-    def startMultiprocessing2(self,currentNode,b,p):
+    def startMultiprocessing2(self, currentNode, b, p):
         jobs = []
         for side in calculateEmptyAroundOfButter(b, currentNode.table):
 
@@ -110,21 +111,18 @@ class SolutionTreeIDS:
             q.join()
 
     def start(self):
-
-        finalList = []
-
         jobs = []
         currentNode = self.__startingNodes.pop(0)
 
         for b in currentNode.getUnvisitedButters():
             for p in currentNode.getUnvisitedPersons():
-                jobs.append(multiprocessing.Process(target=self.startMultiprocessing2, args=(currentNode,b,p,)))
+                jobs.append(multiprocessing.Process(target=self.startMultiprocessing2, args=(currentNode, b, p,)))
 
         for q in jobs:
             q.start()
         for q in jobs:
             q.join()
-
+        # os.remove()
 
         #     # _thread.start_new_thread(self.startThread, (deepcopy(q),))
         #     x=threading.Thread(target=self.startThread,args= (deepcopy(q),))
@@ -132,29 +130,35 @@ class SolutionTreeIDS:
         #     self.startThread(tmp)   # 5.20  min
 
         # for p in range(9900000):
-            #     pass
+        #     pass
+
+        f = open("temporaryFile.txt", "r")
+        allPath = f.read()
+        f.close()
+        os.remove("temporaryFile.txt")
+        allPathList = allPath.split("\n")
+
+        minL=99
+        for i in allPathList:
+
+            if len(i)<minL and i !="":
+                minL=len(i)
+        for i in allPathList:
+            if len(i)==minL:
+                minL=i
+                break
+
+        if len(allPathList) == 0:
+            f = open("output_files/outputs_IDS.txt", "w")
+            f.write("Impossible")
+            f.close()
+        else:
+            f = open("output_files/outputs_IDS.txt", "w")
+            f.write(minL+"\n"+str(len(minL))+"\n"+str(len(minL)))
+            f.close()
 
 
-        if len(finalList) != 0:
-            minPath = minLen = min(len(i.getPathString()) for i in finalList)
-            for i in finalList:
-                if len(i.getPathString()) == minLen:
-                    minPath = i.getPathString()
-                    break
-            print(minPath)
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
-        #     f.close()
-        # else:
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write("Impossible")
-        #     f.close()
-        #
-        # for i in finalList:
-        #     print("Path = {}".format(i.getPathString()))
-
-    def startMultiprocessing1(self, startingNodes1):
-        startingNodes = deepcopy(startingNodes1)
+    def startMultiprocessing1(self, startingNodes):
         finalList = []
         while len(startingNodes) > 0:
             currentNode = startingNodes.pop()
@@ -185,7 +189,6 @@ class SolutionTreeIDS:
                             if i != p:
                                 unvisited_persons.append(copy(i))
 
-                        # self.threadLock.acquire()
                         blocksTemp = deepcopy(currentNode.table)
                         blocksTemp[b.getLocation()[0]][b.getLocation()[1]].setHaveButter(False)
                         blocksTemp[p.getLocation()[0]][p.getLocation()[1]].setHaveButter(True)
@@ -195,37 +198,26 @@ class SolutionTreeIDS:
 
                         blocksTemp[new_node.getState().getRobot().getLocation()[0]][
                             new_node.getState().getRobot().getLocation()[1]].setHaveRobot(False)
-                        # self.threadLock.release()
 
                         startingNodes.append(
                             PathNode(blocksTemp, new_node2.getState(), b.getNum(), p.getNum(),
                                      currentNode.getPathString() + tup1[1] + tup2[1], 0, copy(unvisited_butters),
                                      copy(unvisited_persons)))
-        # for q in finalList:
-        #     print(q.getPathString())
 
-        # if len(finalList) != 0:
-        #     minPath = minLen = min(len(i.getPathString()) for i in finalList)
-        #     for i in finalList:
-        #         if len(i.getPathString()) == minLen:
-        #             minPath = i.getPathString()
-        #             break
-        #     print(minPath)
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
-        #     f.close()
-        # else:
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write("Impossible")
-        #     f.close()
-
-        # print("Active threads    : ",threading.activeCount())
-        # print("Active processors : ",)
         for i in finalList:
             print("Path = {}".format(i.getPathString()))
-        print()
 
-
-
-
-
+        if len(finalList) == 0:
+            f = open("temporaryFile.txt", "a")
+            f.write("impossible")
+            f.close()
+        else:
+            minLen = min(len(i.getPathString()) for i in finalList)
+            for i in finalList:
+                if len(i.getPathString()) == minLen:
+                    minPath = i.getPathString()
+                    print("minPath : ", minPath)
+                    f = open("temporaryFile.txt", "a")
+                    f.write(str(minPath) + "\n")
+                    f.close()
+                    break

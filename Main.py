@@ -11,12 +11,13 @@ from Robot import Robot
 from Person import Person
 from SolutionTreeIDS import SolutionTreeIDS
 from SolutionTreeBBFS import SolutionTreeBBFS
+import SolutionTreeBBFS as sb
 from SolutionTreeAStar import  SolutionTreeAStar
 from State import State
-
+path=[]
 
 def main():
-    file = open("input_files/test3.txt", "r")
+    file = open("input_files/test8.txt", "r")
 
     butters = []
     persons = []
@@ -91,6 +92,7 @@ def main():
 
     solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
     solutionTreeBBFS.start()
+
 
     # graph = GraphOperationsBBFS(table, persons, butters)
     # tableTemp = deepcopy(table)

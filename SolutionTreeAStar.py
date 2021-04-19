@@ -1,5 +1,5 @@
 from copy import copy, deepcopy
-
+import os
 from GraphOperationsAStar import GraphOperationsAStar
 from PathNode import PathNode
 from State import State
@@ -69,7 +69,6 @@ class SolutionTreeAStar:
 
 
     def start(self):
-        finalList = []
         jobs = []
         currentNode = self.__startingNodes.pop()
 
@@ -82,27 +81,37 @@ class SolutionTreeAStar:
             q.start()
         for q in jobs:
             q.join()
+        print("++++++++++++++++++++++++++++++++++++++")
+        f = open("temporaryFile.txt", "r")
+        allPath = f.read()
+        f.close()
+        os.remove("temporaryFile.txt")
+        allPathList = allPath.split("\n")
 
-        # if len(finalList) != 0:
-        #     minPath = minLen = min(len(i.getPathString()) for i in finalList)
-        #     for i in finalList:
-        #         if len(i.getPathString()) == minLen:
-        #             minPath = i.getPathString()
-        #             break
-        #
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
-        #     f.close()
-        # else:
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write("Impossible")
-        #     f.close()
+        minL = 99
+        for i in allPathList:
 
-        for i in finalList:
-            print("Path = {}".format(i.getPathString()), "cost = ", i.getCost())
+            if len(i.split(" ")[0]) < minL and i != "":
+                minL = len(i.split(" ")[0])
+        minC=0
+        for i in allPathList:
+            if len(i.split(" ")[0]) == minL:
+                minL = i.split(" ")[0]
+                minC = i.split(" ")[1]
+                break
+
+        if "Impossible" in allPath:
+            f = open("output_files/outputs_AStar.txt", "w")
+            f.write("Impossible")
+            f.close()
+        else:
+            f = open("output_files/outputs_AStar.txt", "w")
+            f.write(minL + "\n" + str(len(minL)) + "\n" + str(minC))
+            f.close()
+
 
     def startMultiprocessing1(self, startingNodes):
-
+        print("==============================================")
         finalList = []
         while len(startingNodes) > 0:
             currentNode = startingNodes.pop()
@@ -150,23 +159,27 @@ class SolutionTreeAStar:
                                      currentNode.getCost() + new_node.cost + new_node2.cost,
                                      copy(unvisited_butters),
                                      copy(unvisited_persons)))
-        # if len(finalList) != 0:
-        #     minPath = minLen = min(len(i.getPathString()) for i in finalList)
-        #     for i in finalList:
-        #         if len(i.getPathString()) == minLen:
-        #             minPath = i.getPathString()
-        #             break
-        #
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write(minPath + "\n" + str(minLen) + "\n" + str(minLen))
-        #     f.close()
-        # else:
-        #     f = open("output_files/outputs_IDS.txt", "w")
-        #     f.write("Impossible")
-        #     f.close()
-
         for i in finalList:
             print("Path = {}".format(i.getPathString()), "cost = ", i.getCost())
+        print("==============================================")
+
+        if len(finalList) == 0:
+                f = open("temporaryFile.txt", "a")
+                f.write("impossible")
+                f.close()
+        else:
+            minLen = min(i.getCost() for i in finalList)
+            for i in finalList:
+                if i.getCost() == minLen:
+                    minPath = i.getPathString()
+                    print("minPath : ", minPath)
+                    f = open("temporaryFile.txt", "a")
+                    st=str(str(i.getCost()))
+                    f.write(str(minPath) + " "+st+"\n")
+                    f.close()
+                    break
+
+
 
     def updateDataAfterSimpleIDS(self, new_node, table, graph):
         table[self.__robot.getLocation()[0]][self.__robot.getLocation()[1]].setHaveRobot(False)
