@@ -134,10 +134,12 @@ class SolutionTreeBBFS:
         if "Impossible" in allPath:
             f = open("output_files/outputs_BBFS.txt", "w")
             f.write("Impossible")
+            print("--------------------------------------------- \nImpossible")
             f.close()
         else:
             f = open("output_files/outputs_BBFS.txt", "w")
             f.write(minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
+            print("--------------------------------------------- \nResult : ",minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
             f.close()
 
     def startMultiprocessing1(self, startingNodes,pathList):
@@ -215,7 +217,8 @@ class SolutionTreeBBFS:
                                          currentNode.getPathString() + part1 + part2, 0, copy(unvisited_butters),
                                          copy(unvisited_persons)))
         for i in finalList:
-            print("Path = {}".format(i.getPathString()), "cost = ", i.getCost())
+            print("Path = {}".format(i.getPathString()))
+        print()
 
         if len(finalList) == 0:
             f = open("temporaryFile.txt", "a")
@@ -226,7 +229,7 @@ class SolutionTreeBBFS:
             for i in finalList:
                 if i.getCost() == minLen:
                     minPath = i.getPathString()
-                    print("minPath : ", minPath)
+                    # print("minPath : ", minPath)
                     f = open("temporaryFile.txt", "a")
                     st = str(str(i.getCost()))
                     f.write(str(minPath) + " " + st + "\n")

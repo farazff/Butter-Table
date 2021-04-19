@@ -278,7 +278,7 @@ class GraphOperationsAStar:
             visited[(n.getState().getRobot().getLocation(),
                      n.getState().getButters()[butterNUM].getLocation())] = 1
 
-            self.__canPush = True
+            self.__canPush = False
             successor = self.successorWithButter(copy(n), butterNUM)
             if not self.__canPush:
                 successor.extend(self.successorTemp(copy(n), butterNUM))

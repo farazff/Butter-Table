@@ -148,13 +148,15 @@ class SolutionTreeIDS:
                 minL=i
                 break
 
-        if len(allPathList) == 0:
+        if "Impossible" in allPath:
             f = open("output_files/outputs_IDS.txt", "w")
             f.write("Impossible")
+            print("--------------------------------------------- \nImpossible")
             f.close()
         else:
             f = open("output_files/outputs_IDS.txt", "w")
             f.write(minL+"\n"+str(len(minL))+"\n"+str(len(minL)))
+            print("--------------------------------------------- \nResult  : ",minL+"\n"+str(len(minL))+"\n"+str(len(minL)) )
             f.close()
 
 
@@ -206,6 +208,7 @@ class SolutionTreeIDS:
 
         for i in finalList:
             print("Path = {}".format(i.getPathString()))
+        print()
 
         if len(finalList) == 0:
             f = open("temporaryFile.txt", "a")
@@ -216,7 +219,7 @@ class SolutionTreeIDS:
             for i in finalList:
                 if len(i.getPathString()) == minLen:
                     minPath = i.getPathString()
-                    print("minPath : ", minPath)
+                    # print("minPath : ", minPath)
                     f = open("temporaryFile.txt", "a")
                     f.write(str(minPath) + "\n")
                     f.close()

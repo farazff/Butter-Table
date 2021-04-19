@@ -81,7 +81,6 @@ class SolutionTreeAStar:
             q.start()
         for q in jobs:
             q.join()
-        print("++++++++++++++++++++++++++++++++++++++")
         f = open("temporaryFile.txt", "r")
         allPath = f.read()
         f.close()
@@ -103,15 +102,18 @@ class SolutionTreeAStar:
         if "Impossible" in allPath:
             f = open("output_files/outputs_AStar.txt", "w")
             f.write("Impossible")
+            print("--------------------------------------------- \nimpossible")
             f.close()
         else:
             f = open("output_files/outputs_AStar.txt", "w")
             f.write(minL + "\n" + str(len(minL)) + "\n" + str(minC))
+            print("--------------------------------------------- \nResult : ", minL + "\n" + str(len(minL)) + "\n" + str(minC))
             f.close()
 
 
+
+
     def startMultiprocessing1(self, startingNodes):
-        print("==============================================")
         finalList = []
         while len(startingNodes) > 0:
             currentNode = startingNodes.pop()
@@ -161,21 +163,23 @@ class SolutionTreeAStar:
                                      copy(unvisited_persons)))
         for i in finalList:
             print("Path = {}".format(i.getPathString()), "cost = ", i.getCost())
-        print("==============================================")
+        print()
 
         if len(finalList) == 0:
                 f = open("temporaryFile.txt", "a")
                 f.write("impossible")
+
                 f.close()
         else:
             minLen = min(i.getCost() for i in finalList)
             for i in finalList:
                 if i.getCost() == minLen:
                     minPath = i.getPathString()
-                    print("minPath : ", minPath)
+                    # print("minPath : ", minPath)
                     f = open("temporaryFile.txt", "a")
                     st=str(str(i.getCost()))
                     f.write(str(minPath) + " "+st+"\n")
+
                     f.close()
                     break
 
