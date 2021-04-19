@@ -1,9 +1,10 @@
+import multiprocessing
+import os
 from copy import copy, deepcopy
+
 from GraphOperationsBBFS import GraphOperationsBBFS
 from PathNode import PathNode
 from State import State
-import multiprocessing
-import os
 
 
 class SolutionTreeBBFS:
@@ -17,9 +18,10 @@ class SolutionTreeBBFS:
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
                      copy(self.__persons))]
         global finalListt
-    def startMultiprocessing2(self,currentNode,sideButter,b,p,pathList):
-        jobs=[]
-        pathList2=[]
+
+    def startMultiprocessing2(self, currentNode, sideButter, b, p, pathList):
+        jobs = []
+        pathList2 = []
         for sidePerson in self.calculateEmptyAroundOfPerson(p):
 
             # sideButter = 3
@@ -86,7 +88,7 @@ class SolutionTreeBBFS:
                 PathNode(blocksTemp, new_node2.getState(), b.getNum(), p.getNum(),
                          currentNode.getPathString() + part1 + part2, 0, copy(unvisited_butters),
                          copy(unvisited_persons))]
-            jobs.append(multiprocessing.Process(target=self.startMultiprocessing1, args=(tmp,pathList2,)))
+            jobs.append(multiprocessing.Process(target=self.startMultiprocessing1, args=(tmp, pathList2,)))
 
         for q in jobs:
             q.start()
@@ -95,23 +97,21 @@ class SolutionTreeBBFS:
         # print("_________=++++++++++--_____________________",pathList2)
         # self.start2(tmp)
 
-
     def start(self):
-        jobs=[]
-        pathList=[]
+        jobs = []
+        pathList = []
         currentNode = self.__startingNodes.pop()
-        finalList = []
 
         for b in currentNode.getUnvisitedButters():
             for p in currentNode.getUnvisitedPersons():
                 for sideButter in self.calculateEmptyAroundOfButter(b):
-                    jobs.append(multiprocessing.Process(target=self.startMultiprocessing2, args=(currentNode, sideButter,b, p,pathList,)))
-
+                    jobs.append(multiprocessing.Process(target=self.startMultiprocessing2,
+                                                        args=(currentNode, sideButter, b, p, pathList,)))
 
         for q in jobs:
-           q.start()
+            q.start()
         for q in jobs:
-           q.join()
+            q.join()
         try:
             f = open("temporaryFile.txt", "r")
             allPath = f.read()
@@ -139,7 +139,8 @@ class SolutionTreeBBFS:
             else:
                 f = open("output_files/outputs_BBFS.txt", "w")
                 f.write(minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
-                print("--------------------------------------------- \nResult : ",minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
+                print("--------------------------------------------- \nResult : ",
+                      minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
                 f.close()
         except:
             f = open("output_files/outputs_BBFS.txt", "w")
@@ -147,7 +148,7 @@ class SolutionTreeBBFS:
             print("--------------------------------------------- \nImpossible")
             f.close()
 
-    def startMultiprocessing1(self, startingNodes,pathList):
+    def startMultiprocessing1(self, startingNodes, pathList):
         global finalList1
         finalList = []
         while len(startingNodes) > 0:
@@ -190,13 +191,17 @@ class SolutionTreeBBFS:
                             new_node2.getState().getButters()[b.getNum()].setLocation((p.getLocation()[0],
                                                                                        p.getLocation()[1]))
                             if sidePerson == 1:
-                                new_node2.getState().getRobot().setLocation((p.getLocation()[0], p.getLocation()[1] - 1))
+                                new_node2.getState().getRobot().setLocation(
+                                    (p.getLocation()[0], p.getLocation()[1] - 1))
                             if sidePerson == 2:
-                                new_node2.getState().getRobot().setLocation((p.getLocation()[0] - 1, p.getLocation()[1]))
+                                new_node2.getState().getRobot().setLocation(
+                                    (p.getLocation()[0] - 1, p.getLocation()[1]))
                             if sidePerson == 3:
-                                new_node2.getState().getRobot().setLocation((p.getLocation()[0], p.getLocation()[1] + 1))
+                                new_node2.getState().getRobot().setLocation(
+                                    (p.getLocation()[0], p.getLocation()[1] + 1))
                             if sidePerson == 4:
-                                new_node2.getState().getRobot().setLocation((p.getLocation()[0] + 1, p.getLocation()[1]))
+                                new_node2.getState().getRobot().setLocation(
+                                    (p.getLocation()[0] + 1, p.getLocation()[1]))
 
                             unvisited_butters = []
                             for i in currentNode.getUnvisitedButters():
@@ -241,13 +246,11 @@ class SolutionTreeBBFS:
                     f.close()
                     break
 
-
     def updateDataAfterSimpleBBFS(self, new_node1, table, graph):
         table[self.__robot.getLocation()[0]][self.__robot.getLocation()[1]].setHaveRobot(False)
         table[new_node1.getState().getRobot().getLocation()[0]][
             new_node1.getState().getRobot().getLocation()[1]].setHaveRobot(True)
         graph.blocks = deepcopy(self.__table)
-
 
     def calculateEmptyAroundOfButter(self, butter):
         ans = []
@@ -270,7 +273,6 @@ class SolutionTreeBBFS:
         else:
             ans.append(4)
         return ans
-
 
     def calculateEmptyAroundOfPerson(self, person):
         ans = []
