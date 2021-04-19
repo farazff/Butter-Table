@@ -242,8 +242,8 @@ class GraphOperations:
                 continue
             self.__canPush = False
             successor = self.successorWithButter(copy(n), butterNUM)
-            # if not self.__canPush:
-            #      successor.extend(self.successorTemp(n, butterNUM))
+            if not self.__canPush:
+                 successor.extend(self.successorTemp(n, butterNUM))
             for i in range(len(successor)):
                 isOK = True
                 newN = Node(successor[i].getState(), n, n.depth + 1)

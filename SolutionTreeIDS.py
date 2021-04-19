@@ -99,7 +99,7 @@ class SolutionTreeIDS:
             # x.start()
 
             # temp.append(tmp)
-            print("_____")
+            # print("_____")
             # jobs.append(threading.Thread(target=self.startThread, args=(tmp,)))
             jobs.append(multiprocessing.Process(target=self.startMultiprocessing1, args=(tmp,)))
 
@@ -131,34 +131,38 @@ class SolutionTreeIDS:
 
         # for p in range(9900000):
         #     pass
+        try:
+            f = open("temporaryFile.txt", "r")
+            allPath = f.read()
+            f.close()
+            os.remove("temporaryFile.txt")
+            allPathList = allPath.split("\n")
 
-        f = open("temporaryFile.txt", "r")
-        allPath = f.read()
-        f.close()
-        os.remove("temporaryFile.txt")
-        allPathList = allPath.split("\n")
+            minL=99
+            for i in allPathList:
 
-        minL=99
-        for i in allPathList:
+                if len(i)<minL and i !="":
+                    minL=len(i)
+            for i in allPathList:
+                if len(i)==minL:
+                    minL=i
+                    break
 
-            if len(i)<minL and i !="":
-                minL=len(i)
-        for i in allPathList:
-            if len(i)==minL:
-                minL=i
-                break
-
-        if "Impossible" in allPath:
+            if "Impossible" in allPath:
+                f = open("output_files/outputs_IDS.txt", "w")
+                f.write("Impossible")
+                print("--------------------------------------------- \nImpossible")
+                f.close()
+            else:
+                f = open("output_files/outputs_IDS.txt", "w")
+                f.write(minL+"\n"+str(len(minL))+"\n"+str(len(minL)))
+                print("--------------------------------------------- \nResult  : ",minL+"\n"+str(len(minL))+"\n"+str(len(minL)) )
+                f.close()
+        except:
             f = open("output_files/outputs_IDS.txt", "w")
             f.write("Impossible")
             print("--------------------------------------------- \nImpossible")
             f.close()
-        else:
-            f = open("output_files/outputs_IDS.txt", "w")
-            f.write(minL+"\n"+str(len(minL))+"\n"+str(len(minL)))
-            print("--------------------------------------------- \nResult  : ",minL+"\n"+str(len(minL))+"\n"+str(len(minL)) )
-            f.close()
-
 
     def startMultiprocessing1(self, startingNodes):
         finalList = []

@@ -112,34 +112,39 @@ class SolutionTreeBBFS:
            q.start()
         for q in jobs:
            q.join()
+        try:
+            f = open("temporaryFile.txt", "r")
+            allPath = f.read()
+            f.close()
+            os.remove("temporaryFile.txt")
+            allPathList = allPath.split("\n")
 
-        f = open("temporaryFile.txt", "r")
-        allPath = f.read()
-        f.close()
-        os.remove("temporaryFile.txt")
-        allPathList = allPath.split("\n")
+            minL = 99
+            for i in allPathList:
 
-        minL = 99
-        for i in allPathList:
+                if len(i.split(" ")[0]) < minL and i != "":
+                    minL = len(i.split(" ")[0])
+            minC = 0
+            for i in allPathList:
+                if len(i.split(" ")[0]) == minL:
+                    minL = i.split(" ")[0]
+                    minC = i.split(" ")[1]
+                    break
 
-            if len(i.split(" ")[0]) < minL and i != "":
-                minL = len(i.split(" ")[0])
-        minC = 0
-        for i in allPathList:
-            if len(i.split(" ")[0]) == minL:
-                minL = i.split(" ")[0]
-                minC = i.split(" ")[1]
-                break
-
-        if "Impossible" in allPath:
+            if "Impossible" in allPath:
+                f = open("output_files/outputs_BBFS.txt", "w")
+                f.write("Impossible")
+                print("--------------------------------------------- \nImpossible")
+                f.close()
+            else:
+                f = open("output_files/outputs_BBFS.txt", "w")
+                f.write(minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
+                print("--------------------------------------------- \nResult : ",minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
+                f.close()
+        except:
             f = open("output_files/outputs_BBFS.txt", "w")
             f.write("Impossible")
             print("--------------------------------------------- \nImpossible")
-            f.close()
-        else:
-            f = open("output_files/outputs_BBFS.txt", "w")
-            f.write(minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
-            print("--------------------------------------------- \nResult : ",minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
             f.close()
 
     def startMultiprocessing1(self, startingNodes,pathList):

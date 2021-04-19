@@ -81,35 +81,40 @@ class SolutionTreeAStar:
             q.start()
         for q in jobs:
             q.join()
-        f = open("temporaryFile.txt", "r")
-        allPath = f.read()
-        f.close()
-        os.remove("temporaryFile.txt")
-        allPathList = allPath.split("\n")
+        try:
+            f = open("temporaryFile.txt", "r")
+            allPath = f.read()
+            f.close()
+            os.remove("temporaryFile.txt")
+            allPathList = allPath.split("\n")
 
-        minL = 99
-        for i in allPathList:
+            minL = 99
+            for i in allPathList:
 
-            if len(i.split(" ")[0]) < minL and i != "":
-                minL = len(i.split(" ")[0])
-        minC=0
-        for i in allPathList:
-            if len(i.split(" ")[0]) == minL:
-                minL = i.split(" ")[0]
-                minC = i.split(" ")[1]
-                break
+                if len(i.split(" ")[0]) < minL and i != "":
+                    minL = len(i.split(" ")[0])
+            minC=0
+            for i in allPathList:
+                if len(i.split(" ")[0]) == minL:
+                    minL = i.split(" ")[0]
+                    minC = i.split(" ")[1]
+                    break
 
-        if "Impossible" in allPath:
+            if "Impossible" in allPath:
+                f = open("output_files/outputs_AStar.txt", "w")
+                f.write("Impossible")
+                print("--------------------------------------------- \nimpossible")
+                f.close()
+            else:
+                f = open("output_files/outputs_AStar.txt", "w")
+                f.write(minL + "\n" + str(len(minL)) + "\n" + str(minC))
+                print("--------------------------------------------- \nResult : ", minL + "\n" + str(len(minL)) + "\n" + str(minC))
+                f.close()
+        except:
             f = open("output_files/outputs_AStar.txt", "w")
             f.write("Impossible")
             print("--------------------------------------------- \nimpossible")
             f.close()
-        else:
-            f = open("output_files/outputs_AStar.txt", "w")
-            f.write(minL + "\n" + str(len(minL)) + "\n" + str(minC))
-            print("--------------------------------------------- \nResult : ", minL + "\n" + str(len(minL)) + "\n" + str(minC))
-            f.close()
-
 
 
 

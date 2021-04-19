@@ -17,7 +17,7 @@ from State import State
 path=[]
 
 def main():
-    file = open("input_files/test9.txt", "r")
+    file = open("input_files/test7.txt", "r")
 
     butters = []
     persons = []
@@ -81,15 +81,15 @@ def main():
                 print("  - ", end="")
         print()
 
-    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    solutionTreeIDS.start()
+    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    # solutionTreeIDS.start()
 
     # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons)
     # solutionTreeAStar.start()
 
 
-    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
-    # solutionTreeBBFS.start()
+    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
+    solutionTreeBBFS.start()
 
 
     # graph = GraphOperationsBBFS(table, persons, butters)
