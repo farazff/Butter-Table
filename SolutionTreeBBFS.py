@@ -9,10 +9,11 @@ from State import State
 
 class SolutionTreeBBFS:
 
-    def __init__(self, table, robot, butters, persons):
+    def __init__(self, table, robot, butters, persons, doTemp):
         self.__table = table
         self.__robot = robot
         self.__butters = butters
+        self.doTemp = doTemp
         self.__persons = persons
         self.haveSolution = False
         self.__startingNodes = [
@@ -49,7 +50,7 @@ class SolutionTreeBBFS:
 
             self.updateDataAfterSimpleBBFS(new_node1, currentNode.table, graph)
 
-            part2 = graph.BBFSBoth(new_node1.getState(), deepcopy(b), sidePerson, deepcopy(p))
+            part2 = graph.BBFSBoth(new_node1.getState(), deepcopy(b), sidePerson, deepcopy(p), self.doTemp)
             if part2 is None:
                 continue
             new_node2 = deepcopy(new_node1)
@@ -187,7 +188,8 @@ class SolutionTreeBBFS:
 
                             self.updateDataAfterSimpleBBFS(new_node1, currentNode.table, graph)
 
-                            part2 = graph.BBFSBoth(new_node1.getState(), deepcopy(b), sidePerson, deepcopy(p))
+                            part2 = graph.BBFSBoth(new_node1.getState(), deepcopy(b), sidePerson, deepcopy(p),
+                                                   self.doTemp)
                             if part2 is None:
                                 continue
                             new_node2 = deepcopy(new_node1)

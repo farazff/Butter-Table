@@ -234,7 +234,7 @@ class GraphOperationsAStar:
         return successorList  # this list contains the nodes required for rotation and the nodes for pushing
         # wantedButter
 
-    def AStarWithButter(self, state, butterNUM, person):
+    def AStarWithButter(self, state, butterNUM, person, doTemp):
         fringe = [NodeAStar(state, None, 0)]
         n = fringe[0]
         if goalWithButter(person, n.getState().getButters()[butterNUM]):
@@ -281,7 +281,8 @@ class GraphOperationsAStar:
             self.__canPush = False
             successor = self.successorWithButter(copy(n), butterNUM)
             if not self.__canPush:
-                successor.extend(self.successorTemp(copy(n), butterNUM))
+                if doTemp:
+                    successor.extend(self.successorTemp(copy(n), butterNUM))
             for i in range(len(successor)):
                 isOK = True
                 newN = deepcopy(successor[i])

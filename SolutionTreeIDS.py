@@ -42,7 +42,7 @@ def calculateEmptyAroundOfButter(butter, table):
 
 class SolutionTreeIDS:
 
-    def __init__(self, table, robot, butters, persons):
+    def __init__(self, table, robot, butters, persons, doTemp):
         self.__robot = robot
         self.__butters = butters
         self.__persons = persons
@@ -50,7 +50,8 @@ class SolutionTreeIDS:
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
                      copy(self.__persons))]
         self.tempFile = None
-        self.haveSolution=False
+        self.haveSolution = False
+        self.doTemp = doTemp
 
     def startMultiprocessing2(self, currentNode, b, p):
         jobs = []
@@ -64,7 +65,7 @@ class SolutionTreeIDS:
             new_node = tup1[0]
             updateDataAfterSimpleIDS(new_node, currentNode.table, graph, currentNode)
 
-            tup2 = graph.IDSWithButter(new_node.getState(), b.getNum(), p)
+            tup2 = graph.IDSWithButter(new_node.getState(), b.getNum(), p, self.doTemp)
             if tup2 is None:
                 continue
             new_node2 = tup2[0]
@@ -184,7 +185,7 @@ class SolutionTreeIDS:
                         new_node = tup1[0]
                         updateDataAfterSimpleIDS(new_node, currentNode.table, graph, currentNode)
 
-                        tup2 = graph.IDSWithButter(new_node.getState(), b.getNum(), p)
+                        tup2 = graph.IDSWithButter(new_node.getState(), b.getNum(), p, self.doTemp)
                         if tup2 is None:
                             continue
                         new_node2 = tup2[0]

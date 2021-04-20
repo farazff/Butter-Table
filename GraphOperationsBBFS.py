@@ -407,7 +407,7 @@ class GraphOperationsBBFS:
 
         return successorList
 
-    def BBFSBoth(self, state, wantedButter, side, wantedPerson):
+    def BBFSBoth(self, state, wantedButter, side, wantedPerson, doTemp):
         fringe_robot = []
         fringe_person = []
         state_temp = deepcopy(state)
@@ -460,7 +460,8 @@ class GraphOperationsBBFS:
                     self.__canPush = False
                     successor = self.successorPush(n, wantedButter.getNum())
                     if not self.__canPush:
-                        successor.extend(self.successorTempPush(deepcopy(n), wantedButter.getNum()))
+                        if doTemp:
+                            successor.extend(self.successorTempPush(deepcopy(n), wantedButter.getNum()))
                     for i in successor:
                         newN = NodeBBFS(i.getState(), copy(n))
                         if visited_robot.get((newN.getState().getRobot().getLocation(),

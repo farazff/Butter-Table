@@ -213,16 +213,16 @@ class GraphOperations:
         return successorList  # this list contains the nodes required for rotation and the nodes for pushing
         # wantedButter
 
-    def IDSWithButter(self, state, butterNUM, person):
+    def IDSWithButter(self, state, butterNUM, person, doTemp):
         for limit in range(15):
             # print("__________________________________________",limit)
             fringe = [Node(state, None, 0)]
-            ans = self.DLSWithButter(limit, fringe, butterNUM, person)
+            ans = self.DLSWithButter(limit, fringe, butterNUM, person, doTemp)
             if ans is not None:
                 return ans
         return None
 
-    def DLSWithButter(self, limit, fringe, butterNUM, person):
+    def DLSWithButter(self, limit, fringe, butterNUM, person, doTemp):
         n = fringe[0]
         if goalWithButter(person, n.getState().getButters()[butterNUM]):
             returnAns = (copy(n), "ans")
@@ -247,7 +247,8 @@ class GraphOperations:
             self.__canPush = False
             successor = self.successorWithButter(copy(n), butterNUM)
             if not self.__canPush:
-                successor.extend(self.successorTemp(n, butterNUM))
+                if doTemp:
+                    successor.extend(self.successorTemp(n, butterNUM))
             for i in range(len(successor)):
                 isOK = True
                 newN = Node(successor[i].getState(), n, n.depth + 1)

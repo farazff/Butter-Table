@@ -74,14 +74,23 @@ def main():
                 print("  - ", end="")
         print()
 
-    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    solutionTreeIDS.start()
+    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
+    # solutionTreeIDS.start()
+    # if not solutionTreeIDS.haveSolution:
+    #     solutionTreeIDS.doTemp = True
+    #     solutionTreeIDS.start()
 
-    # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons)
-    # solutionTreeAStar.start()
+    solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
+    solutionTreeAStar.start()
+    if not solutionTreeAStar.haveSolution:
+        solutionTreeAStar.doTemp = True
+        solutionTreeAStar.start()
 
-    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
+    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
     # solutionTreeBBFS.start()
+    # if not solutionTreeBBFS.haveSolution:
+    #     solutionTreeBBFS.doTemp = True
+    #     solutionTreeBBFS.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
     # tableTemp = deepcopy(table)

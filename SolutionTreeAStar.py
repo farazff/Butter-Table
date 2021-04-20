@@ -32,10 +32,11 @@ def calculateEmptyAroundOfButter(butter, table):
 
 class SolutionTreeAStar:
 
-    def __init__(self, table, robot, butters, persons):
+    def __init__(self, table, robot, butters, persons, doTemp):
         self.__robot = robot
         self.__butters = butters
         self.__persons = persons
+        self.doTemp = doTemp
         self.haveSolution = False
         self.__startingNodes = [
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
@@ -53,7 +54,7 @@ class SolutionTreeAStar:
             new_node = tup1[0]
             self.updateDataAfterSimpleIDS(new_node, currentNode.table, graph)
 
-            tup2 = graph.AStarWithButter(new_node.getState(), b.getNum(), p)
+            tup2 = graph.AStarWithButter(new_node.getState(), b.getNum(), p, self.doTemp)
             if tup2 is None:
                 continue
             new_node2 = tup2[0]
@@ -162,7 +163,7 @@ class SolutionTreeAStar:
                         new_node = tup1[0]
                         self.updateDataAfterSimpleIDS(new_node, currentNode.table, graph)
 
-                        tup2 = graph.AStarWithButter(new_node.getState(), b.getNum(), p)
+                        tup2 = graph.AStarWithButter(new_node.getState(), b.getNum(), p, self.doTemp)
                         if tup2 is None:
                             continue
                         new_node2 = tup2[0]
