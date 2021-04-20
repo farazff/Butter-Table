@@ -198,10 +198,6 @@ class SolutionTreeAStar:
         print()
 
         if len(finalList) == 0:
-            # f = open("temporaryFile.txt", "a")
-            # f.write("impossible\n")
-            #
-            # f.close()
             pass
         else:
             minLen = min(i.getCost() for i in finalList)

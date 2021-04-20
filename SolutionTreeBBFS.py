@@ -27,8 +27,7 @@ class SolutionTreeBBFS:
         pathList2 = []
         for sidePerson in self.calculateEmptyAroundOfPerson(p):
 
-            # sideButter = 3
-            # sidePerson = 4
+
             graph = GraphOperationsBBFS(currentNode.table, self.__persons,
                                         currentNode.getState().getButters())
 
@@ -235,9 +234,6 @@ class SolutionTreeBBFS:
         print()
 
         if len(finalList) == 0:
-            # f = open("temporaryFile.txt", "a")
-            # f.write("Impossible\n")
-            # f.close()
             pass
         else:
             minLen = min(len(i.getPathString()) for i in finalList)

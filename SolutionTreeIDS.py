@@ -222,9 +222,6 @@ class SolutionTreeIDS:
         print()
 
         if len(finalList) == 0:
-            # f = open("temporaryFile.txt", "a")
-            # f.write("Impossible\n")
-            # f.close()
             pass
         else:
             minLen = min(len(i.getPathString()) for i in finalList)
