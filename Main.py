@@ -10,7 +10,7 @@ path = []
 
 
 def main():
-    file = open("input_files/test9.txt", "r")
+    file = open("input_files/test5.txt", "r")
 
     butters = []
     persons = []
@@ -74,17 +74,20 @@ def main():
                 print("  - ", end="")
         print()
 
-    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
-    # solutionTreeIDS.start()
-    # if not solutionTreeIDS.haveSolution:
-    #     solutionTreeIDS.doTemp = True
-    #     solutionTreeIDS.start()
+    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
+    solutionTreeIDS.start()
+    if not solutionTreeIDS.haveSolution:
+        solutionTreeIDS.doTemp = True
+        solutionTreeIDS.start()
 
-    solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
-    solutionTreeAStar.start()
-    if not solutionTreeAStar.haveSolution:
-        solutionTreeAStar.doTemp = True
-        solutionTreeAStar.start()
+    # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
+    # solutionTreeAStar.start()
+    # if not solutionTreeAStar.haveSolution:
+    #     solutionTreeAStar.doTemp = True
+    #     solutionTreeAStar.start()
+
+    # RDRRLDRDLDR
+
 
     # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
     # solutionTreeBBFS.start()

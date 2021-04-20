@@ -130,6 +130,8 @@ class SolutionTreeIDS:
 
         # for p in range(9900000):
         #     pass
+
+
         try:
             f = open("temporaryFile.txt", "r")
             allPath = f.read()
@@ -139,9 +141,9 @@ class SolutionTreeIDS:
 
             minL = 99
             for i in allPathList:
-
-                if len(i) < minL and i != "":
-                    minL = len(i)
+                if "Impossible" not in i :
+                     if len(i) < minL and i != "":
+                         minL = len(i)
             for i in allPathList:
                 if len(i) == minL:
                     minL = i
@@ -166,6 +168,7 @@ class SolutionTreeIDS:
             f.write("Impossible")
             print("--------------------------------------------- \nImpossible")
             f.close()
+
 
     def startMultiprocessing1(self, startingNodes):
         finalList = []
@@ -218,9 +221,10 @@ class SolutionTreeIDS:
         print()
 
         if len(finalList) == 0:
-            f = open("temporaryFile.txt", "a")
-            f.write("impossible")
-            f.close()
+            # f = open("temporaryFile.txt", "a")
+            # f.write("Impossible\n")
+            # f.close()
+            pass
         else:
             minLen = min(len(i.getPathString()) for i in finalList)
             for i in finalList:

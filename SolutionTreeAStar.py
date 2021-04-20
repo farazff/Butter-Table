@@ -114,8 +114,9 @@ class SolutionTreeAStar:
 
             minL = 99
             for i in allPathList:
-
-                if len(i.split(" ")[0]) < minL and i != "":
+              if "Impossible" not in i:
+                # if len(i.split(" ")[0]) < minL and i != "":
+                if i != "" and  int(i.split(" ")[1]) < minL :
                     minL = len(i.split(" ")[0])
             minC = 0
             for i in allPathList:
@@ -197,10 +198,11 @@ class SolutionTreeAStar:
         print()
 
         if len(finalList) == 0:
-            f = open("temporaryFile.txt", "a")
-            f.write("impossible")
-
-            f.close()
+            # f = open("temporaryFile.txt", "a")
+            # f.write("impossible\n")
+            #
+            # f.close()
+            pass
         else:
             minLen = min(i.getCost() for i in finalList)
             for i in finalList:

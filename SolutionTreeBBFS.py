@@ -22,6 +22,7 @@ class SolutionTreeBBFS:
         global finalListt
 
     def startMultiprocessing2(self, currentNode, sideButter, b, p, pathList):
+        print(end=".")
         jobs = []
         pathList2 = []
         for sidePerson in self.calculateEmptyAroundOfPerson(p):
@@ -123,8 +124,8 @@ class SolutionTreeBBFS:
 
             minL = 99
             for i in allPathList:
-
-                if len(i.split(" ")[0]) < minL and i != "":
+              if "Impossible" not in i:
+                if i != "" and  int(i.split(" ")[1]) < minL :
                     minL = len(i.split(" ")[0])
             minC = 0
             for i in allPathList:
@@ -237,9 +238,10 @@ class SolutionTreeBBFS:
         print()
 
         if len(finalList) == 0:
-            f = open("temporaryFile.txt", "a")
-            f.write("impossible")
-            f.close()
+            # f = open("temporaryFile.txt", "a")
+            # f.write("impossible")
+            # f.close()
+            pass
         else:
             minLen = min(i.getCost() for i in finalList)
             for i in finalList:
