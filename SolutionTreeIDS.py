@@ -1,12 +1,10 @@
-import _thread
+import multiprocessing
+import os
 from copy import copy, deepcopy
 
 from GraphOperationsIDS import GraphOperations
 from PathNode import PathNode
 from State import State
-import threading
-import os
-import multiprocessing
 
 
 def updateDataAfterSimpleIDS(new_node, table, graph, parent):
@@ -138,14 +136,14 @@ class SolutionTreeIDS:
             os.remove("temporaryFile.txt")
             allPathList = allPath.split("\n")
 
-            minL=99
+            minL = 99
             for i in allPathList:
 
-                if len(i)<minL and i !="":
-                    minL=len(i)
+                if len(i) < minL and i != "":
+                    minL = len(i)
             for i in allPathList:
-                if len(i)==minL:
-                    minL=i
+                if len(i) == minL:
+                    minL = i
                     break
 
             if "Impossible" in allPath:
@@ -157,8 +155,9 @@ class SolutionTreeIDS:
             else:
                 self.haveSolution = True
                 f = open("output_files/outputs_IDS.txt", "w")
-                f.write(minL+"\n"+str(len(minL))+"\n"+str(len(minL)))
-                print("--------------------------------------------- \nResult  : ",minL+"\n"+str(len(minL))+"\n"+str(len(minL)) )
+                f.write(minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
+                print("--------------------------------------------- \nResult  : ",
+                      minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
                 f.close()
         except:
             self.haveSolution = False

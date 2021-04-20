@@ -1,6 +1,59 @@
 from copy import copy, deepcopy
+
 from NodeBBFS import NodeBBFS
 from State import State
+
+
+def neighbourProducer(whichSide, robotsLocation):
+    xStep = yStep = 0
+    if whichSide == 1:
+        xStep = -1
+        yStep = -1
+    elif whichSide == 2:
+        yStep = -1
+    elif whichSide == 3:
+        xStep = 1
+        yStep = -1
+    elif whichSide == 4:
+        xStep = 1
+    elif whichSide == 5:
+        xStep = 1
+        yStep = 1
+    elif whichSide == 6:
+        yStep = 1
+    elif whichSide == 7:
+        xStep = -1
+        yStep = 1
+    elif whichSide == 8:
+        xStep = -1
+
+    return robotsLocation[0] + yStep, robotsLocation[1] + xStep
+
+
+def successorTempPull(currentNode, butterNum, blocks, wantedPerson):
+    robotsLocation = currentNode.getState().getRobot().getLocation()
+    blocksTemp = deepcopy(blocks)
+    blocksTemp[wantedPerson.getLocation()[0]][
+        wantedPerson.getLocation()[1]].setHaveButter(False)
+
+    blocksTemp[currentNode.getState().getButters()[butterNum].getLocation()[0]][
+        currentNode.getState().getButters()[butterNum].getLocation()[1]].setHaveButter(True)
+    #   |_1_|_2_|_3_|
+    #   |_8_|___|_4_|
+    #   |_7_|_6_|_5_|
+    successorList = []
+    for i in range(1, 9):
+        if i == 2 or i == 4 or i == 6 or i == 8:
+            if blocksTemp[neighbourProducer(i, robotsLocation)[0]][
+                neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
+                    blocksTemp[neighbourProducer(i, robotsLocation)[0]][
+                        neighbourProducer(i, robotsLocation)[1]].getHaveButter():
+                continue
+            robotTemp = copy(currentNode.getState().getRobot())
+            robotTemp.setLocation(neighbourProducer(i, robotsLocation))
+            successorList.append(
+                NodeBBFS(State(robotTemp, deepcopy(currentNode.getState().getButters())), currentNode))
+    return successorList
 
 
 class GraphOperationsBBFS:
@@ -28,15 +81,15 @@ class GraphOperationsBBFS:
 
             for i in range(1, 9):
                 if i % 2 == 0:
-                    if self.blocks[self.neighbourProducer(i, robotsLocation)[0]][
-                        self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
-                            self.blocks[self.neighbourProducer(i, robotsLocation)[0]][
-                                self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
+                    if self.blocks[neighbourProducer(i, robotsLocation)[0]][
+                        neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
+                            self.blocks[neighbourProducer(i, robotsLocation)[0]][
+                                neighbourProducer(i, robotsLocation)[1]].getHaveButter():
                         continue
                         # print(self.neighbourProducer(i, robotsLocation)[0], end="  ")
                         # print(self.neighbourProducer(i, robotsLocation)[1])
                     robotTemp = copy(currentNodeBBFS.getState().getRobot())
-                    robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
+                    robotTemp.setLocation(neighbourProducer(i, robotsLocation))
                     # print(robotTemp.getLocation())
                     successorList.append(
                         NodeBBFS(State(robotTemp, currentNodeBBFS.getState().getButters()), currentNodeBBFS))
@@ -45,10 +98,10 @@ class GraphOperationsBBFS:
 
             for i in range(1, 9):
                 if i % 2 == 0:
-                    if self.blocks[self.neighbourProducer(i, buttersLocation)[0]][
-                        self.neighbourProducer(i, buttersLocation)[1]].getHaveObstacle() or \
-                            self.blocks[self.neighbourProducer(i, buttersLocation)[0]][
-                                self.neighbourProducer(i, buttersLocation)[1]].getHaveButter():
+                    if self.blocks[neighbourProducer(i, buttersLocation)[0]][
+                        neighbourProducer(i, buttersLocation)[1]].getHaveObstacle() or \
+                            self.blocks[neighbourProducer(i, buttersLocation)[0]][
+                                neighbourProducer(i, buttersLocation)[1]].getHaveButter():
                         continue
                     # for t in successorList:
                     #     print((t.getState().getRobot().getLocation()))
@@ -57,36 +110,11 @@ class GraphOperationsBBFS:
                     buttersTemp = []
                     for j in currentNodeBBFS.getState().getButters():
                         buttersTemp.append(copy(j))
-                    buttersTemp[whichButterNumber].setLocation(self.neighbourProducer(i, buttersLocation))
+                    buttersTemp[whichButterNumber].setLocation(neighbourProducer(i, buttersLocation))
                     successorList.append(
                         NodeBBFS(State(copy(currentNodeBBFS.getState().getRobot()), buttersTemp), currentNodeBBFS))
 
         return successorList
-
-    def neighbourProducer(self, whichSide, robotsLocation):
-        xStep = yStep = 0
-        if whichSide == 1:
-            xStep = -1
-            yStep = -1
-        elif whichSide == 2:
-            yStep = -1
-        elif whichSide == 3:
-            xStep = 1
-            yStep = -1
-        elif whichSide == 4:
-            xStep = 1
-        elif whichSide == 5:
-            xStep = 1
-            yStep = 1
-        elif whichSide == 6:
-            yStep = 1
-        elif whichSide == 7:
-            xStep = -1
-            yStep = 1
-        elif whichSide == 8:
-            xStep = -1
-
-        return robotsLocation[0] + yStep, robotsLocation[1] + xStep
 
     def BBFSAlone(self, state, wantedButter, side):
         fringe_robot = []
@@ -230,60 +258,60 @@ class GraphOperationsBBFS:
         pushList = []
         successorList = []
 
-        if self.neighbourProducer(1, wantedButtersLocation) == robotsLocation:
+        if neighbourProducer(1, wantedButtersLocation) == robotsLocation:
             self.__canPush = True
             whichNeighbours.append(2)
             whichNeighbours.append(8)
-        elif self.neighbourProducer(2, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(2, wantedButtersLocation) == robotsLocation:
             whichNeighbours.append(1)
             whichNeighbours.append(3)
             pushList.append(6)
-        elif self.neighbourProducer(3, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(3, wantedButtersLocation) == robotsLocation:
             self.__canPush = True
             whichNeighbours.append(2)
             whichNeighbours.append(4)
-        elif self.neighbourProducer(4, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(4, wantedButtersLocation) == robotsLocation:
             whichNeighbours.append(3)
             whichNeighbours.append(5)
             pushList.append(8)
-        elif self.neighbourProducer(5, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(5, wantedButtersLocation) == robotsLocation:
             self.__canPush = True
             whichNeighbours.append(4)
             whichNeighbours.append(6)
-        elif self.neighbourProducer(6, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(6, wantedButtersLocation) == robotsLocation:
             whichNeighbours.append(5)
             whichNeighbours.append(7)
             pushList.append(2)
-        elif self.neighbourProducer(7, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(7, wantedButtersLocation) == robotsLocation:
             self.__canPush = True
             whichNeighbours.append(6)
             whichNeighbours.append(8)
-        elif self.neighbourProducer(8, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(8, wantedButtersLocation) == robotsLocation:
             whichNeighbours.append(1)
             whichNeighbours.append(7)
             pushList.append(4)
 
         for i in whichNeighbours:
-            if not self.blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
-                self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
-                    self.blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
-                        self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
+            if not self.blocks[neighbourProducer(i, wantedButtersLocation)[0]][
+                neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
+                    self.blocks[neighbourProducer(i, wantedButtersLocation)[0]][
+                        neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
                 robotTemp = copy(currentNode.getState().getRobot())
-                robotTemp.setLocation(self.neighbourProducer(i, wantedButtersLocation))
+                robotTemp.setLocation(neighbourProducer(i, wantedButtersLocation))
                 successorList.append(NodeBBFS(State(robotTemp, copy(currentNode.getState().getButters())), currentNode))
 
         for i in pushList:
-            if not self.blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
-                self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
-                    self.blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
-                        self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
+            if not self.blocks[neighbourProducer(i, wantedButtersLocation)[0]][
+                neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
+                    self.blocks[neighbourProducer(i, wantedButtersLocation)[0]][
+                        neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
                 robotTemp = copy(currentNode.getState().getRobot())
                 robotTemp.setLocation(wantedButtersLocation)
                 # self.__canPush = True
                 buttersTemp = []
                 for j in currentNode.getState().getButters():
                     buttersTemp.append(copy(j))
-                buttersTemp[whichButterNumber].setLocation(self.neighbourProducer(i, wantedButtersLocation))
+                buttersTemp[whichButterNumber].setLocation(neighbourProducer(i, wantedButtersLocation))
                 successorList.append(NodeBBFS(State(robotTemp, buttersTemp), currentNode))
 
         return successorList
@@ -302,38 +330,13 @@ class GraphOperationsBBFS:
         successorList = []
         for i in range(1, 9):
             if i == 2 or i == 4 or i == 6 or i == 8:
-                if blocksTemp[self.neighbourProducer(i, robotsLocation)[0]][
-                    self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
-                        blocksTemp[self.neighbourProducer(i, robotsLocation)[0]][
-                            self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
+                if blocksTemp[neighbourProducer(i, robotsLocation)[0]][
+                    neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
+                        blocksTemp[neighbourProducer(i, robotsLocation)[0]][
+                            neighbourProducer(i, robotsLocation)[1]].getHaveButter():
                     continue
                 robotTemp = copy(currentNode.getState().getRobot())
-                robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
-                successorList.append(
-                    NodeBBFS(State(robotTemp, deepcopy(currentNode.getState().getButters())), currentNode))
-        return successorList
-
-    def successorTempPull(self, currentNode, butterNum, blocks, wantedPerson):
-        robotsLocation = currentNode.getState().getRobot().getLocation()
-        blocksTemp = deepcopy(blocks)
-        blocksTemp[wantedPerson.getLocation()[0]][
-            wantedPerson.getLocation()[1]].setHaveButter(False)
-
-        blocksTemp[currentNode.getState().getButters()[butterNum].getLocation()[0]][
-            currentNode.getState().getButters()[butterNum].getLocation()[1]].setHaveButter(True)
-        #   |_1_|_2_|_3_|
-        #   |_8_|___|_4_|
-        #   |_7_|_6_|_5_|
-        successorList = []
-        for i in range(1, 9):
-            if i == 2 or i == 4 or i == 6 or i == 8:
-                if blocksTemp[self.neighbourProducer(i, robotsLocation)[0]][
-                    self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
-                        blocksTemp[self.neighbourProducer(i, robotsLocation)[0]][
-                            self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
-                    continue
-                robotTemp = copy(currentNode.getState().getRobot())
-                robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
+                robotTemp.setLocation(neighbourProducer(i, robotsLocation))
                 successorList.append(
                     NodeBBFS(State(robotTemp, deepcopy(currentNode.getState().getButters())), currentNode))
         return successorList
@@ -345,55 +348,55 @@ class GraphOperationsBBFS:
         pullList = []
         successorList = []
 
-        if self.neighbourProducer(1, wantedButtersLocation) == robotsLocation:
+        if neighbourProducer(1, wantedButtersLocation) == robotsLocation:
             self.__canPull = True
             whichNeighbours.append(2)
             whichNeighbours.append(8)
-        elif self.neighbourProducer(2, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(2, wantedButtersLocation) == robotsLocation:
             whichNeighbours.append(1)
             whichNeighbours.append(3)
             pullList.append(2)
-        elif self.neighbourProducer(3, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(3, wantedButtersLocation) == robotsLocation:
             self.__canPull = True
             whichNeighbours.append(2)
             whichNeighbours.append(4)
-        elif self.neighbourProducer(4, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(4, wantedButtersLocation) == robotsLocation:
             whichNeighbours.append(3)
             whichNeighbours.append(5)
             pullList.append(4)
-        elif self.neighbourProducer(5, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(5, wantedButtersLocation) == robotsLocation:
             self.__canPull = True
             whichNeighbours.append(4)
             whichNeighbours.append(6)
-        elif self.neighbourProducer(6, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(6, wantedButtersLocation) == robotsLocation:
             whichNeighbours.append(5)
             whichNeighbours.append(7)
             pullList.append(6)
-        elif self.neighbourProducer(7, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(7, wantedButtersLocation) == robotsLocation:
             self.__canPull = True
             whichNeighbours.append(6)
             whichNeighbours.append(8)
-        elif self.neighbourProducer(8, wantedButtersLocation) == robotsLocation:
+        elif neighbourProducer(8, wantedButtersLocation) == robotsLocation:
             whichNeighbours.append(1)
             whichNeighbours.append(7)
             pullList.append(8)
 
         for i in whichNeighbours:
-            if not blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
-                self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
-                    blocks[self.neighbourProducer(i, wantedButtersLocation)[0]][
-                        self.neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
+            if not blocks[neighbourProducer(i, wantedButtersLocation)[0]][
+                neighbourProducer(i, wantedButtersLocation)[1]].getHaveObstacle() or \
+                    blocks[neighbourProducer(i, wantedButtersLocation)[0]][
+                        neighbourProducer(i, wantedButtersLocation)[1]].getHaveButter():
                 robotTemp = copy(currentNode.getState().getRobot())
-                robotTemp.setLocation(self.neighbourProducer(i, wantedButtersLocation))
+                robotTemp.setLocation(neighbourProducer(i, wantedButtersLocation))
                 successorList.append(NodeBBFS(State(robotTemp, copy(currentNode.getState().getButters())), currentNode))
 
         for i in pullList:
-            if not blocks[self.neighbourProducer(i, robotsLocation)[0]][
-                self.neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
-                    blocks[self.neighbourProducer(i, robotsLocation)[0]][
-                        self.neighbourProducer(i, robotsLocation)[1]].getHaveButter():
+            if not blocks[neighbourProducer(i, robotsLocation)[0]][
+                neighbourProducer(i, robotsLocation)[1]].getHaveObstacle() or \
+                    blocks[neighbourProducer(i, robotsLocation)[0]][
+                        neighbourProducer(i, robotsLocation)[1]].getHaveButter():
                 robotTemp = copy(currentNode.getState().getRobot())
-                robotTemp.setLocation(self.neighbourProducer(i, robotsLocation))
+                robotTemp.setLocation(neighbourProducer(i, robotsLocation))
                 # self.__canPull = True
                 buttersTemp = []
                 for j in currentNode.getState().getButters():
@@ -512,8 +515,7 @@ class GraphOperationsBBFS:
                     successor = self.successorPull(n, wantedButter.getNum(), blocksTemp)
                     if not self.__canPull:
                         successor.extend(
-                            self.successorTempPull(deepcopy(n), wantedButter.getNum(), deepcopy(blocksTemp),
-                                                   wantedPerson))
+                            successorTempPull(deepcopy(n), wantedButter.getNum(), deepcopy(blocksTemp), wantedPerson))
                     for i in successor:
                         newN = NodeBBFS(deepcopy(i.getState()), deepcopy(n))
                         if visited_person.get((newN.getState().getRobot().getLocation(),

@@ -320,5 +320,6 @@ class GraphOperationsAStar:
                 robotTemp.setLocation(neighbourProducer(i, robotsLocation))
                 cost = self.blocks[robotTemp.getLocation()[0]][robotTemp.getLocation()[1]].getCost()
                 successorList.append(
-                    NodeAStar(State(robotTemp, deepcopy(currentNode.getState().getButters())), currentNode, currentNode.cost + cost))
+                    NodeAStar(State(robotTemp, deepcopy(currentNode.getState().getButters())), currentNode,
+                              currentNode.cost + cost))
         return successorList

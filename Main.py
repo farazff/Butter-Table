@@ -1,23 +1,16 @@
-from copy import deepcopy
-
 from Block import Block
 from Butter import Butter
-from GraphOperationsAStar import GraphOperationsAStar
-from GraphOperationsIDS import GraphOperations
-from GraphOperationsBBFS import GraphOperationsBBFS
-from Node import Node
-from NodeBBFS import NodeBBFS
-from Robot import Robot
 from Person import Person
-from SolutionTreeIDS import SolutionTreeIDS
+from Robot import Robot
+from SolutionTreeAStar import SolutionTreeAStar
 from SolutionTreeBBFS import SolutionTreeBBFS
-import SolutionTreeBBFS as sb
-from SolutionTreeAStar import  SolutionTreeAStar
-from State import State
-path=[]
+from SolutionTreeIDS import SolutionTreeIDS
+
+path = []
+
 
 def main():
-    file = open("input_files/test7.txt", "r")
+    file = open("input_files/test9.txt", "r")
 
     butters = []
     persons = []
@@ -81,16 +74,14 @@ def main():
                 print("  - ", end="")
         print()
 
-    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
-    # solutionTreeIDS.start()
+    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons)
+    solutionTreeIDS.start()
 
     # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons)
     # solutionTreeAStar.start()
 
-
-    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
-    solutionTreeBBFS.start()
-
+    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons)
+    # solutionTreeBBFS.start()
 
     # graph = GraphOperationsBBFS(table, persons, butters)
     # tableTemp = deepcopy(table)

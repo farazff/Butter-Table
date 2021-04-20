@@ -1,9 +1,34 @@
-from copy import copy, deepcopy
+import multiprocessing
 import os
+from copy import copy, deepcopy
+
 from GraphOperationsAStar import GraphOperationsAStar
 from PathNode import PathNode
 from State import State
-import multiprocessing
+
+
+def calculateEmptyAroundOfButter(butter, table):
+    ans = []
+    length = butter.getLocation()[1]
+    height = butter.getLocation()[0]
+    if table[height][length - 1].getHaveButter() or table[height][length - 1].getHaveObstacle():
+        pass
+    else:
+        ans.append(1)
+    if table[height - 1][length].getHaveButter() or table[height - 1][length].getHaveObstacle():
+        pass
+    else:
+        ans.append(2)
+    if table[height][length + 1].getHaveButter() or table[height][length + 1].getHaveObstacle():
+        pass
+    else:
+        ans.append(3)
+    if table[height + 1][length].getHaveButter() or table[height + 1][length].getHaveObstacle():
+        pass
+    else:
+        ans.append(4)
+    return ans
+
 
 class SolutionTreeAStar:
 
@@ -16,9 +41,9 @@ class SolutionTreeAStar:
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
                      copy(self.__persons))]
 
-    def startMultiprocessing2(self,currentNode,b,p):
-        jobs=[]
-        for side in self.calculateEmptyAroundOfButter(b, currentNode.table):
+    def startMultiprocessing2(self, currentNode, b, p):
+        jobs = []
+        for side in calculateEmptyAroundOfButter(b, currentNode.table):
 
             graph = GraphOperationsAStar(currentNode.table, self.__butters,
                                          deepcopy(currentNode.getState().getRobot()), self.__persons)
@@ -67,15 +92,12 @@ class SolutionTreeAStar:
             q.join()
         # self.startMultiprocessing1(tmp)
 
-
-
     def start(self):
         jobs = []
         currentNode = self.__startingNodes.pop()
 
         for b in currentNode.getUnvisitedButters():
             for p in currentNode.getUnvisitedPersons():
-
                 jobs.append(multiprocessing.Process(target=self.startMultiprocessing2, args=(currentNode, b, p,)))
 
         for q in jobs:
@@ -94,7 +116,7 @@ class SolutionTreeAStar:
 
                 if len(i.split(" ")[0]) < minL and i != "":
                     minL = len(i.split(" ")[0])
-            minC=0
+            minC = 0
             for i in allPathList:
                 if len(i.split(" ")[0]) == minL:
                     minL = i.split(" ")[0]
@@ -111,7 +133,8 @@ class SolutionTreeAStar:
                 self.haveSolution = True
                 f = open("output_files/outputs_AStar.txt", "w")
                 f.write(minL + "\n" + str(len(minL)) + "\n" + str(minC))
-                print("--------------------------------------------- \nResult : ", minL + "\n" + str(len(minL)) + "\n" + str(minC))
+                print("--------------------------------------------- \nResult : ",
+                      minL + "\n" + str(len(minL)) + "\n" + str(minC))
                 f.close()
         except:
             self.haveSolution = False
@@ -119,8 +142,6 @@ class SolutionTreeAStar:
             f.write("Impossible")
             print("--------------------------------------------- \nimpossible")
             f.close()
-
-
 
     def startMultiprocessing1(self, startingNodes):
         finalList = []
@@ -131,7 +152,7 @@ class SolutionTreeAStar:
                 continue
             for b in currentNode.getUnvisitedButters():
                 for p in currentNode.getUnvisitedPersons():
-                    for side in self.calculateEmptyAroundOfButter(b, currentNode.table):
+                    for side in calculateEmptyAroundOfButter(b, currentNode.table):
 
                         graph = GraphOperationsAStar(currentNode.table, self.__butters,
                                                      deepcopy(currentNode.getState().getRobot()), self.__persons)
@@ -175,10 +196,10 @@ class SolutionTreeAStar:
         print()
 
         if len(finalList) == 0:
-                f = open("temporaryFile.txt", "a")
-                f.write("impossible")
+            f = open("temporaryFile.txt", "a")
+            f.write("impossible")
 
-                f.close()
+            f.close()
         else:
             minLen = min(i.getCost() for i in finalList)
             for i in finalList:
@@ -186,13 +207,11 @@ class SolutionTreeAStar:
                     minPath = i.getPathString()
                     # print("minPath : ", minPath)
                     f = open("temporaryFile.txt", "a")
-                    st=str(str(i.getCost()))
-                    f.write(str(minPath) + " "+st+"\n")
+                    st = str(str(i.getCost()))
+                    f.write(str(minPath) + " " + st + "\n")
 
                     f.close()
                     break
-
-
 
     def updateDataAfterSimpleIDS(self, new_node, table, graph):
         table[self.__robot.getLocation()[0]][self.__robot.getLocation()[1]].setHaveRobot(False)
@@ -201,25 +220,3 @@ class SolutionTreeAStar:
         graph.blocks = table
         graph.robot.setLocation((new_node.getState().getRobot().getLocation()[0],
                                  new_node.getState().getRobot().getLocation()[1]))
-
-    def calculateEmptyAroundOfButter(self, butter, table):
-        ans = []
-        length = butter.getLocation()[1]
-        height = butter.getLocation()[0]
-        if table[height][length - 1].getHaveButter() or table[height][length - 1].getHaveObstacle():
-            pass
-        else:
-            ans.append(1)
-        if table[height - 1][length].getHaveButter() or table[height - 1][length].getHaveObstacle():
-            pass
-        else:
-            ans.append(2)
-        if table[height][length + 1].getHaveButter() or table[height][length + 1].getHaveObstacle():
-            pass
-        else:
-            ans.append(3)
-        if table[height + 1][length].getHaveButter() or table[height + 1][length].getHaveObstacle():
-            pass
-        else:
-            ans.append(4)
-        return ans
