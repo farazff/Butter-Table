@@ -52,7 +52,7 @@ class SolutionTreeIDS:
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
                      copy(self.__persons))]
         self.tempFile = None
-        # self.threadLock=threading.Lock()
+        self.haveSolution=False
 
     def startMultiprocessing2(self, currentNode, b, p):
         jobs = []
@@ -149,16 +149,19 @@ class SolutionTreeIDS:
                     break
 
             if "Impossible" in allPath:
+                self.haveSolution = False
                 f = open("output_files/outputs_IDS.txt", "w")
                 f.write("Impossible")
                 print("--------------------------------------------- \nImpossible")
                 f.close()
             else:
+                self.haveSolution = True
                 f = open("output_files/outputs_IDS.txt", "w")
                 f.write(minL+"\n"+str(len(minL))+"\n"+str(len(minL)))
                 print("--------------------------------------------- \nResult  : ",minL+"\n"+str(len(minL))+"\n"+str(len(minL)) )
                 f.close()
         except:
+            self.haveSolution = False
             f = open("output_files/outputs_IDS.txt", "w")
             f.write("Impossible")
             print("--------------------------------------------- \nImpossible")

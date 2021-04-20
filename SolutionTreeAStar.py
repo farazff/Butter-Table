@@ -11,6 +11,7 @@ class SolutionTreeAStar:
         self.__robot = robot
         self.__butters = butters
         self.__persons = persons
+        self.haveSolution = False
         self.__startingNodes = [
             PathNode(table, State(copy(robot), copy(butters)), None, None, "", 0, copy(self.__butters),
                      copy(self.__persons))]
@@ -101,16 +102,19 @@ class SolutionTreeAStar:
                     break
 
             if "Impossible" in allPath:
+                self.haveSolution = False
                 f = open("output_files/outputs_AStar.txt", "w")
                 f.write("Impossible")
                 print("--------------------------------------------- \nimpossible")
                 f.close()
             else:
+                self.haveSolution = True
                 f = open("output_files/outputs_AStar.txt", "w")
                 f.write(minL + "\n" + str(len(minL)) + "\n" + str(minC))
                 print("--------------------------------------------- \nResult : ", minL + "\n" + str(len(minL)) + "\n" + str(minC))
                 f.close()
         except:
+            self.haveSolution = False
             f = open("output_files/outputs_AStar.txt", "w")
             f.write("Impossible")
             print("--------------------------------------------- \nimpossible")
