@@ -5,12 +5,15 @@ from Robot import Robot
 from SolutionTreeAStar import SolutionTreeAStar
 from SolutionTreeBBFS import SolutionTreeBBFS
 from SolutionTreeIDS import SolutionTreeIDS
+from ClientForGraphic import ClientForGraphic
 
 path = []
 
 
 def main():
-    file = open("input_files/test5.txt", "r")
+    whichInputFile=2
+    file = open("input_files/test"+str(whichInputFile)+".txt", "r")
+    clientForGraphic=ClientForGraphic()
 
     butters = []
     persons = []
@@ -75,25 +78,36 @@ def main():
         print()
 
     solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
+    whichMethod = 1
     solutionTreeIDS.start()
     if not solutionTreeIDS.haveSolution:
-        solutionTreeIDS.doTemp = True
-        solutionTreeIDS.start()
+        solutionTreeIDS1 = SolutionTreeIDS(table, robot, butters, persons, True)
+        solutionTreeIDS1.start()
+
+
+
 
     # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
+    # whichMethod=2
     # solutionTreeAStar.start()
     # if not solutionTreeAStar.haveSolution:
-    #     solutionTreeAStar.doTemp = True
-    #     solutionTreeAStar.start()
+    #     solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
+    #     solutionTreeAStar1.start()
 
-    # RDRRLDRDLDR
+
+
 
 
     # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
+    # whichMethod = 3
     # solutionTreeBBFS.start()
     # if not solutionTreeBBFS.haveSolution:
-    #     solutionTreeBBFS.doTemp = True
-    #     solutionTreeBBFS.start()
+    #     solutionTreeBBFS1 = SolutionTreeBBFS(table, robot, butters, persons, True)
+    #     solutionTreeBBFS1.start()
+
+
+    clientForGraphic.send(whichInputFile=whichInputFile,whichMethod=whichMethod)
+
 
     # graph = GraphOperationsBBFS(table, persons, butters)
     # tableTemp = deepcopy(table)

@@ -110,6 +110,7 @@ class SolutionTreeIDS:
             q.join()
 
     def start(self):
+
         jobs = []
         currentNode = self.__startingNodes.pop(0)
 

@@ -22,7 +22,7 @@ class SolutionTreeBBFS:
         global finalListt
 
     def startMultiprocessing2(self, currentNode, sideButter, b, p, pathList):
-        print(end=".")
+        # print(end=".")
         jobs = []
         pathList2 = []
         for sidePerson in self.calculateEmptyAroundOfPerson(p):
@@ -97,8 +97,7 @@ class SolutionTreeBBFS:
             q.start()
         for q in jobs:
             q.join()
-        # print("_________=++++++++++--_____________________",pathList2)
-        # self.start2(tmp)
+
 
     def start(self):
         jobs = []
@@ -124,32 +123,30 @@ class SolutionTreeBBFS:
 
             minL = 99
             for i in allPathList:
-              if "Impossible" not in i:
-                if i != "" and  int(i.split(" ")[1]) < minL :
-                    minL = len(i.split(" ")[0])
-            minC = 0
+                if "Impossible" not in i:
+                    if len(i) < minL and i != "":
+                        minL = len(i)
             for i in allPathList:
-                if len(i.split(" ")[0]) == minL:
-                    minL = i.split(" ")[0]
-                    minC = i.split(" ")[1]
+                if len(i) == minL:
+                    minL = i
                     break
 
             if "Impossible" in allPath:
                 self.haveSolution = False
-                f = open("output_files/outputs_BBFS.txt", "w")
+                f = open("output_files/outputs_IDS.txt", "w")
                 f.write("Impossible")
                 print("--------------------------------------------- \nImpossible")
                 f.close()
             else:
                 self.haveSolution = True
-                f = open("output_files/outputs_BBFS.txt", "w")
+                f = open("output_files/outputs_IDS.txt", "w")
                 f.write(minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
-                print("--------------------------------------------- \nResult : ",
+                print("--------------------------------------------- \nResult  : ",
                       minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
                 f.close()
         except:
             self.haveSolution = False
-            f = open("output_files/outputs_BBFS.txt", "w")
+            f = open("output_files/outputs_IDS.txt", "w")
             f.write("Impossible")
             print("--------------------------------------------- \nImpossible")
             f.close()
@@ -239,18 +236,17 @@ class SolutionTreeBBFS:
 
         if len(finalList) == 0:
             # f = open("temporaryFile.txt", "a")
-            # f.write("impossible")
+            # f.write("Impossible\n")
             # f.close()
             pass
         else:
-            minLen = min(i.getCost() for i in finalList)
+            minLen = min(len(i.getPathString()) for i in finalList)
             for i in finalList:
-                if i.getCost() == minLen:
+                if len(i.getPathString()) == minLen:
                     minPath = i.getPathString()
                     # print("minPath : ", minPath)
                     f = open("temporaryFile.txt", "a")
-                    st = str(str(i.getCost()))
-                    f.write(str(minPath) + " " + st + "\n")
+                    f.write(str(minPath) + "\n")
                     f.close()
                     break
 
