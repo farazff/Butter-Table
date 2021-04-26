@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <GridPane fx:id="temp" gridLinesVisible="true" layoutX="118.0" layoutY="17.0" prefHeight="665.0" prefWidth="664.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="94.0" minHeight="94.0" prefHeight="94.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="94.0" minHeight="94.0" prefHeight="94.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="94.0" minHeight="94.0" prefHeight="94.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="297.6000122070312" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="94.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="94.0" minHeight="0.0" prefHeight="94.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="94.0" minHeight="0.0" prefHeight="94.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView nodeOrientation="INHERIT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView nodeOrientation="INHERIT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView nodeOrientation="INHERIT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView nodeOrientation="INHERIT" GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="204.0" layoutY="391.0" nodeOrientation="INHERIT" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="202.0" nodeOrientation="INHERIT" GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="393.0" layoutY="204.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@r.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="5" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="5" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="5" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="5" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="16.0" nodeOrientation="INHERIT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@b.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <JFXButton fx:id="next" buttonType="RAISED" contentDisplay="CENTER" layoutX="792.0" layoutY="328.0" onAction="#startDrawing" prefHeight="44.0" prefWidth="84.0" ripplerFill="#dcbeda" style="-fx-background-color: #8e0080;" text="Next" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>
