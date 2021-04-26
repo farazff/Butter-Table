@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.validation.ValidationFacade?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <GridPane fx:id="temp" gridLinesVisible="true" layoutX="118.0" layoutY="17.0" prefHeight="665.0" prefWidth="664.0">
+      <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="118.0" layoutY="17.0" prefHeight="665.0" prefWidth="664.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
@@ -283,10 +285,22 @@
             </ImageView>
          </children>
       </GridPane>
-      <JFXButton fx:id="next" buttonType="RAISED" contentDisplay="CENTER" layoutX="792.0" layoutY="328.0" onAction="#startDrawing" prefHeight="44.0" prefWidth="84.0" ripplerFill="#dcbeda" style="-fx-background-color: #8e0080;" text="Next" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+      <JFXButton fx:id="next" buttonType="RAISED" contentDisplay="CENTER" layoutX="802.0" layoutY="317.0" onAction="#drawNext" prefHeight="46.0" prefWidth="84.0" ripplerFill="#dcbeda" style="-fx-background-color: #dc63d4;" text=" " textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
          <font>
             <Font size="22.0" />
          </font>
+         <graphic>
+            <FontAwesomeIconView glyphName="ARROW_CIRCLE_RIGHT" size="50" />
+         </graphic>
       </JFXButton>
+      <JFXButton fx:id="last" buttonType="RAISED" contentDisplay="CENTER" layoutX="14.0" layoutY="316.0" onAction="#drawLast" prefHeight="44.0" prefWidth="84.0" ripplerFill="#dc63d4" style="-fx-background-color: #dc63d4;" text=" " textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+         <font>
+            <Font size="22.0" />
+         </font>
+         <graphic>
+            <FontAwesomeIconView glyphName="ARROW_CIRCLE_LEFT" size="50" text="" />
+         </graphic>
+      </JFXButton>
+      <ValidationFacade />
    </children>
 </AnchorPane>
