@@ -7,7 +7,7 @@ public class Table
     public Table()
     {
         house = new House[5 + 2][5 + 2];
-        house[0][0] = new House(1, false, false, false, true);
+        house[0][0] = new House(1, false, false, true, true);
         house[0][1] = new House(1, false, false, false, true);
         house[0][2] = new House(1, false, false, false, true);
         house[0][3] = new House(1, false, false, false, true);

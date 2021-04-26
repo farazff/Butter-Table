@@ -1,6 +1,7 @@
 package sample;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -137,57 +138,51 @@ public class Controller implements Initializable
     {
         for (Node node : gridPane.getChildren())
         {
-            if (GridPane.getColumnIndex(node) != null)
-            {
-                node.setVisible(false);
-            }
+            node.setVisible(false);
         }
 
         for (Node node : gridPane.getChildren())
         {
-            if (GridPane.getColumnIndex(node) != null)
+            if(node instanceof ImageView)
             {
                 if (((ImageView) node).getImage().getUrl().contains("part"))
                     node.setVisible(true);
             }
         }
 
-        for (int i = 1; i <= row; i++)
+        for (int i = 0; i <= 6; i++)
         {
-            for (int j = 1; j <= column; j++)
+            for (int j = 0; j <= 6; j++)
             {
-                for (Node node : gridPane.getChildren())
-                {
-                    if (GridPane.getColumnIndex(node) != null)
-                    {
-                        if (GridPane.getColumnIndex(node) == j && GridPane.getRowIndex(node) == i)
-                        {
-                            if (table.house[i][j].butter && table.house[i][j].person)
-                            {
+                for (Node node : gridPane.getChildren()) {
+                    if (node instanceof ImageView) {
+                        Integer CI = GridPane.getColumnIndex(node);
+                        Integer RI = GridPane.getRowIndex(node);
+                        if (CI == null)
+                            CI = 0;
+                        if (RI == null)
+                            RI = 0;
+
+                        if (CI == j && RI == i) {
+                            System.out.println(CI + " " + RI);
+                            if (table.house[i][j].butter && table.house[i][j].person) {
                                 if (((ImageView) node).getImage().getUrl().endsWith("nh.png"))
                                     node.setVisible(true);
-                            }
-                            else if (table.house[i][j].butter)
-                            {
+                            } else if (table.house[i][j].butter) {
                                 if (((ImageView) node).getImage().getUrl().endsWith("b.png"))
                                     node.setVisible(true);
-                            }
-                            else if (table.house[i][j].robot)
-                            {
+                            } else if (table.house[i][j].robot) {
                                 if (((ImageView) node).getImage().getUrl().endsWith("r.png"))
                                     node.setVisible(true);
-                            }
-                            else if (table.house[i][j].person)
-                            {
+                            } else if (table.house[i][j].person) {
                                 if (((ImageView) node).getImage().getUrl().endsWith("h.png") && !((ImageView) node).getImage().getUrl().endsWith("nh.png"))
                                     node.setVisible(true);
-                            }
-                            else if (table.house[i][j].obstacle)
-                            {
+                            } else if (table.house[i][j].obstacle) {
                                 if (((ImageView) node).getImage().getUrl().endsWith("o.png"))
                                     node.setVisible(true);
                             }
                         }
+
                     }
                 }
             }
@@ -280,6 +275,7 @@ public class Controller implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        gridPane.setGridLinesVisible(true);
         updateGUI(5, 5);
     }
 }
