@@ -25,7 +25,7 @@ public class Controller implements Initializable
     int[] HRobot = {3};
     int[] LRobot = {3};
     Table table = new Table();
-    String pathReal = "RRR";
+    String pathReal = "URD";
     int start = 0;
 
     public void UpdateTableNext(int row, int column, char m)
@@ -143,6 +143,15 @@ public class Controller implements Initializable
             }
         }
 
+        for (Node node : gridPane.getChildren())
+        {
+            if (GridPane.getColumnIndex(node) != null)
+            {
+                if (((ImageView) node).getImage().getUrl().contains("part"))
+                    node.setVisible(true);
+            }
+        }
+
         for (int i = 1; i <= row; i++)
         {
             for (int j = 1; j <= column; j++)
@@ -153,7 +162,12 @@ public class Controller implements Initializable
                     {
                         if (GridPane.getColumnIndex(node) == j && GridPane.getRowIndex(node) == i)
                         {
-                            if (table.house[i][j].butter)
+                            if (table.house[i][j].butter && table.house[i][j].person)
+                            {
+                                if (((ImageView) node).getImage().getUrl().endsWith("nh.png"))
+                                    node.setVisible(true);
+                            }
+                            else if (table.house[i][j].butter)
                             {
                                 if (((ImageView) node).getImage().getUrl().endsWith("b.png"))
                                     node.setVisible(true);
@@ -161,6 +175,16 @@ public class Controller implements Initializable
                             else if (table.house[i][j].robot)
                             {
                                 if (((ImageView) node).getImage().getUrl().endsWith("r.png"))
+                                    node.setVisible(true);
+                            }
+                            else if (table.house[i][j].person)
+                            {
+                                if (((ImageView) node).getImage().getUrl().endsWith("h.png") && !((ImageView) node).getImage().getUrl().endsWith("nh.png"))
+                                    node.setVisible(true);
+                            }
+                            else if (table.house[i][j].obstacle)
+                            {
+                                if (((ImageView) node).getImage().getUrl().endsWith("o.png"))
                                     node.setVisible(true);
                             }
                         }

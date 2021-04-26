@@ -18,14 +18,14 @@ public class Table
         house[1][0] = new House(1, false, false, false, true);
         house[1][1] = new House(1, false, false, false, false);
         house[1][2] = new House(1, false, false, false, false);
-        house[1][3] = new House(1, false, false, false, false);
+        house[1][3] = new House(1, false, false, false, true);
         house[1][4] = new House(1, false, false, false, false);
         house[1][5] = new House(1, false, false, false, false);
         house[1][6] = new House(1, false, false, false, true);
 
         house[2][0] = new House(1, false, false, false, true);
         house[2][1] = new House(1, false, false, false, false);
-        house[2][2] = new House(1, false, false, false, false);
+        house[2][2] = new House(1, false, false, false, true);
         house[2][3] = new House(1, false, false, false, false);
         house[2][4] = new House(1, false, false, false, false);
         house[2][5] = new House(1, false, false, false, false);
@@ -43,7 +43,7 @@ public class Table
         house[4][1] = new House(1, false, false, false, false);
         house[4][2] = new House(1, false, false, false, false);
         house[4][3] = new House(1, false, false, false, false);
-        house[4][4] = new House(1, false, false, false, false);
+        house[4][4] = new House(1, false, false, true, false);
         house[4][5] = new House(1, false, false, false, false);
         house[4][6] = new House(1, false, false, false, true);
 
