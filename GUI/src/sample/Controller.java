@@ -126,7 +126,16 @@ public class Controller implements Initializable {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
                 if (((ImageView) node).getImage().getUrl().contains("part"))
-                    node.setVisible(true);
+                {
+                    Integer CI = GridPane.getColumnIndex(node);
+                    Integer RI = GridPane.getRowIndex(node);
+                    if (CI == null)
+                        CI = 0;
+                    if (RI == null)
+                        RI = 0;
+                    if(CI < col && RI < ro)
+                        node.setVisible(true);
+                }
             }
         }
 
@@ -266,6 +275,9 @@ public class Controller implements Initializable {
         }
 
         last.setDisable(true);
+        int temp1 = (700-ro*95)/2;
+        int temp2 = (900-col*95)/2;
+        gridPane.relocate(temp2, temp1);
         updateGUI();
     }
 }
