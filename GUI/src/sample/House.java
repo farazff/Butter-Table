@@ -3,8 +3,8 @@ package sample;
 public class House
 {
     int cost;
-    boolean robot, butter, person, obstacle;
-    public House(int cost, boolean robot, boolean butter, boolean person, boolean obstacle)
+    boolean robot, butter, person, obstacle,isInMap;
+    public House(int cost, boolean robot, boolean butter, boolean person, boolean obstacle,boolean isInMap)
     {
         this.cost = cost;
         this.robot = robot;

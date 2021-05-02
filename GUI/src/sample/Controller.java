@@ -1,8 +1,12 @@
 package sample;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Scanner;
+
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,8 +29,9 @@ public class Controller implements Initializable
 
     int[] HRobot = {3};
     int[] LRobot = {3};
-    Table table = new Table();
+    Table table ;//= new Table();
     String pathReal = "URD";
+
     int start = 0;
 
     public void UpdateTableNext(int row, int column, char m)
@@ -275,6 +280,35 @@ public class Controller implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        ServerForGUI serverForGUI=new ServerForGUI();
+        serverForGUI.run();
+        String mapFileNumber=serverForGUI.mapFileNumber;
+        String pathFileNumber=serverForGUI.pathFileNumber;
+        if (pathFileNumber.equals("1"))
+            pathFileNumber="outputs_IDS.txt";
+        if (pathFileNumber.equals("2"))
+            pathFileNumber="outputs_BBFS.txt";
+        if (pathFileNumber.equals("3"))
+            pathFileNumber="outputs_AStar.txt";
+
+        File pathFile=new File("../output_files/"+pathFileNumber.toString());
+
+        try {
+            Scanner myReader = new Scanner(pathFile);
+            pathReal=myReader.nextLine();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+            table=new Table(mapFileNumber);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+
+
         gridPane.setGridLinesVisible(true);
         updateGUI(5, 5);
     }
