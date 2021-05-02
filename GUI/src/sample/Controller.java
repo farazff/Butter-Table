@@ -3,10 +3,8 @@ package sample;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,8 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-public class Controller implements Initializable
-{
+public class Controller implements Initializable {
     @FXML
     private GridPane gridPane;
 
@@ -27,19 +24,16 @@ public class Controller implements Initializable
     private JFXButton last;
 
 
-    int[] HRobot = {3};
-    int[] LRobot = {3};
-    Table table ;//= new Table();
-    String pathReal = "URD";
-
+    int[] HRobot;
+    int[] LRobot;
+    Table table;
+    String pathReal;
     int start = 0;
+    int ro, col;
 
-    public void UpdateTableNext(int row, int column, char m)
-    {
-        if (m == 'L')
-        {
-            if (table.house[HRobot[0]][LRobot[0] - 1].butter)
-            {
+    public void UpdateTableNext(char m) {
+        if (m == 'L') {
+            if (table.house[HRobot[0]][LRobot[0] - 1].butter) {
                 table.house[HRobot[0]][LRobot[0] - 1].butter = false;
                 table.house[HRobot[0]][LRobot[0] - 2].butter = true;
             }
@@ -48,10 +42,8 @@ public class Controller implements Initializable
             LRobot[0]--;
         }
 
-        if (m == 'R')
-        {
-            if (table.house[HRobot[0]][LRobot[0] + 1].butter)
-            {
+        if (m == 'R') {
+            if (table.house[HRobot[0]][LRobot[0] + 1].butter) {
                 table.house[HRobot[0]][LRobot[0] + 1].butter = false;
                 table.house[HRobot[0]][LRobot[0] + 2].butter = true;
             }
@@ -60,10 +52,8 @@ public class Controller implements Initializable
             LRobot[0]++;
         }
 
-        if (m == 'U')
-        {
-            if (table.house[HRobot[0] - 1][LRobot[0]].butter)
-            {
+        if (m == 'U') {
+            if (table.house[HRobot[0] - 1][LRobot[0]].butter) {
                 table.house[HRobot[0] - 1][LRobot[0]].butter = false;
                 table.house[HRobot[0] - 2][LRobot[0]].butter = true;
             }
@@ -72,10 +62,8 @@ public class Controller implements Initializable
             HRobot[0]--;
         }
 
-        if (m == 'D')
-        {
-            if (table.house[HRobot[0] + 1][LRobot[0]].butter)
-            {
+        if (m == 'D') {
+            if (table.house[HRobot[0] + 1][LRobot[0]].butter) {
                 table.house[HRobot[0] + 1][LRobot[0]].butter = false;
                 table.house[HRobot[0] + 2][LRobot[0]].butter = true;
             }
@@ -84,15 +72,12 @@ public class Controller implements Initializable
             HRobot[0]++;
         }
 
-        updateGUI(row, column);
+        updateGUI();
     }
 
-    public void UpdateTableLast(int row, int column, char m)
-    {
-        if (m == 'L')
-        {
-            if (table.house[HRobot[0]][LRobot[0] + 1].butter)
-            {
+    public void UpdateTableLast(char m) {
+        if (m == 'L') {
+            if (LRobot[0] + 1 < col && table.house[HRobot[0]][LRobot[0] + 1].butter) {
                 table.house[HRobot[0]][LRobot[0] + 1].butter = false;
                 table.house[HRobot[0]][LRobot[0]].butter = true;
             }
@@ -101,10 +86,8 @@ public class Controller implements Initializable
             LRobot[0]--;
         }
 
-        if (m == 'R')
-        {
-            if (table.house[HRobot[0]][LRobot[0] - 1].butter)
-            {
+        if (m == 'R') {
+            if (LRobot[0] - 1 >= 0 && table.house[HRobot[0]][LRobot[0] - 1].butter) {
                 table.house[HRobot[0]][LRobot[0] - 1].butter = false;
                 table.house[HRobot[0]][LRobot[0]].butter = true;
             }
@@ -113,10 +96,8 @@ public class Controller implements Initializable
             LRobot[0]++;
         }
 
-        if (m == 'U')
-        {
-            if (table.house[HRobot[0] + 1][LRobot[0]].butter)
-            {
+        if (m == 'U') {
+            if (HRobot[0] + 1 < ro && table.house[HRobot[0] + 1][LRobot[0]].butter) {
                 table.house[HRobot[0] + 1][LRobot[0]].butter = false;
                 table.house[HRobot[0]][LRobot[0]].butter = true;
             }
@@ -125,10 +106,8 @@ public class Controller implements Initializable
             HRobot[0]--;
         }
 
-        if (m == 'D')
-        {
-            if (table.house[HRobot[0] - 1][LRobot[0]].butter)
-            {
+        if (m == 'D') {
+            if (HRobot[0] - 1 >=0 && table.house[HRobot[0] - 1][LRobot[0]].butter) {
                 table.house[HRobot[0] - 1][LRobot[0]].butter = false;
                 table.house[HRobot[0]][LRobot[0]].butter = true;
             }
@@ -136,29 +115,23 @@ public class Controller implements Initializable
             table.house[HRobot[0] + 1][LRobot[0]].robot = true;
             HRobot[0]++;
         }
-        updateGUI(row, column);
+        updateGUI();
     }
 
-    public void updateGUI(int row, int column)
-    {
-        for (Node node : gridPane.getChildren())
-        {
+    public void updateGUI() {
+        for (Node node : gridPane.getChildren()) {
             node.setVisible(false);
         }
 
-        for (Node node : gridPane.getChildren())
-        {
-            if(node instanceof ImageView)
-            {
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof ImageView) {
                 if (((ImageView) node).getImage().getUrl().contains("part"))
                     node.setVisible(true);
             }
         }
 
-        for (int i = 0; i <= 6; i++)
-        {
-            for (int j = 0; j <= 6; j++)
-            {
+        for (int i = 0; i <= 6; i++) {
+            for (int j = 0; j <= 6; j++) {
                 for (Node node : gridPane.getChildren()) {
                     if (node instanceof ImageView) {
                         Integer CI = GridPane.getColumnIndex(node);
@@ -169,7 +142,6 @@ public class Controller implements Initializable
                             RI = 0;
 
                         if (CI == j && RI == i) {
-                            System.out.println(CI + " " + RI);
                             if (table.house[i][j].butter && table.house[i][j].person) {
                                 if (((ImageView) node).getImage().getUrl().endsWith("nh.png"))
                                     node.setVisible(true);
@@ -195,78 +167,62 @@ public class Controller implements Initializable
     }
 
     @FXML
-    void drawNext(ActionEvent event)
-    {
-        int row = 5;
-        int column = 5;
+    void drawNext(ActionEvent event) {
         char path = pathReal.charAt(start);
         start++;
 
-        UpdateTableNext(row, column, path);
-        drawTableInConsole(row, column);
+        UpdateTableNext(path);
+        drawTableInConsole();
 
-        if(start == pathReal.length())
-        {
+        if (start == pathReal.length()) {
             next.setDisable(true);
         }
-        if(start > 0)
-        {
+        if (start > 0) {
             last.setDisable(false);
         }
     }
 
     @FXML
-    void drawLast(ActionEvent event)
-    {
-        int row = 5;
-        int column = 5;
+    void drawLast(ActionEvent event) {
+
         start--;
         char path = pathReal.charAt(start);
-        if(path == 'U')
+        if (path == 'U')
             path = 'D';
-        else if(path == 'D')
+        else if (path == 'D')
             path = 'U';
-        else if(path == 'L')
+        else if (path == 'L')
             path = 'R';
-        else if(path == 'R')
+        else if (path == 'R')
             path = 'L';
 
-        UpdateTableLast(row, column, path);
-        drawTableInConsole(row, column);
+        UpdateTableLast(path);
+        drawTableInConsole();
 
-        if(start == 0)
-        {
+        if (start == 0) {
             last.setDisable(true);
         }
-        if(start < pathReal.length())
-        {
+        if (start < pathReal.length()) {
             next.setDisable(false);
         }
     }
 
-    public void drawTableInConsole(int row, int column)
-    {
-        for(int i = 1; i <= row; i++)
-        {
-            for(int j = 1; j <= column; j++)
-            {
-                if(table.house[i][j].robot)
-                {
+    public void drawTableInConsole() {
+        for (int i = 0; i < ro; i++) {
+            for (int j = 0; j < col; j++) {
+                if (table.house[i][j].robot) {
                     System.out.print("R ");
                     continue;
                 }
-                if(table.house[i][j].butter)
-                {
+                if (table.house[i][j].butter) {
                     System.out.print("B ");
                     continue;
                 }
-                if(table.house[i][j].person)
-                {
+                if (table.house[i][j].person) {
                     System.out.print("P ");
                     continue;
                 }
-                if(table.house[i][j].obstacle)
-                {
+                if (table.house[i][j].obstacle) {
                     System.out.print("O ");
                     continue;
                 }
@@ -278,38 +234,38 @@ public class Controller implements Initializable
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        ServerForGUI serverForGUI=new ServerForGUI();
+    public void initialize(URL location, ResourceBundle resources) {
+        ServerForGUI serverForGUI = new ServerForGUI();
         serverForGUI.run();
-        String mapFileNumber=serverForGUI.mapFileNumber;
-        String pathFileNumber=serverForGUI.pathFileNumber;
+        String mapFileNumber = serverForGUI.mapFileNumber;
+        String pathFileNumber = serverForGUI.pathFileNumber;
         if (pathFileNumber.equals("1"))
-            pathFileNumber="outputs_IDS.txt";
+            pathFileNumber = "outputs_IDS.txt";
         if (pathFileNumber.equals("2"))
-            pathFileNumber="outputs_BBFS.txt";
+            pathFileNumber = "outputs_BBFS.txt";
         if (pathFileNumber.equals("3"))
-            pathFileNumber="outputs_AStar.txt";
+            pathFileNumber = "outputs_AStar.txt";
 
-        File pathFile=new File("../output_files/"+pathFileNumber.toString());
+        File pathFile = new File("../output_files/" + pathFileNumber);
 
         try {
             Scanner myReader = new Scanner(pathFile);
-            pathReal=myReader.nextLine();
+            pathReal = myReader.nextLine();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            table=new Table(mapFileNumber);
+            table = new Table(mapFileNumber);
+            HRobot = new int[]{table.h};
+            LRobot = new int[]{table.l};
+            ro = table.ro;
+            col = table.col;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-
-
-
-        gridPane.setGridLinesVisible(true);
-        updateGUI(5, 5);
+        last.setDisable(true);
+        updateGUI();
     }
 }
