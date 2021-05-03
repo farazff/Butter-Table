@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: RGB(80,39,39);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="118.0" layoutY="17.0" prefHeight="665.0" prefWidth="665.0">
+      <GridPane fx:id="gridPane" layoutX="118.0" layoutY="17.0" prefHeight="665.0" prefWidth="665.0" style="-fx-border-color: black; -fx-border-width: 3;">
          <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
@@ -1504,7 +1504,7 @@
             </ImageView>
          </children>
       </GridPane>
-      <JFXButton fx:id="next" buttonType="RAISED" contentDisplay="CENTER" layoutX="802.0" layoutY="317.0" onAction="#drawNext" prefHeight="46.0" prefWidth="84.0" ripplerFill="#dcbeda" style="-fx-background-color: #dc63d4;" text=" " textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+      <JFXButton fx:id="next" buttonType="RAISED" contentDisplay="CENTER" layoutX="802.0" layoutY="317.0" onAction="#drawNext" prefHeight="46.0" prefWidth="84.0" ripplerFill="#dcbeda" style="-fx-background-color: RGB(166,166,166);" text=" " textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
          <font>
             <Font size="22.0" />
          </font>
@@ -1512,7 +1512,7 @@
             <FontAwesomeIconView glyphName="ARROW_CIRCLE_RIGHT" size="50" />
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="last" buttonType="RAISED" contentDisplay="CENTER" layoutX="14.0" layoutY="316.0" onAction="#drawLast" prefHeight="44.0" prefWidth="84.0" ripplerFill="#dc63d4" style="-fx-background-color: #dc63d4;" text=" " textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+      <JFXButton fx:id="last" buttonType="RAISED" contentDisplay="CENTER" layoutX="14.0" layoutY="316.0" onAction="#drawLast" prefHeight="44.0" prefWidth="84.0" ripplerFill="#dc63d4" style="-fx-background-color: RGB(166,166,166);" text=" " textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
          <font>
             <Font size="22.0" />
          </font>

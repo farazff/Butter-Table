@@ -227,7 +227,7 @@ class GraphOperations:
         if goalWithButter(person, n.getState().getButters()[butterNUM]):
             returnAns = (copy(n), "ans")
             return returnAns
-        visited = {(n.getState().getRobot().getLocation(), n.getState().getButters()[butterNUM].getLocation()): 1}
+        # visited = {(n.getState().getRobot().getLocation(), n.getState().getButters()[butterNUM].getLocation()): 1}
         while True:
             if len(fringe) == 0:
                 return None
@@ -236,32 +236,39 @@ class GraphOperations:
             # for i in range(len(fringe)):
             #     print(fringe[i].getState().getRobot().getLocation(), end=", ")
             # print()
-            n = fringe.pop(0)
+            n = fringe.pop()
 
-            # print('selected : {}'.format(n.getState().getRobot().getLocation()))
-            # print(n.getState().getRobot().getLocation(),
-            #       n.getState().getButters()[butterNUM].getLocation())
             level = n.depth
             if level > int(limit):
                 continue
+
+            successor = []
+
             self.__canPush = False
-            successor = self.successorWithButter(copy(n), butterNUM)
+            self.successorWithButter(copy(n), butterNUM)
             if not self.__canPush:
                 if doTemp:
                     successor.extend(self.successorTemp(n, butterNUM))
+            successor.extend(self.successorWithButter(copy(n), butterNUM))
+
+            # self.__canPush = False
+            # successor = self.successorWithButter(copy(n), butterNUM)
+            # if not self.__canPush:
+            #     if doTemp:
+            #         successor.extend(self.successorTemp(n, butterNUM))
             for i in range(len(successor)):
                 isOK = True
                 newN = Node(successor[i].getState(), n, n.depth + 1)
 
-                if visited.get((newN.getState().getRobot().getLocation(),
-                                newN.getState().getButters()[butterNUM].getLocation())) == 1:
-                    continue
-                visited[(newN.getState().getRobot().getLocation(),
-                         newN.getState().getButters()[butterNUM].getLocation())] = 1
-                # print(newN.getState().getRobot().getLocation(),
-                #       newN.getState().getButters()[butterNUM].getLocation())
-                # print(newN.getState().getRobot().getLocation(), " ",
-                #       newN.getState().getButters()[butterNUM].getLocation())
+                tt = copy(n)
+                while tt is not None:
+                    if tt.getState().getRobot().getLocation() == newN.getState().getRobot().getLocation() and \
+                            tt.getState().getButters()[butterNUM].getLocation() == newN.getState().getButters()[
+                                butterNUM].getLocation():
+                        isOK = False
+                        break
+                    tt = copy(tt.getParent())
+
                 if isOK:
                     if goalWithButter(person, newN.getState().getButters()[butterNUM]):
                         t = newN

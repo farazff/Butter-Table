@@ -277,6 +277,7 @@ public class Controller implements Initializable {
         last.setDisable(true);
         int temp1 = (700-ro*95)/2;
         int temp2 = (900-col*95)/2;
+        gridPane.setGridLinesVisible(true);
         gridPane.relocate(temp2, temp1);
         updateGUI();
     }

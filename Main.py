@@ -9,7 +9,7 @@ path = []
 
 
 def main():
-    whichInputFile = 12
+    whichInputFile = 10
     file = open("input_files/test" + str(whichInputFile) + ".txt", "r")
     clientForGraphic = ClientForGraphic()
 
