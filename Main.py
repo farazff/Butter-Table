@@ -76,19 +76,19 @@ def main():
                 print("  - ", end="")
         print()
 
-    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
-    # whichMethod = 1
-    # solutionTreeIDS.start()
-    # if not solutionTreeIDS.haveSolution:
-    #     solutionTreeIDS1 = SolutionTreeIDS(table, robot, butters, persons, True)
-    #     solutionTreeIDS1.start()
+    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
+    whichMethod = 1
+    solutionTreeIDS.start()
+    if not solutionTreeIDS.haveSolution:
+        solutionTreeIDS1 = SolutionTreeIDS(table, robot, butters, persons, True)
+        solutionTreeIDS1.start()
 
-    solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
-    whichMethod = 3
-    solutionTreeAStar.start()
-    if not solutionTreeAStar.haveSolution:
-        solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
-        solutionTreeAStar1.start()
+    # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
+    # whichMethod = 3
+    # solutionTreeAStar.start()
+    # if not solutionTreeAStar.haveSolution:
+    #     solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
+    #     solutionTreeAStar1.start()
 
     # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
     # whichMethod = 2

@@ -31,8 +31,10 @@ public class Controller implements Initializable {
     @FXML
     private Label NextMove;
 
+    @FXML
+    private Label cost;
 
-
+    int cc = 0;
     int[] HRobot;
     int[] LRobot;
     Table table;
@@ -85,6 +87,8 @@ public class Controller implements Initializable {
             HRobot[0]++;
         }
 
+        cc = cc + table.house[HRobot[0]][LRobot[0]].cost;
+
         updateGUI();
     }
 
@@ -96,6 +100,9 @@ public class Controller implements Initializable {
             NextMove.setText(String.valueOf(pathReal.charAt(start)));
         else
             NextMove.setText("-");
+
+        cost.setText(String.valueOf(cc));
+
         for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
                 if (((ImageView) node).getImage().getUrl().contains("part"))
@@ -191,6 +198,7 @@ public class Controller implements Initializable {
     @FXML
     void drawLast(ActionEvent event) {
 
+        cc = cc - table.house[HRobot[0]][LRobot[0]].cost;
         start--;
         this.table = tables.get(tables.size() - 1);
         tables.remove(tables.size() - 1);

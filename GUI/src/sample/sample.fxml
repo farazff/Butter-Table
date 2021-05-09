@@ -1541,5 +1541,16 @@
             <Font name="Arial Bold" size="34.0" />
          </font>
       </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="550.0" prefHeight="54.0" prefWidth="112.0" text="Cost:" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="cost" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="605.0" prefHeight="54.0" prefWidth="76.0" style="-fx-background-color: red;" text="0" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Bold" size="34.0" />
+         </font>
+      </Label>
+      <Label text="Label" />
    </children>
 </AnchorPane>
