@@ -1,16 +1,19 @@
 package sample;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
-public class Table
-{
+public class Table implements Cloneable{
 
     public House[][] house;
     int h, l;
     int ro, col;
+
+    public Table()
+    {
+        house = new House[5 + 2][5 + 2];
+    }
 
     public Table(String mapPath) throws FileNotFoundException {
 
@@ -43,8 +46,7 @@ public class Table
                     house[i][j] = new House(Integer.parseInt(mapInput[j].substring(0, mapInput[j].length() - 1)), true, false, false, false, true);
                     h = i;
                     l = j;
-                }
-                else if (mapInput[j].contains("b"))
+                } else if (mapInput[j].contains("b"))
                     house[i][j] = new House(Integer.parseInt(mapInput[j].substring(0, mapInput[j].length() - 1)), false, true, false, false, true);
                 else if (mapInput[j].contains("p"))
                     house[i][j] = new House(Integer.parseInt(mapInput[j].substring(0, mapInput[j].length() - 1)), false, false, true, false, true);
@@ -109,6 +111,9 @@ public class Table
 //        house[6][4] = new House(1, false, false, false, true);
 //        house[6][5] = new House(1, false, false, false, true);
 //        house[6][6] = new House(1, false, false, false, true);
-
+    }
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 }

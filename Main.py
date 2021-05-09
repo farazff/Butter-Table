@@ -3,13 +3,14 @@ from Butter import Butter
 from ClientForGraphic import ClientForGraphic
 from Person import Person
 from Robot import Robot
+from SolutionTreeAStar import SolutionTreeAStar
 from SolutionTreeIDS import SolutionTreeIDS
 
 path = []
 
 
 def main():
-    whichInputFile = 10
+    whichInputFile = 12
     file = open("input_files/test" + str(whichInputFile) + ".txt", "r")
     clientForGraphic = ClientForGraphic()
 
@@ -75,22 +76,22 @@ def main():
                 print("  - ", end="")
         print()
 
-    solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
-    whichMethod = 1
-    solutionTreeIDS.start()
-    if not solutionTreeIDS.haveSolution:
-        solutionTreeIDS1 = SolutionTreeIDS(table, robot, butters, persons, True)
-        solutionTreeIDS1.start()
+    # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
+    # whichMethod = 1
+    # solutionTreeIDS.start()
+    # if not solutionTreeIDS.haveSolution:
+    #     solutionTreeIDS1 = SolutionTreeIDS(table, robot, butters, persons, True)
+    #     solutionTreeIDS1.start()
 
-    # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
-    # whichMethod=2
-    # solutionTreeAStar.start()
-    # if not solutionTreeAStar.haveSolution:
-    #     solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
-    #     solutionTreeAStar1.start()
+    solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
+    whichMethod = 3
+    solutionTreeAStar.start()
+    if not solutionTreeAStar.haveSolution:
+        solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
+        solutionTreeAStar1.start()
 
     # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
-    # whichMethod = 3
+    # whichMethod = 2
     # solutionTreeBBFS.start()
     # if not solutionTreeBBFS.haveSolution:
     #     solutionTreeBBFS1 = SolutionTreeBBFS(table, robot, butters, persons, True)

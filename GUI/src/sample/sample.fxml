@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: RGB(80,39,39);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <GridPane fx:id="gridPane" layoutX="118.0" layoutY="17.0" prefHeight="665.0" prefWidth="665.0" style="-fx-border-color: black; -fx-border-width: 3;">
+      <GridPane fx:id="gridPane" layoutX="118.0" layoutY="17.0" prefHeight="665.0" prefWidth="665.0">
          <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
@@ -1520,5 +1521,25 @@
             <FontAwesomeIconView glyphName="ARROW_CIRCLE_LEFT" size="50" text="" />
          </graphic>
       </JFXButton>
+      <Label fx:id="pathLen" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="61.0" prefHeight="54.0" prefWidth="76.0" style="-fx-background-color: red;" text="18" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Bold" size="34.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="7.0" prefHeight="54.0" prefWidth="112.0" text="Path lenght:" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="19.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="784.0" layoutY="7.0" prefHeight="54.0" prefWidth="112.0" text="Next move:" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="NextMove" alignment="CENTER" contentDisplay="CENTER" layoutX="806.0" layoutY="61.0" prefHeight="54.0" prefWidth="76.0" style="-fx-background-color: red;" text="L" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Bold" size="34.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -3,6 +3,7 @@ package sample;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import com.jfoenix.controls.JFXButton;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
@@ -23,6 +25,13 @@ public class Controller implements Initializable {
     @FXML
     private JFXButton last;
 
+    @FXML
+    private Label pathLen;
+
+    @FXML
+    private Label NextMove;
+
+
 
     int[] HRobot;
     int[] LRobot;
@@ -30,8 +39,12 @@ public class Controller implements Initializable {
     String pathReal;
     int start = 0;
     int ro, col;
+    ArrayList<Table> tables = new ArrayList<>();
+    ArrayList<Integer> Hs = new ArrayList<>();
+    ArrayList<Integer> Ls = new ArrayList<>();
 
-    public void UpdateTableNext(char m) {
+    public void UpdateTableNext(char m)
+    {
         if (m == 'L') {
             if (table.house[HRobot[0]][LRobot[0] - 1].butter) {
                 table.house[HRobot[0]][LRobot[0] - 1].butter = false;
@@ -75,54 +88,14 @@ public class Controller implements Initializable {
         updateGUI();
     }
 
-    public void UpdateTableLast(char m) {
-        if (m == 'L') {
-            if (LRobot[0] + 1 < col && table.house[HRobot[0]][LRobot[0] + 1].butter) {
-                table.house[HRobot[0]][LRobot[0] + 1].butter = false;
-                table.house[HRobot[0]][LRobot[0]].butter = true;
-            }
-            table.house[HRobot[0]][LRobot[0]].robot = false;
-            table.house[HRobot[0]][LRobot[0] - 1].robot = true;
-            LRobot[0]--;
-        }
-
-        if (m == 'R') {
-            if (LRobot[0] - 1 >= 0 && table.house[HRobot[0]][LRobot[0] - 1].butter) {
-                table.house[HRobot[0]][LRobot[0] - 1].butter = false;
-                table.house[HRobot[0]][LRobot[0]].butter = true;
-            }
-            table.house[HRobot[0]][LRobot[0]].robot = false;
-            table.house[HRobot[0]][LRobot[0] + 1].robot = true;
-            LRobot[0]++;
-        }
-
-        if (m == 'U') {
-            if (HRobot[0] + 1 < ro && table.house[HRobot[0] + 1][LRobot[0]].butter) {
-                table.house[HRobot[0] + 1][LRobot[0]].butter = false;
-                table.house[HRobot[0]][LRobot[0]].butter = true;
-            }
-            table.house[HRobot[0]][LRobot[0]].robot = false;
-            table.house[HRobot[0] - 1][LRobot[0]].robot = true;
-            HRobot[0]--;
-        }
-
-        if (m == 'D') {
-            if (HRobot[0] - 1 >=0 && table.house[HRobot[0] - 1][LRobot[0]].butter) {
-                table.house[HRobot[0] - 1][LRobot[0]].butter = false;
-                table.house[HRobot[0]][LRobot[0]].butter = true;
-            }
-            table.house[HRobot[0]][LRobot[0]].robot = false;
-            table.house[HRobot[0] + 1][LRobot[0]].robot = true;
-            HRobot[0]++;
-        }
-        updateGUI();
-    }
-
     public void updateGUI() {
         for (Node node : gridPane.getChildren()) {
             node.setVisible(false);
         }
-
+        if(start < pathReal.length())
+            NextMove.setText(String.valueOf(pathReal.charAt(start)));
+        else
+            NextMove.setText("-");
         for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
                 if (((ImageView) node).getImage().getUrl().contains("part"))
@@ -180,6 +153,29 @@ public class Controller implements Initializable {
         char path = pathReal.charAt(start);
         start++;
 
+        Table table1 = new Table();
+        table1.l = table.l;
+        table1.h = table.h;
+        table1.ro = table.ro;
+        table1.col = table.col;
+
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                House temp = new House(0, false, false ,false, false, false);
+                temp.cost = table.house[i][j].cost;
+                temp.robot = table.house[i][j].robot;
+                temp.butter = table.house[i][j].butter;
+                temp.person = table.house[i][j].person;
+                temp.obstacle = table.house[i][j].obstacle;
+                temp.isInMap = table.house[i][j].isInMap;
+                table1.house[i][j] = temp;
+            }
+        }
+
+        tables.add(table1);
+        Hs.add(HRobot[0]);
+        Ls.add(LRobot[0]);
+
         UpdateTableNext(path);
         drawTableInConsole();
 
@@ -189,23 +185,23 @@ public class Controller implements Initializable {
         if (start > 0) {
             last.setDisable(false);
         }
+
     }
 
     @FXML
     void drawLast(ActionEvent event) {
 
         start--;
-        char path = pathReal.charAt(start);
-        if (path == 'U')
-            path = 'D';
-        else if (path == 'D')
-            path = 'U';
-        else if (path == 'L')
-            path = 'R';
-        else if (path == 'R')
-            path = 'L';
+        this.table = tables.get(tables.size() - 1);
+        tables.remove(tables.size() - 1);
 
-        UpdateTableLast(path);
+        this.HRobot[0] = Hs.get(Hs.size() - 1);
+        Hs.remove(Hs.size() - 1);
+
+        this.LRobot[0] = Ls.get(Ls.size() - 1);
+        Ls.remove(Ls.size() - 1);
+
+        updateGUI();
         drawTableInConsole();
 
         if (start == 0) {
@@ -273,7 +269,7 @@ public class Controller implements Initializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        pathLen.setText(String.valueOf(pathReal.length()));
         last.setDisable(true);
         int temp1 = (700-ro*95)/2;
         int temp2 = (900-col*95)/2;
