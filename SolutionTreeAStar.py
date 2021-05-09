@@ -109,15 +109,17 @@ class SolutionTreeAStar:
             f = open("temporaryFile.txt", "r")
             allPath = f.read()
             f.close()
+
             os.remove("temporaryFile.txt")
             allPathList = allPath.split("\n")
 
-            minL = 99
+            minL = 99999
             for i in allPathList:
               if "Impossible" not in i:
                 # if len(i.split(" ")[0]) < minL and i != "":
                 if i != "" and  int(i.split(" ")[1]) < minL :
                     minL = len(i.split(" ")[0])
+
             minC = 0
             for i in allPathList:
                 if len(i.split(" ")[0]) == minL:
@@ -140,6 +142,7 @@ class SolutionTreeAStar:
                 f.close()
         except:
             self.haveSolution = False
+
             f = open("output_files/outputs_AStar.txt", "w")
             f.write("Impossible")
             print("--------------------------------------------- \nimpossible")

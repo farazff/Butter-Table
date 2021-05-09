@@ -140,7 +140,7 @@ class SolutionTreeIDS:
             os.remove("temporaryFile.txt")
             allPathList = allPath.split("\n")
 
-            minL = 99
+            minL = 99999
             for i in allPathList:
                 if "Impossible" not in i :
                      if len(i) < minL and i != "":
