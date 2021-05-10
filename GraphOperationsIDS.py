@@ -3,6 +3,8 @@ from copy import copy, deepcopy
 from Node import Node
 from State import State
 
+noooodes = int(0)
+
 
 def goal(wantedButter, whichSide, currentState):  # which side ->   1:left   2:up   3:right    4:down
     whichSide = int(whichSide)
@@ -103,6 +105,7 @@ class GraphOperations:
         return None
 
     def DLS(self, limit, fringe, wantedButter, whichSide):
+        global noooodes
         n = fringe[0]
         if goal(wantedButter, whichSide, n.getState()):
             returnAns = (copy(n), "")
@@ -145,6 +148,7 @@ class GraphOperations:
                             t = t.getParent()
                         returnAns = (copy(newN), ans)
                         return returnAns
+                    noooodes = noooodes + 1
                     fringe.append(newN)
 
     def successorWithButter(self, currentNode, wantedButterNumber):
@@ -220,9 +224,11 @@ class GraphOperations:
             ans = self.DLSWithButter(limit, fringe, butterNUM, person, doTemp)
             if ans is not None:
                 return ans
+        # print(noooodes)
         return None
 
     def DLSWithButter(self, limit, fringe, butterNUM, person, doTemp):
+        global noooodes
         n = fringe[0]
         if goalWithButter(person, n.getState().getButters()[butterNUM]):
             returnAns = (copy(n), "ans")
@@ -290,7 +296,9 @@ class GraphOperations:
                             now = copy(past)
                             t = t.getParent()
                         returnAns = (copy(newN), ans)
+                        # print(noooodes)
                         return returnAns
+                    noooodes = noooodes + 1
                     fringe.append(newN)
 
     def successorTemp(self, currentNode, butterNum):  # goal test must be on expansion time

@@ -3,15 +3,16 @@ from Butter import Butter
 from ClientForGraphic import ClientForGraphic
 from Person import Person
 from Robot import Robot
-from SolutionTreeAStar import SolutionTreeAStar
 from SolutionTreeIDS import SolutionTreeIDS
 from SolutionTreeBBFS import SolutionTreeBBFS
+from SolutionTreeAStar import SolutionTreeAStar
+import datetime
 
 path = []
 
 
 def main():
-    whichInputFile = 12
+    whichInputFile = 5
     file = open("input_files/test" + str(whichInputFile) + ".txt", "r")
     clientForGraphic = ClientForGraphic()
 
@@ -31,7 +32,6 @@ def main():
     for i in range(height + 2):
         row = []
         if i != 0 and i != height + 1:
-            # x = list(map(str, input().split()))
             x = file.readline().split()
 
         for j in range(length + 2):
@@ -77,37 +77,43 @@ def main():
                 print("  - ", end="")
         print()
 
+    # start_time = datetime.datetime.now()
     # solutionTreeIDS = SolutionTreeIDS(table, robot, butters, persons, False)
     # whichMethod = 1
     # solutionTreeIDS.start()
     # if not solutionTreeIDS.haveSolution:
     #     solutionTreeIDS1 = SolutionTreeIDS(table, robot, butters, persons, True)
     #     solutionTreeIDS1.start()
+    # end_time = datetime.datetime.now()
+    # time_diff = (end_time - start_time)
+    # execution_time = time_diff.total_seconds() * 1000
+    # print("Execution Time in millisecond: ", execution_time)
 
-    solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
-    whichMethod=2
-    solutionTreeAStar.start()
-    if not solutionTreeAStar.haveSolution:
-        solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
-        solutionTreeAStar1.start()
+    start_time = datetime.datetime.now()
+    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
+    whichMethod = 2
+    solutionTreeBBFS.start()
+    if not solutionTreeBBFS.haveSolution:
+        solutionTreeBBFS1 = SolutionTreeBBFS(table, robot, butters, persons, True)
+        solutionTreeBBFS1.start()
+    end_time = datetime.datetime.now()
+    time_diff = (end_time - start_time)
+    execution_time = time_diff.total_seconds() * 1000
+    print("Execution Time in millisecond: ", execution_time)
 
-    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
+    # start_time = datetime.datetime.now()
+    # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
     # whichMethod = 3
-    # solutionTreeBBFS.start()
-    # if not solutionTreeBBFS.haveSolution:
-    #     solutionTreeBBFS1 = SolutionTreeBBFS(table, robot, butters, persons, True)
-    #     solutionTreeBBFS1.start()
+    # solutionTreeAStar.start()
+    # if not solutionTreeAStar.haveSolution:
+    #     solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
+    #     solutionTreeAStar1.start()
+    # end_time = datetime.datetime.now()
+    # time_diff = (end_time - start_time)
+    # execution_time = time_diff.total_seconds() * 1000
+    # print("Execution Time in millisecond: ", execution_time)
 
     clientForGraphic.send(whichInputFile=whichInputFile, whichMethod=whichMethod)
-
-    # graph = GraphOperationsBBFS(table, persons, butters)
-    # tableTemp = deepcopy(table)
-    # print(graph.BBFSBoth(State(robot, butters), butters[0], 4, persons[0]))
-    # robot.setLocation((butters[0].getLocation()[0], butters[0].getLocation()[1] + 1))
-    # print(graph.BBFSBoth(State(robot, butters), butters[0], 4, persons[0]))
-    # successor = graph.successorPull(NodeBBFS(State(robot, butters), None), 0)
-    # for i in successor:
-    #     print(i.getState().getRobot().getLocation(), " ", i.getState().getButters()[0].getLocation())
 
 
 if __name__ == "__main__":
