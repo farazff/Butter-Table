@@ -132,20 +132,20 @@ class SolutionTreeBBFS:
 
             if "Impossible" in allPath:
                 self.haveSolution = False
-                f = open("output_files/outputs_IDS.txt", "w")
+                f = open("output_files/outputs_BBFS.txt", "w")
                 f.write("Impossible")
                 print("--------------------------------------------- \nImpossible")
                 f.close()
             else:
                 self.haveSolution = True
-                f = open("output_files/outputs_IDS.txt", "w")
+                f = open("output_files/outputs_BBFS.txt", "w")
                 f.write(minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
                 print("--------------------------------------------- \nResult  : ",
                       minL + "\n" + str(len(minL)) + "\n" + str(len(minL)))
                 f.close()
         except:
             self.haveSolution = False
-            f = open("output_files/outputs_IDS.txt", "w")
+            f = open("output_files/outputs_BBFS.txt", "w")
             f.write("Impossible")
             print("--------------------------------------------- \nImpossible")
             f.close()

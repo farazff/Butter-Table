@@ -89,29 +89,29 @@ def main():
     # execution_time = time_diff.total_seconds() * 1000
     # print("Execution Time in millisecond: ", execution_time)
 
-    start_time = datetime.datetime.now()
-    solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
-    whichMethod = 2
-    solutionTreeBBFS.start()
-    if not solutionTreeBBFS.haveSolution:
-        solutionTreeBBFS1 = SolutionTreeBBFS(table, robot, butters, persons, True)
-        solutionTreeBBFS1.start()
-    end_time = datetime.datetime.now()
-    time_diff = (end_time - start_time)
-    execution_time = time_diff.total_seconds() * 1000
-    print("Execution Time in millisecond: ", execution_time)
-
     # start_time = datetime.datetime.now()
-    # solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
-    # whichMethod = 3
-    # solutionTreeAStar.start()
-    # if not solutionTreeAStar.haveSolution:
-    #     solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
-    #     solutionTreeAStar1.start()
+    # solutionTreeBBFS = SolutionTreeBBFS(table, robot, butters, persons, False)
+    # whichMethod = 2
+    # solutionTreeBBFS.start()
+    # if not solutionTreeBBFS.haveSolution:
+    #     solutionTreeBBFS1 = SolutionTreeBBFS(table, robot, butters, persons, True)
+    #     solutionTreeBBFS1.start()
     # end_time = datetime.datetime.now()
     # time_diff = (end_time - start_time)
     # execution_time = time_diff.total_seconds() * 1000
     # print("Execution Time in millisecond: ", execution_time)
+
+    start_time = datetime.datetime.now()
+    solutionTreeAStar = SolutionTreeAStar(table, robot, butters, persons, False)
+    whichMethod = 3
+    solutionTreeAStar.start()
+    if not solutionTreeAStar.haveSolution:
+        solutionTreeAStar1 = SolutionTreeAStar(table, robot, butters, persons, True)
+        solutionTreeAStar1.start()
+    end_time = datetime.datetime.now()
+    time_diff = (end_time - start_time)
+    execution_time = time_diff.total_seconds() * 1000
+    print("Execution Time in millisecond: ", execution_time)
 
     clientForGraphic.send(whichInputFile=whichInputFile, whichMethod=whichMethod)
 
